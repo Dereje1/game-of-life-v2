@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-const GRANULARITY = 20;
+const GRANULARITY = 30;
 
 const getActiveCells = (allCells) => {
     const allKeys = Object.keys(allCells);
@@ -9,7 +9,7 @@ const getActiveCells = (allCells) => {
 
 const getNeighbours = (cell) => {
     const [x, y] = cell.split('-').map(c => Number(c));
-    const neighbours = [
+    return [
         `${x}-${y - GRANULARITY}`,
         `${x + GRANULARITY}-${y - GRANULARITY}`,
         `${x + GRANULARITY}-${y}`,
@@ -19,8 +19,43 @@ const getNeighbours = (cell) => {
         `${x - GRANULARITY}-${y}`,
         `${x - GRANULARITY}-${y - GRANULARITY}`,
     ]
-    console.log({ x, y, neighbours })
 }
+
+const findResurrectedCells = (liveCells, allCells) => {
+    let deadCells = [];
+    const newLiveCells = []
+    for (const liveCell of liveCells) {
+        const neighbours = getNeighbours(liveCell);
+        const deadNeighbors = neighbours.filter(n => !liveCells.includes(n));
+        deadCells = [...deadCells, ...deadNeighbors]
+    }
+    const uniqueDeadCells = Array.from(new Set(deadCells));
+
+    for (const deadCell of uniqueDeadCells) {
+        const neighbours = getNeighbours(deadCell);
+        const liveNeighbors = neighbours.filter(n => liveCells.includes(n));
+        if (liveNeighbors.length === 3) {
+            newLiveCells.push(deadCell)
+        }
+    }
+    return newLiveCells;
+}
+
+const stillLiveCells = (allCells) => {
+    const liveCells = getActiveCells({ ...allCells });
+    const stilLive = []
+    for (const liveCell of liveCells) {
+        const neighbours = getNeighbours(liveCell);
+        const liveNeighbors = neighbours.filter(n => liveCells.includes(n));
+        if (liveNeighbors.length === 3 || liveNeighbors.length === 2) {
+            stilLive.push(liveCell)
+        }
+    }
+    return stilLive;
+
+}
+
+export const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 class Home extends Component {
 
@@ -34,10 +69,35 @@ class Home extends Component {
         this.loadCanvas()
     }
 
+    refreshCells = async () => {
+        if (!getActiveCells({ ...this.state.cells }).length) {
+            return null;
+        }
+        await delay(1000)
+        const { cells } = this.state;
+        const stillLivingCells = stillLiveCells({ ...cells });
+        const newLiveCells = findResurrectedCells(stillLivingCells);
+        const allLiveCells = [...stillLivingCells, ...newLiveCells];
+        const keys = Object.keys(cells);
+        const obj = {};
+        for (const cell of keys) {
+            if (allLiveCells.includes(cell)) {
+                obj[cell] = {
+                    isActive: true
+                }
+            } else {
+                obj[cell] = {
+                    isActive: false
+                }
+            }
+        }
+        this.setState({ cells: obj }, this.updateCells)
+    }
+
     updateCells = () => {
         const { canvasWidth, canvasHeight } = this.state;
         const context = this.canvasContext
-        const activeCells = getActiveCells({ ...this.state });
+        const activeCells = getActiveCells({ ...this.state.cells });
         context.clearRect(0, 0, canvasWidth, canvasHeight);
         activeCells.forEach(cell => {
             const [x, y] = cell.split('-');
@@ -45,10 +105,12 @@ class Home extends Component {
             context.fillRect(x, y, GRANULARITY, GRANULARITY)
         })
         this.refreshGrid();
+        this.refreshCells();
     }
 
     processClick = ({ clientX, clientY }) => {
-        const keys = Object.keys(this.state);
+        const { cells } = this.state
+        const keys = Object.keys(cells);
         const Canvas = this.Canvas.current;
         const { left, top } = Canvas.getBoundingClientRect();
         const x = clientX - left;
@@ -72,25 +134,32 @@ class Home extends Component {
             }
         }
         const key = `${xRect}-${yRect}`;
-        getNeighbours(key)
         this.setState({
-            [key]: {
-                isActive: !this.state[key].isActive
+            cells: {
+                ...cells,
+                [key]: {
+                    isActive: !cells[key].isActive
+                }
             }
-        }, this.updateCells)
+        }, () => {
+            this.updateCells()
+        })
     }
 
     setGrid = () => {
         const { canvasWidth, canvasHeight } = this.state;
         const obj = {}
+        let count = 0;
         for (let x = 0; x <= canvasWidth; x += GRANULARITY) {
             for (let y = 0; y <= canvasHeight; y += GRANULARITY) {
                 obj[`${x}-${y}`] = {
-                    isActive: false
+                    isActive: Math.random() < 0.5
                 }
+                count++;
             }
         }
-        this.setState(obj, this.refreshGrid)
+        console.log({ totalCells: count })
+        this.setState({ cells: obj }, this.updateCells)
     }
 
     refreshGrid = () => {
@@ -132,6 +201,7 @@ class Home extends Component {
     }
 
     render() {
+        console.log(Date.now())
         const { canvasWidth, canvasHeight, canvasTop, canvasLeft } = this.state;
         return (
             <div style={{ paddingTop: canvasTop, paddingLeft: canvasLeft }}>
