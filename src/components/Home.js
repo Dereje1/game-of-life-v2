@@ -1,6 +1,27 @@
 import React, { Component } from 'react';
 
 const GRANULARITY = 20;
+
+const getActiveCells = (allCells) => {
+    const allKeys = Object.keys(allCells);
+    return allKeys.filter(k => allCells[k].isActive)
+}
+
+const getNeighbours = (cell) => {
+    const [x, y] = cell.split('-').map(c => Number(c));
+    const neighbours = [
+        `${x}-${y - GRANULARITY}`,
+        `${x + GRANULARITY}-${y - GRANULARITY}`,
+        `${x + GRANULARITY}-${y}`,
+        `${x + GRANULARITY}-${y + GRANULARITY}`,
+        `${x}-${y + GRANULARITY}`,
+        `${x - GRANULARITY}-${y + GRANULARITY}`,
+        `${x - GRANULARITY}-${y}`,
+        `${x - GRANULARITY}-${y - GRANULARITY}`,
+    ]
+    console.log({ x, y, neighbours })
+}
+
 class Home extends Component {
 
     constructor(props) {
@@ -13,64 +34,63 @@ class Home extends Component {
         this.loadCanvas()
     }
 
-    updateCell = () => {
+    updateCells = () => {
         const { canvasWidth, canvasHeight } = this.state;
         const context = this.canvasContext
-        const activeCells = Object.keys(this.state).filter(c => this.state[c].isActive)
+        const activeCells = getActiveCells({ ...this.state });
         context.clearRect(0, 0, canvasWidth, canvasHeight);
-        activeCells.forEach(a => {
-            const [x, y] = a.split('-');
-            context.fillStyle = "green";
-            context.fillRect(Number(x), Number(y), GRANULARITY, GRANULARITY)
+        activeCells.forEach(cell => {
+            const [x, y] = cell.split('-');
+            context.fillStyle = "#ff0000";
+            context.fillRect(x, y, GRANULARITY, GRANULARITY)
         })
         this.refreshGrid();
     }
-    getClick = (event) => {
-        const modelKeys = Object.keys(this.state);
+
+    processClick = ({ clientX, clientY }) => {
+        const keys = Object.keys(this.state);
         const Canvas = this.Canvas.current;
-        const rect = Canvas.getBoundingClientRect();
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
-        let modelX = modelKeys.map(m => Number(m.split('-')[0]))
-        let modelY = modelKeys.map(m => Number(m.split('-')[1]))
-        modelX = Array.from(new Set(modelX))
-        modelY = Array.from(new Set(modelY))
+        const { left, top } = Canvas.getBoundingClientRect();
+        const x = clientX - left;
+        const y = clientY - top;
+        let keysX = keys.map(m => Number(m.split('-')[0]))
+        let keysY = keys.map(m => Number(m.split('-')[1]))
+        keysX = Array.from(new Set(keysX))
+        keysY = Array.from(new Set(keysY))
         let xRect = 0
         let yRect = 0
-        for (let idx = 0; idx <= modelX.length; idx++) {
-            if (modelX[idx] > x) {
-                xRect = modelX[idx - 1]
+        for (let idx = 0; idx <= keysX.length; idx++) {
+            if (keysX[idx] > x) {
+                xRect = keysX[idx - 1]
                 break
             }
         }
-        for (let idx = 0; idx <= modelX.length; idx++) {
-            if (modelY[idx] > y) {
-                yRect = modelY[idx - 1]
+        for (let idx = 0; idx <= keysY.length; idx++) {
+            if (keysY[idx] > y) {
+                yRect = keysY[idx - 1]
                 break
             }
         }
         const key = `${xRect}-${yRect}`;
-
+        getNeighbours(key)
         this.setState({
             [key]: {
                 isActive: !this.state[key].isActive
             }
-        }, this.updateCell)
-
+        }, this.updateCells)
     }
 
     setGrid = () => {
         const { canvasWidth, canvasHeight } = this.state;
+        const obj = {}
         for (let x = 0; x <= canvasWidth; x += GRANULARITY) {
             for (let y = 0; y <= canvasHeight; y += GRANULARITY) {
-                this.setState({
-                    [`${x}-${y}`]: {
-                        isActive: false
-                    }
-                })
+                obj[`${x}-${y}`] = {
+                    isActive: false
+                }
             }
         }
-        this.refreshGrid()
+        this.setState(obj, this.refreshGrid)
     }
 
     refreshGrid = () => {
@@ -80,14 +100,14 @@ class Home extends Component {
             context.beginPath();
             context.moveTo(x, 0);
             context.lineTo(x, canvasHeight);
-            context.strokeStyle = "white";
+            context.strokeStyle = "#3b3b3b";
             context.stroke();
         }
         for (let y = 0; y <= canvasHeight; y += GRANULARITY) {
             context.beginPath();
             context.moveTo(0, y);
             context.lineTo(canvasWidth, y);
-            context.strokeStyle = "white";
+            context.strokeStyle = "#3b3b3b";
             context.stroke();
         }
     }
@@ -100,10 +120,8 @@ class Home extends Component {
         const canvasHeight = cellHeight * GRANULARITY
 
         if (Canvas) {
-            Canvas.focus();
             Canvas.style.backgroundColor = 'black';
             this.canvasContext = Canvas.getContext('2d');
-            this.Canvas.current.focus();
             this.setState({
                 canvasWidth,
                 canvasHeight,
@@ -122,7 +140,7 @@ class Home extends Component {
                     width={canvasWidth}
                     height={canvasHeight}
                     tabIndex="0"
-                    onClick={this.getClick}
+                    onClick={this.processClick}
                 />
             </div>
         )
