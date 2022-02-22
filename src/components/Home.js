@@ -1,18 +1,31 @@
 import React, { Component } from 'react';
-import {getActiveCells, delay, getNewLiveCells, getKeyOfClickedPosition} from './utils'
+import Control from './Control';
+import { getActiveCells, delay, getNewLiveCells, getKeyOfClickedPosition } from './utils'
 
-const GRANULARITY = 20;
+const GRANULARITY = 30;
 
 class Home extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { canvasLoaded: false };
+        this.state = { refresh: false };
         this.Canvas = React.createRef();
     }
 
     componentDidMount() {
         this.loadCanvas()
+    }
+
+    onRefresh = () => {
+        this.setState({ refresh: true }, this.refreshCells)
+    }
+
+    onReset = () => {
+        this.setState({ refresh: false }, this.setGrid)
+    }
+
+    onClear = () => {
+        this.setState({ refresh: false }, () => this.setGrid(true))
     }
 
     refreshCells = async () => {
@@ -39,7 +52,7 @@ class Home extends Component {
     }
 
     updateCells = () => {
-        const { canvasWidth, canvasHeight } = this.state;
+        const { canvasWidth, canvasHeight, refresh } = this.state;
         const context = this.canvasContext
         const activeCells = getActiveCells({ ...this.state.cells });
         context.clearRect(0, 0, canvasWidth, canvasHeight);
@@ -49,7 +62,9 @@ class Home extends Component {
             context.fillRect(x, y, GRANULARITY, GRANULARITY)
         })
         this.refreshGrid();
-        this.refreshCells();
+        if (refresh) {
+            this.refreshCells();
+        }
     }
 
     processClick = ({ clientX, clientY }) => {
@@ -57,7 +72,7 @@ class Home extends Component {
         const Canvas = this.Canvas.current;
         const { left, top } = Canvas.getBoundingClientRect();
         const keys = Object.keys(cells);
-        const key = getKeyOfClickedPosition({clientX, clientY, left, top, keys })
+        const key = getKeyOfClickedPosition({ clientX, clientY, left, top, keys })
         this.setState({
             cells: {
                 ...cells,
@@ -70,13 +85,13 @@ class Home extends Component {
         })
     }
 
-    setGrid = () => {
+    setGrid = (empty = false) => {
         const { canvasWidth, canvasHeight } = this.state;
         const obj = {}
         for (let x = 0; x <= canvasWidth; x += GRANULARITY) {
             for (let y = 0; y <= canvasHeight; y += GRANULARITY) {
                 obj[`${x}-${y}`] = {
-                    isActive: Math.random() < 0.5
+                    isActive: empty ? false : Math.random() < 0.5
                 }
             }
         }
@@ -123,9 +138,19 @@ class Home extends Component {
     }
 
     render() {
-        const { canvasWidth, canvasHeight, canvasTop, canvasLeft } = this.state;
+        //console.log(Date.now())
+        const { canvasWidth, canvasHeight, canvasTop, canvasLeft, refresh } = this.state;
         return (
-            <div style={{ paddingTop: canvasTop, paddingLeft: canvasLeft }}>
+            <div style={{ paddingLeft: canvasLeft }}>
+                <Control
+                    width={canvasWidth}
+                    height={canvasTop}
+                    onRefresh={this.onRefresh}
+                    onPause={() => this.setState({ refresh: false })}
+                    isRefreshing={refresh}
+                    onReset={this.onReset}
+                    onClear={this.onClear}
+                />
                 <canvas
                     ref={this.Canvas}
                     width={canvasWidth}
