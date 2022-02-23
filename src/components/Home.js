@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import Control from './Control';
-import { getActiveCells, delay, getNewLiveCells, getKeyOfClickedPosition } from './utils'
-
-const GRANULARITY = 30;
+import { ControlTop, ControlBottom } from './Control';
+import { getActiveCells, getNewLiveCells, getKeyOfClickedPosition } from './utils'
 
 class Home extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { refresh: false };
+        this.state = {
+            refresh: false,
+            granularity: 30,
+            refreshRate: 175
+        };
         this.Canvas = React.createRef();
     }
 
@@ -28,13 +30,18 @@ class Home extends Component {
         this.setState({ refresh: false }, () => this.setGrid(true))
     }
 
-    refreshCells = async () => {
-        if (!getActiveCells({ ...this.state.cells }).length) {
-            return null;
-        }
-        await delay(50)
-        const { cells } = this.state;
-        const newLiveCells = getNewLiveCells({ ...cells }, GRANULARITY);
+    onGranularity = ({ target: { value } }) => {
+        this.setState({ refresh: false, granularity: value }, this.setGrid)
+    }
+
+    onRefreshRate = ({ target: { value } }) => {
+        clearTimeout(this.timeoutId);
+        this.setState({ refreshRate: value }, this.updateCells)
+    }
+
+    refreshCells = () => {
+        const { cells, granularity } = this.state;
+        const newLiveCells = getNewLiveCells({ ...cells }, granularity);
         const keys = Object.keys(cells);
         const obj = {};
         for (const cell of keys) {
@@ -52,18 +59,19 @@ class Home extends Component {
     }
 
     updateCells = () => {
-        const { canvasWidth, canvasHeight, refresh } = this.state;
+        const { canvasWidth, canvasHeight, refresh, granularity, refreshRate } = this.state;
         const context = this.canvasContext
         const activeCells = getActiveCells({ ...this.state.cells });
         context.clearRect(0, 0, canvasWidth, canvasHeight);
         activeCells.forEach(cell => {
             const [x, y] = cell.split('-');
             context.fillStyle = "#ff0000";
-            context.fillRect(x, y, GRANULARITY, GRANULARITY)
+            context.fillRect(x, y, granularity, granularity)
         })
         this.refreshGrid();
-        if (refresh) {
-            this.refreshCells();
+        if (refresh && activeCells.length) {
+            clearTimeout(this.timeoutId);
+            this.timeoutId = setTimeout(this.refreshCells, refreshRate);
         }
     }
 
@@ -86,10 +94,10 @@ class Home extends Component {
     }
 
     setGrid = (empty = false) => {
-        const { canvasWidth, canvasHeight } = this.state;
+        const { canvasWidth, canvasHeight, granularity } = this.state;
         const obj = {}
-        for (let x = 0; x <= canvasWidth; x += GRANULARITY) {
-            for (let y = 0; y <= canvasHeight; y += GRANULARITY) {
+        for (let x = 0; x <= canvasWidth; x += granularity) {
+            for (let y = 0; y <= canvasHeight; y += granularity) {
                 obj[`${x}-${y}`] = {
                     isActive: empty ? false : Math.random() < 0.5
                 }
@@ -100,15 +108,15 @@ class Home extends Component {
 
     refreshGrid = () => {
         const context = this.canvasContext
-        const { canvasWidth, canvasHeight } = this.state;
-        for (let x = 0; x <= canvasWidth; x += GRANULARITY) {
+        const { canvasWidth, canvasHeight, granularity } = this.state;
+        for (let x = 0; x <= canvasWidth; x += granularity) {
             context.beginPath();
             context.moveTo(x, 0);
             context.lineTo(x, canvasHeight);
             context.strokeStyle = "#3b3b3b";
             context.stroke();
         }
-        for (let y = 0; y <= canvasHeight; y += GRANULARITY) {
+        for (let y = 0; y <= canvasHeight; y += granularity) {
             context.beginPath();
             context.moveTo(0, y);
             context.lineTo(canvasWidth, y);
@@ -120,10 +128,11 @@ class Home extends Component {
     loadCanvas = () => {
         const Canvas = this.Canvas.current;
         const { innerWidth, innerHeight } = window;
-        const cellWidth = Math.floor((innerWidth * 0.8) / GRANULARITY);
-        const cellHeight = Math.floor((innerHeight * 0.8) / GRANULARITY);
-        const canvasWidth = cellWidth * GRANULARITY;
-        const canvasHeight = cellHeight * GRANULARITY
+        const { granularity } = this.state
+        const cellWidth = Math.floor((innerWidth * 0.8) / granularity);
+        const cellHeight = Math.floor((innerHeight * 0.8) / granularity);
+        const canvasWidth = cellWidth * granularity;
+        const canvasHeight = cellHeight * granularity
 
         if (Canvas) {
             Canvas.style.backgroundColor = 'black';
@@ -139,15 +148,15 @@ class Home extends Component {
 
     render() {
         //console.log(Date.now())
-        const { canvasWidth, canvasHeight, canvasTop, canvasLeft, refresh } = this.state;
+        const { canvasWidth, canvasHeight, canvasTop, canvasLeft, refresh, granularity, refreshRate } = this.state;
         return (
             <div style={{ paddingLeft: canvasLeft }}>
-                <Control
+                <ControlTop
                     width={canvasWidth}
                     height={canvasTop}
+                    isRefreshing={refresh}
                     onRefresh={this.onRefresh}
                     onPause={() => this.setState({ refresh: false })}
-                    isRefreshing={refresh}
                     onReset={this.onReset}
                     onClear={this.onClear}
                 />
@@ -157,6 +166,14 @@ class Home extends Component {
                     height={canvasHeight}
                     tabIndex="0"
                     onClick={this.processClick}
+                />
+                <ControlBottom
+                    width={canvasWidth}
+                    height={canvasTop}
+                    granularity={granularity}
+                    refreshRate={refreshRate}
+                    onGranularity={this.onGranularity}
+                    onRefreshRate={this.onRefreshRate}
                 />
             </div>
         )
