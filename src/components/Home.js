@@ -9,7 +9,8 @@ class Home extends Component {
         this.state = {
             refresh: false,
             granularity: 20,
-            refreshRate: 140
+            refreshRate: 140,
+            generations: 0
         };
         this.Canvas = React.createRef();
     }
@@ -23,11 +24,11 @@ class Home extends Component {
     }
 
     onReset = () => {
-        this.setState({ refresh: false }, this.setGrid)
+        this.setState({ refresh: false, generations: 0 }, this.setGrid)
     }
 
     onClear = () => {
-        this.setState({ refresh: false }, () => this.setGrid(true))
+        this.setState({ refresh: false, generations: 0 }, () => this.setGrid(true))
     }
 
     onGranularity = ({ target: { value } }) => {
@@ -40,7 +41,7 @@ class Home extends Component {
     }
 
     refreshCells = () => {
-        const { cells, granularity, canvasWidth: width, canvasHeight: height } = this.state;
+        const { cells, granularity, canvasWidth: width, canvasHeight: height , generations} = this.state;
         const newLiveCells = getNewLiveCells(cells, granularity, width, height);
         const keys = Object.keys(cells);
         const obj = {};
@@ -55,7 +56,7 @@ class Home extends Component {
                 }
             }
         }
-        this.setState({ cells: obj }, this.updateCells)
+        this.setState({ cells: obj, generations: generations + 1 }, this.updateCells)
     }
 
     updateCells = () => {
@@ -147,8 +148,12 @@ class Home extends Component {
     }
 
     render() {
-        const { canvasWidth, canvasHeight, canvasTop, canvasLeft, refresh, granularity, refreshRate } = this.state;
-        console.log(this.state.cells && Object.keys(this.state.cells).length)
+        const {
+            canvasWidth, canvasHeight, 
+            canvasTop, canvasLeft,
+            granularity, refreshRate,
+            refresh, generations
+        } = this.state;
         return (
             <div style={{ paddingLeft: canvasLeft }}>
                 <ControlTop
@@ -159,6 +164,7 @@ class Home extends Component {
                     onPause={() => this.setState({ refresh: false })}
                     onReset={this.onReset}
                     onClear={this.onClear}
+                    generations={generations}
                 />
                 <canvas
                     ref={this.Canvas}

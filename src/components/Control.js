@@ -5,10 +5,11 @@ import PauseIcon from '@mui/icons-material/Pause';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import Slider from '@mui/material/Slider';
+import Chip from '@mui/material/Chip';
 
 const Action = ({ isRefreshing }) => {
     if (!isRefreshing) {
-        return <PlayCircleFilledWhiteIcon style={{ fontSize: '2em' ,color: 'green'}} />
+        return <PlayCircleFilledWhiteIcon style={{ fontSize: '2em', color: 'green' }} />
     } else {
         return <PauseIcon style={{ fontSize: '2em', color: 'red' }} />
     }
@@ -21,13 +22,15 @@ export const ControlTop = ({
     onPause,
     isRefreshing,
     onReset,
-    onClear
+    onClear,
+    generations
 }) => (
     <div
         style={{
             display: 'flex',
+            flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'space-around',
             width,
             height
         }}
@@ -37,11 +40,14 @@ export const ControlTop = ({
                 <Action isRefreshing={isRefreshing} />
             </IconButton>
             <IconButton aria-label="reset" onClick={onReset}>
-                <RestartAltIcon style={{ fontSize: '2em' , color: 'blue'}} />
+                <RestartAltIcon style={{ fontSize: '2em', color: 'blue' }} />
             </IconButton>
             <IconButton aria-label="clear" onClick={onClear}>
                 <HighlightOffOutlinedIcon style={{ fontSize: '2em' }} />
             </IconButton>
+        </div>
+        <div>
+        <Chip label={generations} style={{ width: 100 }} color="success" onClick={()=>window.open('https://pi.math.cornell.edu/~lipa/mec/lesson6.html')} />
         </div>
     </div>
 )
@@ -63,7 +69,7 @@ export const ControlBottom = ({
             height
         }}
     >
-        <div style={{ width: width/3 }}>
+        <div style={{ width: width / 3 }}>
             <Slider
                 aria-label="Granularity"
                 defaultValue={20}
@@ -97,7 +103,7 @@ export const ControlBottom = ({
                 value={granularity}
             />
         </div>
-        <div style={{ width: width/3 }}>
+        <div style={{ width: width / 3 }}>
             <Slider
                 aria-label="Refreshrate"
                 defaultValue={120}
@@ -129,6 +135,7 @@ export const ControlBottom = ({
                 max={500}
                 onChange={onRefreshRate}
                 value={refreshRate}
+                color="secondary"
             />
         </div>
     </div>
