@@ -68,31 +68,31 @@ export const ControlBottom = ({
                 aria-label="Granularity"
                 defaultValue={20}
                 valueLabelDisplay="off"
-                step={10}
+                step={5}
                 marks={[
                     {
                         value: 10,
                         label: '10',
                     },
                     {
+                        value: 15,
+                        label: '15',
+                    },
+                    {
                         value: 20,
                         label: '20',
                     },
                     {
+                        value: 25,
+                        label: '25',
+                    },
+                    {
                         value: 30,
-                        label: '30',
-                    },
-                    {
-                        value: 40,
-                        label: '40',
-                    },
-                    {
-                        value: 50,
-                        label: '50px',
+                        label: '30px',
                     }
                 ]}
                 min={10}
-                max={50}
+                max={30}
                 onChange={onGranularity}
                 value={granularity}
             />
@@ -100,32 +100,32 @@ export const ControlBottom = ({
         <div style={{ width: width/3 }}>
             <Slider
                 aria-label="Refreshrate"
-                defaultValue={175}
+                defaultValue={120}
                 valueLabelDisplay="off"
                 step={125}
                 marks={[
                     {
-                        value: 50,
-                        label: '50',
+                        value: 20,
+                        label: '20',
                     },
                     {
-                        value: 175,
-                        label: '175',
+                        value: 140,
+                        label: '140',
                     },
                     {
-                        value: 300,
-                        label: '300',
+                        value: 260,
+                        label: '260',
                     },
                     {
-                        value: 425,
-                        label: '425',
+                        value: 380,
+                        label: '380',
                     },
                     {
-                        value: 550,
-                        label: '550ms',
+                        value: 500,
+                        label: '500ms',
                     }
                 ]}
-                min={50}
+                min={20}
                 max={500}
                 onChange={onRefreshRate}
                 value={refreshRate}
