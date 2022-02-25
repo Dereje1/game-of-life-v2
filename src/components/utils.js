@@ -1,26 +1,47 @@
+
 export const getActiveCells = (allCells) => {
     const allKeys = Object.keys(allCells);
-    return allKeys.filter(k => allCells[k].isActive)
+    const activeCells = allKeys.filter(k => allCells[k].isActive)
+    return activeCells;
 }
 
-export const getNeighbours = (cell, GRANULARITY) => {
+export const getNeighbours = (cell, granularity, width, height) => {
     const [x, y] = cell.split('-').map(c => Number(c));
-    return [
-        `${x}-${y - GRANULARITY}`,
-        `${x + GRANULARITY}-${y - GRANULARITY}`,
-        `${x + GRANULARITY}-${y}`,
-        `${x + GRANULARITY}-${y + GRANULARITY}`,
-        `${x}-${y + GRANULARITY}`,
-        `${x - GRANULARITY}-${y + GRANULARITY}`,
-        `${x - GRANULARITY}-${y}`,
-        `${x - GRANULARITY}-${y - GRANULARITY}`,
+    let neighbours = [
+        [x, y - granularity],
+        [x + granularity, y - granularity],
+        [x + granularity, y],
+        [x + granularity, y + granularity],
+        [x, y + granularity],
+        [x - granularity, y + granularity],
+        [x - granularity, y],
+        [x - granularity, y - granularity],
     ]
+    // transform for out of bounds
+    neighbours = neighbours.map(([x, y]) => {
+        let u = x, v = y;
+        if (x >= width) {
+            u = x - width
+        }
+        if (x < 0) {
+            u = width - (Math.abs(x))
+        }
+        if (y >= height) {
+            v = y - height
+        }
+        if (y < 0) {
+            v = height - (Math.abs(y))
+        }
+        return `${u}-${v}`
+    })
+    return neighbours
 }
 
-export const findResurrectedCells = (uniqueDeadCells, liveCells, GRANULARITY) => {
+// checks for dead cells
+const findNewLiveCells = (uniqueDeadCells, liveCells, granularity, width, height) => {
     const newLiveCells = []
     for (const deadCell of uniqueDeadCells) {
-        const neighbours = getNeighbours(deadCell, GRANULARITY);
+        const neighbours = getNeighbours(deadCell, granularity, width, height);
         const liveNeighbors = neighbours.filter(n => liveCells.includes(n));
         if (liveNeighbors.length === 3) {
             newLiveCells.push(deadCell)
@@ -29,12 +50,12 @@ export const findResurrectedCells = (uniqueDeadCells, liveCells, GRANULARITY) =>
     return newLiveCells;
 }
 
-export const getNewLiveCells = (allCells, GRANULARITY) => {
-    const liveCells = getActiveCells({ ...allCells });
+export const getNewLiveCells = (allCells, granularity, width, height) => {
+    const liveCells = getActiveCells(allCells, width, height);
     const stillLive = []
     let deadCells = [];
     for (const liveCell of liveCells) {
-        const neighbours = getNeighbours(liveCell, GRANULARITY);
+        const neighbours = getNeighbours(liveCell, granularity, width, height);
         const liveNeighbors = neighbours.filter(n => liveCells.includes(n));
         const deadNeighbors = neighbours.filter(n => !liveCells.includes(n));
         if (liveNeighbors.length === 3 || liveNeighbors.length === 2) {
@@ -43,14 +64,11 @@ export const getNewLiveCells = (allCells, GRANULARITY) => {
         deadCells = [...deadCells, ...deadNeighbors]
     }
     const uniqueDeadCells = Array.from(new Set(deadCells));
-    const newLiveCells = findResurrectedCells(uniqueDeadCells, liveCells, GRANULARITY)
+    const newLiveCells = findNewLiveCells(uniqueDeadCells, liveCells, granularity, width, height)
     return [...stillLive, ...newLiveCells];
 }
 
-export const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
-
-export const getKeyOfClickedPosition = ({clientX, clientY, left, top, keys}) => {
-    
+export const getKeyOfClickedPosition = ({ clientX, clientY, left, top, keys, granularity, width, height }) => {
     const x = clientX - left;
     const y = clientY - top;
     let keysX = keys.map(m => Number(m.split('-')[0]))

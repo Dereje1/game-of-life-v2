@@ -8,8 +8,8 @@ class Home extends Component {
         super(props);
         this.state = {
             refresh: false,
-            granularity: 30,
-            refreshRate: 175
+            granularity: 20,
+            refreshRate: 140
         };
         this.Canvas = React.createRef();
     }
@@ -31,7 +31,7 @@ class Home extends Component {
     }
 
     onGranularity = ({ target: { value } }) => {
-        this.setState({ refresh: false, granularity: value }, this.setGrid)
+        this.setState({ refresh: false, granularity: value }, this.loadCanvas)
     }
 
     onRefreshRate = ({ target: { value } }) => {
@@ -40,8 +40,8 @@ class Home extends Component {
     }
 
     refreshCells = () => {
-        const { cells, granularity } = this.state;
-        const newLiveCells = getNewLiveCells({ ...cells }, granularity);
+        const { cells, granularity, canvasWidth: width, canvasHeight: height } = this.state;
+        const newLiveCells = getNewLiveCells(cells, granularity, width, height);
         const keys = Object.keys(cells);
         const obj = {};
         for (const cell of keys) {
@@ -59,9 +59,9 @@ class Home extends Component {
     }
 
     updateCells = () => {
-        const { canvasWidth, canvasHeight, refresh, granularity, refreshRate } = this.state;
+        const { cells, canvasWidth, canvasHeight, refresh, granularity, refreshRate } = this.state;
         const context = this.canvasContext
-        const activeCells = getActiveCells({ ...this.state.cells });
+        const activeCells = getActiveCells(cells, canvasWidth, canvasHeight);
         context.clearRect(0, 0, canvasWidth, canvasHeight);
         activeCells.forEach(cell => {
             const [x, y] = cell.split('-');
@@ -76,11 +76,11 @@ class Home extends Component {
     }
 
     processClick = ({ clientX, clientY }) => {
-        const { cells } = this.state
+        const { cells, granularity, canvasWidth: width, canvasHeight: height } = this.state
         const Canvas = this.Canvas.current;
         const { left, top } = Canvas.getBoundingClientRect();
         const keys = Object.keys(cells);
-        const key = getKeyOfClickedPosition({ clientX, clientY, left, top, keys })
+        const key = getKeyOfClickedPosition({ clientX, clientY, left, top, keys, granularity, width, height })
         this.setState({
             cells: {
                 ...cells,
@@ -147,8 +147,8 @@ class Home extends Component {
     }
 
     render() {
-        //console.log(Date.now())
         const { canvasWidth, canvasHeight, canvasTop, canvasLeft, refresh, granularity, refreshRate } = this.state;
+        console.log(this.state.cells && Object.keys(this.state.cells).length)
         return (
             <div style={{ paddingLeft: canvasLeft }}>
                 <ControlTop
