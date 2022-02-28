@@ -47,7 +47,7 @@ export const ControlTop = ({
             </IconButton>
         </div>
         <div>
-        <Chip label={generations} style={{ width: 100 }} color="success" onClick={()=>window.open('https://pi.math.cornell.edu/~lipa/mec/lesson6.html')} />
+            <Chip label={generations} style={{ width: 100 }} color={"success"} onClick={() => window.open('https://pi.math.cornell.edu/~lipa/mec/lesson6.html')} />
         </div>
     </div>
 )
@@ -56,7 +56,7 @@ export const ControlBottom = ({
     width,
     height,
     onGranularity,
-    granularity,
+    cellSize,
     onRefreshRate,
     refreshRate
 }) => (
@@ -100,7 +100,7 @@ export const ControlBottom = ({
                 min={10}
                 max={30}
                 onChange={onGranularity}
-                value={granularity}
+                value={cellSize}
             />
         </div>
         <div style={{ width: width / 3 }}>

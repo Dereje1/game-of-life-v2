@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ControlTop, ControlBottom } from './Control';
-import { getActiveCells, getNewLiveCells, getKeyOfClickedPosition } from './utils'
+import { getActiveCells, getNewLiveCells } from './utils'
 
 class Home extends Component {
 
@@ -8,7 +8,7 @@ class Home extends Component {
         super(props);
         this.state = {
             refresh: false,
-            granularity: 20,
+            cellSize: 20,
             refreshRate: 140,
             generations: 0
         };
@@ -32,7 +32,7 @@ class Home extends Component {
     }
 
     onGranularity = ({ target: { value } }) => {
-        this.setState({ refresh: false, granularity: value }, this.loadCanvas)
+        this.setState({ refresh: false, cellSize: value }, this.loadCanvas)
     }
 
     onRefreshRate = ({ target: { value } }) => {
@@ -41,8 +41,8 @@ class Home extends Component {
     }
 
     refreshCells = () => {
-        const { cells, granularity, canvasWidth: width, canvasHeight: height , generations} = this.state;
-        const newLiveCells = getNewLiveCells(cells, granularity, width, height);
+        const { cells, cellSize, canvasWidth: width, canvasHeight: height, generations } = this.state;
+        const newLiveCells = getNewLiveCells(cells, cellSize, width, height);
         const keys = Object.keys(cells);
         const obj = {};
         for (const cell of keys) {
@@ -60,14 +60,14 @@ class Home extends Component {
     }
 
     updateCells = () => {
-        const { cells, canvasWidth, canvasHeight, refresh, granularity, refreshRate } = this.state;
+        const { cells, canvasWidth, canvasHeight, refresh, cellSize, refreshRate } = this.state;
         const context = this.canvasContext
-        const activeCells = getActiveCells(cells, canvasWidth, canvasHeight);
+        const activeCells = getActiveCells(cells);
         context.clearRect(0, 0, canvasWidth, canvasHeight);
         activeCells.forEach(cell => {
             const [x, y] = cell.split('-');
             context.fillStyle = "#ff0000";
-            context.fillRect(x, y, granularity, granularity)
+            context.fillRect(x, y, cellSize, cellSize)
         })
         this.refreshGrid();
         if (refresh && activeCells.length) {
@@ -76,12 +76,15 @@ class Home extends Component {
         }
     }
 
-    processClick = ({ clientX, clientY }) => {
-        const { cells, granularity, canvasWidth: width, canvasHeight: height } = this.state
+    handleCanvasClick = ({ clientX, clientY }) => {
+        const { cells, cellSize } = this.state
         const Canvas = this.Canvas.current;
         const { left, top } = Canvas.getBoundingClientRect();
-        const keys = Object.keys(cells);
-        const key = getKeyOfClickedPosition({ clientX, clientY, left, top, keys, granularity, width, height })
+        const trueX = clientX - left;
+        const trueY = clientY - top;
+        const x = Math.floor(trueX / cellSize) * cellSize
+        const yFloor = Math.floor(trueY / cellSize) * cellSize
+        const key = `${x}-${yFloor}`
         this.setState({
             cells: {
                 ...cells,
@@ -89,16 +92,14 @@ class Home extends Component {
                     isActive: !cells[key].isActive
                 }
             }
-        }, () => {
-            this.updateCells()
-        })
+        }, this.updateCells)
     }
 
     setGrid = (empty = false) => {
-        const { canvasWidth, canvasHeight, granularity } = this.state;
+        const { canvasWidth, canvasHeight, cellSize } = this.state;
         const obj = {}
-        for (let x = 0; x <= canvasWidth; x += granularity) {
-            for (let y = 0; y <= canvasHeight; y += granularity) {
+        for (let x = 0; x <= canvasWidth; x += cellSize) {
+            for (let y = 0; y <= canvasHeight; y += cellSize) {
                 obj[`${x}-${y}`] = {
                     isActive: empty ? false : Math.random() < 0.5
                 }
@@ -109,15 +110,15 @@ class Home extends Component {
 
     refreshGrid = () => {
         const context = this.canvasContext
-        const { canvasWidth, canvasHeight, granularity } = this.state;
-        for (let x = 0; x <= canvasWidth; x += granularity) {
+        const { canvasWidth, canvasHeight, cellSize } = this.state;
+        for (let x = 0; x <= canvasWidth; x += cellSize) {
             context.beginPath();
             context.moveTo(x, 0);
             context.lineTo(x, canvasHeight);
             context.strokeStyle = "#3b3b3b";
             context.stroke();
         }
-        for (let y = 0; y <= canvasHeight; y += granularity) {
+        for (let y = 0; y <= canvasHeight; y += cellSize) {
             context.beginPath();
             context.moveTo(0, y);
             context.lineTo(canvasWidth, y);
@@ -129,11 +130,11 @@ class Home extends Component {
     loadCanvas = () => {
         const Canvas = this.Canvas.current;
         const { innerWidth, innerHeight } = window;
-        const { granularity } = this.state
-        const cellWidth = Math.floor((innerWidth * 0.8) / granularity);
-        const cellHeight = Math.floor((innerHeight * 0.8) / granularity);
-        const canvasWidth = cellWidth * granularity;
-        const canvasHeight = cellHeight * granularity
+        const { cellSize } = this.state
+        const cellWidth = Math.floor((innerWidth * 0.8) / cellSize);
+        const cellHeight = Math.floor((innerHeight * 0.8) / cellSize);
+        const canvasWidth = cellWidth * cellSize;
+        const canvasHeight = cellHeight * cellSize
 
         if (Canvas) {
             Canvas.style.backgroundColor = 'black';
@@ -149,38 +150,42 @@ class Home extends Component {
 
     render() {
         const {
-            canvasWidth, canvasHeight, 
+            canvasWidth, canvasHeight,
             canvasTop, canvasLeft,
-            granularity, refreshRate,
+            cellSize, refreshRate,
             refresh, generations
         } = this.state;
         return (
             <div style={{ paddingLeft: canvasLeft }}>
-                <ControlTop
-                    width={canvasWidth}
-                    height={canvasTop}
-                    isRefreshing={refresh}
-                    onRefresh={this.onRefresh}
-                    onPause={() => this.setState({ refresh: false })}
-                    onReset={this.onReset}
-                    onClear={this.onClear}
-                    generations={generations}
-                />
+                {
+                    canvasWidth && <ControlTop
+                        width={canvasWidth}
+                        height={canvasTop}
+                        isRefreshing={refresh}
+                        onRefresh={this.onRefresh}
+                        onPause={() => this.setState({ refresh: false })}
+                        onReset={this.onReset}
+                        onClear={this.onClear}
+                        generations={generations}
+                    />
+                }
                 <canvas
                     ref={this.Canvas}
                     width={canvasWidth}
                     height={canvasHeight}
                     tabIndex="0"
-                    onClick={this.processClick}
+                    onClick={this.handleCanvasClick}
                 />
-                <ControlBottom
-                    width={canvasWidth}
-                    height={canvasTop}
-                    granularity={granularity}
-                    refreshRate={refreshRate}
-                    onGranularity={this.onGranularity}
-                    onRefreshRate={this.onRefreshRate}
-                />
+                {
+                    canvasWidth && <ControlBottom
+                        width={canvasWidth}
+                        height={canvasTop}
+                        cellSize={cellSize}
+                        refreshRate={refreshRate}
+                        onGranularity={this.onGranularity}
+                        onRefreshRate={this.onRefreshRate}
+                    />
+                }
             </div>
         )
     }
