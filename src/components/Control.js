@@ -6,6 +6,7 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import Slider from '@mui/material/Slider';
 import Chip from '@mui/material/Chip';
+import './Controls.css'
 
 const Action = ({ isRefreshing }) => {
     if (!isRefreshing) {
@@ -55,7 +56,7 @@ export const ControlTop = ({
 export const ControlBottom = ({
     width,
     height,
-    onGranularity,
+    handleCellSize,
     cellSize,
     onRefreshRate,
     refreshRate
@@ -70,6 +71,7 @@ export const ControlBottom = ({
         }}
     >
         <div style={{ width: width / 3 }}>
+            <span style={{margin: 0, fontSize: '.75em', fontWeight: 'bold'}}>Cell Size</span>
             <Slider
                 aria-label="Granularity"
                 defaultValue={20}
@@ -99,11 +101,12 @@ export const ControlBottom = ({
                 ]}
                 min={10}
                 max={30}
-                onChange={onGranularity}
+                onChange={handleCellSize}
                 value={cellSize}
             />
         </div>
         <div style={{ width: width / 3 }}>
+            <span style={{margin: 0, fontSize: '.75em', fontWeight: 'bold'}}>Referesh Rate</span>
             <Slider
                 aria-label="Refreshrate"
                 defaultValue={120}
