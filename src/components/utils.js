@@ -1,7 +1,7 @@
 
 export const getActiveCells = (allCells) => {
     const allKeys = Object.keys(allCells);
-    const activeCells = allKeys.filter(k => allCells[k].isActive)
+    const activeCells = allKeys.filter(k => allCells[k].isAlive)
     return activeCells;
 }
 
@@ -38,20 +38,21 @@ export const getNeighbours = (cell, cellSize, width, height) => {
 }
 
 // checks for dead cells
-const findNewLiveCells = (uniqueDeadCells, liveCells, cellSize, width, height) => {
-    const newLiveCells = []
-    for (const deadCell of uniqueDeadCells) {
+const findNewLiveCells = (deadCells, liveCells, cellSize, width, height) => {
+    const newLiveCells = deadCells.reduce((newCells, deadCell) => {
         const neighbours = getNeighbours(deadCell, cellSize, width, height);
         const liveNeighbors = neighbours.filter(n => liveCells.includes(n));
         if (liveNeighbors.length === 3) {
-            newLiveCells.push(deadCell)
+            return [...newCells, deadCell]
         }
-    }
+        return newCells
+    }, [])
+
     return newLiveCells;
 }
 
 export const getNewLiveCells = (allCells, cellSize, width, height) => {
-    const liveCells = getActiveCells(allCells, width, height);
+    const liveCells = getActiveCells(allCells);
     const stillLive = []
     let deadCells = [];
     for (const liveCell of liveCells) {
