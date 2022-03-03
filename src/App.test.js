@@ -1,8 +1,20 @@
-import { render, screen } from '@testing-library/react';
+/**
+ * @jest-environment jsdom
+ */
+import React from 'react'
+import { shallow } from 'enzyme';
+import toJson from 'enzyme-to-json';
 import App from './App';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+let useRefSpy;
+beforeEach(()=>{
+  useRefSpy = jest.spyOn(React, 'createRef').mockReturnValueOnce({ current: document.createElement('canvas') });
+})
+afterEach(()=>{
+  useRefSpy.mockClear();
+})
+
+test('renders', () => {
+  const wrapper = shallow(<App />)
+  expect(toJson(wrapper)).toMatchSnapshot();
 });

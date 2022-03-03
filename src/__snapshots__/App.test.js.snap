@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<div
+  style={
+    Object {
+      "paddingLeft": 112,
+    }
+  }
+>
+  <ControlTop
+    generations={0}
+    height={84}
+    isRefreshing={false}
+    onClear={[Function]}
+    onPause={[Function]}
+    onRefresh={[Function]}
+    onReset={[Function]}
+    width={800}
+  />
+  <canvas
+    height={600}
+    onClick={[Function]}
+    tabIndex="0"
+    width={800}
+  />
+  <ControlBottom
+    cellSize={20}
+    handleCellSize={[Function]}
+    height={84}
+    onRefreshRate={[Function]}
+    refreshRate={140}
+    width={800}
+  />
+</div>
+`;
