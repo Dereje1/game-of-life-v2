@@ -1,0 +1,208 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`will render pause when refreshing 1`] = `
+<Memo(ForwardRef(PauseIcon))
+  style={
+    Object {
+      "color": "red",
+      "fontSize": "2em",
+    }
+  }
+/>
+`;
+
+exports[`will render play when not refreshing 1`] = `
+<Memo(ForwardRef(PlayCircleFilledWhiteIcon))
+  style={
+    Object {
+      "color": "green",
+      "fontSize": "2em",
+    }
+  }
+/>
+`;
+
+exports[`will render the bottom control 1`] = `
+<div
+  style={
+    Object {
+      "alignItems": "center",
+      "display": "flex",
+      "height": 80,
+      "justifyContent": "space-around",
+      "width": 80,
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "width": 26.666666666666668,
+      }
+    }
+  >
+    <span
+      style={
+        Object {
+          "fontSize": ".75em",
+          "fontWeight": "bold",
+          "margin": 0,
+        }
+      }
+    >
+      Cell Size
+    </span>
+    <ForwardRef(Slider)
+      aria-label="Granularity"
+      defaultValue={20}
+      marks={
+        Array [
+          Object {
+            "label": "10",
+            "value": 10,
+          },
+          Object {
+            "label": "15",
+            "value": 15,
+          },
+          Object {
+            "label": "20",
+            "value": 20,
+          },
+          Object {
+            "label": "25",
+            "value": 25,
+          },
+          Object {
+            "label": "30px",
+            "value": 30,
+          },
+        ]
+      }
+      max={30}
+      min={10}
+      onChange={[MockFunction]}
+      step={5}
+      value={20}
+      valueLabelDisplay="off"
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "width": 26.666666666666668,
+      }
+    }
+  >
+    <span
+      style={
+        Object {
+          "fontSize": ".75em",
+          "fontWeight": "bold",
+          "margin": 0,
+        }
+      }
+    >
+      Referesh Rate
+    </span>
+    <ForwardRef(Slider)
+      aria-label="Refreshrate"
+      color="secondary"
+      defaultValue={120}
+      marks={
+        Array [
+          Object {
+            "label": "20",
+            "value": 20,
+          },
+          Object {
+            "label": "140",
+            "value": 140,
+          },
+          Object {
+            "label": "260",
+            "value": 260,
+          },
+          Object {
+            "label": "380",
+            "value": 380,
+          },
+          Object {
+            "label": "500ms",
+            "value": 500,
+          },
+        ]
+      }
+      max={500}
+      min={20}
+      onChange={[MockFunction]}
+      step={125}
+      value={140}
+      valueLabelDisplay="off"
+    />
+  </div>
+</div>
+`;
+
+exports[`will render the top control 1`] = `
+<div
+  style={
+    Object {
+      "alignItems": "center",
+      "display": "flex",
+      "flexDirection": "row",
+      "height": 80,
+      "justifyContent": "space-around",
+      "width": 80,
+    }
+  }
+>
+  <div>
+    <ForwardRef(IconButton)
+      aria-label="play_pause"
+      onClick={[MockFunction]}
+    >
+      <Action
+        isRefreshing={true}
+      />
+    </ForwardRef(IconButton)>
+    <ForwardRef(IconButton)
+      aria-label="reset"
+      onClick={[MockFunction]}
+    >
+      <Memo(ForwardRef(RestartAltIcon))
+        style={
+          Object {
+            "color": "blue",
+            "fontSize": "2em",
+          }
+        }
+      />
+    </ForwardRef(IconButton)>
+    <ForwardRef(IconButton)
+      aria-label="clear"
+      onClick={[MockFunction]}
+    >
+      <Memo(ForwardRef(HighlightOffOutlinedIcon))
+        style={
+          Object {
+            "fontSize": "2em",
+          }
+        }
+      />
+    </ForwardRef(IconButton)>
+  </div>
+  <div>
+    <ForwardRef(Chip)
+      color="success"
+      label={6}
+      onClick={[Function]}
+      style={
+        Object {
+          "width": 100,
+        }
+      }
+    />
+  </div>
+</div>
+`;

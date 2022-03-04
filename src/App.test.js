@@ -11,27 +11,18 @@ const cellsStub = {
   '0-20': { isAlive: false },
   '0-40': { isAlive: false },
   '0-60': { isAlive: false },
-  '0-80': { isAlive: false },
   '20-0': { isAlive: false },
   '20-20': { isAlive: false },
   '20-40': { isAlive: false },
   '20-60': { isAlive: false },
-  '20-80': { isAlive: false },
   '40-0': { isAlive: false },
   '40-20': { isAlive: false },
   '40-40': { isAlive: false },
   '40-60': { isAlive: false },
-  '40-80': { isAlive: false },
   '60-0': { isAlive: false },
   '60-20': { isAlive: false },
   '60-40': { isAlive: false },
   '60-60': { isAlive: false },
-  '60-80': { isAlive: false },
-  '80-0': { isAlive: false },
-  '80-20': { isAlive: false },
-  '80-40': { isAlive: false },
-  '80-60': { isAlive: false },
-  '80-80': { isAlive: false }
 }
 jest.useFakeTimers();
 
@@ -41,7 +32,7 @@ const fillRect = jest.fn();
 beforeEach(() => {
   useRefSpy = jest.spyOn(React, 'createRef').mockImplementationOnce(
     () => ({
-      current: ({
+      current: {
         style: {},
         getContext: () => (
           {
@@ -54,7 +45,7 @@ beforeEach(() => {
           }
         ),
         getBoundingClientRect: () => ({ left: 1, top: 1 })
-      }),
+      },
     }),
   );
   global.innerWidth = 120;
@@ -98,10 +89,10 @@ test('will draw active cells', () => {
 });
 
 test('will refresh active cells', () => {
-  // testing with blinker oscillator
   const wrapper = shallow(<App />)
   wrapper.setState({ empty: true })
   wrapper.instance().setGrid()
+  // blinker oscillator
   const updatedCells = {
     ...cellsStub,
     '20-20': {
@@ -142,7 +133,7 @@ test('will make cells active on click', () => {
   expect(wrapper.state().cells['20-20'].isAlive).toBe(true)
 });
 
-test('will resume/refresh cells on control click', () => {
+test('will handle refreshing cells on play', () => {
   const wrapper = shallow(<App />)
   expect(wrapper.state().refresh).toBe(false)
   const controlTop = wrapper.find('ControlTop')
@@ -150,7 +141,15 @@ test('will resume/refresh cells on control click', () => {
   expect(wrapper.state().refresh).toBe(true)
 });
 
-test('will reset grid and seed cells on control click', () => {
+test('will handle stopping cell refresh on pause', () => {
+  const wrapper = shallow(<App />)
+  wrapper.setState({ refresh: true })
+  const controlTop = wrapper.find('ControlTop')
+  controlTop.props().onPause()
+  expect(wrapper.state().refresh).toBe(false)
+});
+
+test('will handle resetting grid', () => {
   const wrapper = shallow(<App />)
   wrapper.setState({ refresh: true, generations: 10 })
   const controlTop = wrapper.find('ControlTop')
@@ -159,7 +158,7 @@ test('will reset grid and seed cells on control click', () => {
   expect(wrapper.state().generations).toBe(0)
 });
 
-test('will clear all the grid on control click', () => {
+test('will handle clearing all live cells in the grid', () => {
   const wrapper = shallow(<App />)
   wrapper.setState({ refresh: true, generations: 10, empty: false })
   const controlTop = wrapper.find('ControlTop')
@@ -168,7 +167,7 @@ test('will clear all the grid on control click', () => {
   expect(wrapper.state().generations).toBe(0)
 });
 
-test('will adjust the cellSize on control click', () => {
+test('will handle adjusting the cellSize', () => {
   const wrapper = shallow(<App />)
   wrapper.setState({ refresh: true, generations: 10, empty: false })
   expect(wrapper.state().cellSize).toBe(20)
@@ -178,7 +177,7 @@ test('will adjust the cellSize on control click', () => {
   expect(wrapper.state().cellSize).toBe(32)
 });
 
-test('will adjust the refresh rate on control click', () => {
+test('will handle adjusting the refresh rate', () => {
   const wrapper = shallow(<App />)
   expect(wrapper.state().refreshRate).toBe(140)
   const controlBottom = wrapper.find('ControlBottom')

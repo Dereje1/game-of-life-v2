@@ -8,7 +8,7 @@ import Slider from '@mui/material/Slider';
 import Chip from '@mui/material/Chip';
 import './Controls.css'
 
-const Action = ({ isRefreshing }) => {
+export const Action = ({ isRefreshing }) => {
     if (!isRefreshing) {
         return <PlayCircleFilledWhiteIcon style={{ fontSize: '2em', color: 'green' }} />
     } else {

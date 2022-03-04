@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ControlTop, ControlBottom } from './components/Control';
+import { ControlTop, ControlBottom } from './components/Controls';
 import { getActiveCells, getNewLiveCells } from './components/utils'
 
 class App extends Component {
@@ -99,8 +99,8 @@ class App extends Component {
     setGrid = () => {
         const { canvasWidth, canvasHeight, cellSize, empty } = this.state;
         const cells = {}
-        for (let x = 0; x <= canvasWidth; x += cellSize) {
-            for (let y = 0; y <= canvasHeight; y += cellSize) {
+        for (let x = 0; x < canvasWidth; x += cellSize) {
+            for (let y = 0; y < canvasHeight; y += cellSize) {
                 cells[`${x}-${y}`] = {
                     isAlive: empty ? false : Math.random() < 0.5
                 }
