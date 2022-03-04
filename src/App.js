@@ -10,7 +10,8 @@ class App extends Component {
             refresh: false,
             cellSize: 20,
             refreshRate: 140,
-            generations: 0
+            generations: 0,
+            empty: false
         };
         this.Canvas = React.createRef();
     }
@@ -28,7 +29,7 @@ class App extends Component {
     }
 
     onClear = () => {
-        this.setState({ refresh: false, generations: 0 }, () => this.setGrid(true))
+        this.setState({ refresh: false, generations: 0, empty: true }, this.setGrid)
     }
 
     handleCellSize = ({ target: { value } }) => {
@@ -95,8 +96,8 @@ class App extends Component {
         }, this.updateCells)
     }
 
-    setGrid = (empty = false) => {
-        const { canvasWidth, canvasHeight, cellSize } = this.state;
+    setGrid = () => {
+        const { canvasWidth, canvasHeight, cellSize, empty } = this.state;
         const cells = {}
         for (let x = 0; x <= canvasWidth; x += cellSize) {
             for (let y = 0; y <= canvasHeight; y += cellSize) {
@@ -105,7 +106,7 @@ class App extends Component {
                 }
             }
         }
-        this.setState({ cells }, this.updateCells)
+        this.setState({ cells, empty: false }, this.updateCells)
     }
 
     refreshGrid = () => {
