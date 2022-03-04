@@ -6,6 +6,7 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import Slider from '@mui/material/Slider';
 import Chip from '@mui/material/Chip';
+import InfoIcon from '@mui/icons-material/Info';
 import './Controls.css'
 
 export const Action = ({ isRefreshing }) => {
@@ -48,7 +49,16 @@ export const ControlTop = ({
             </IconButton>
         </div>
         <div>
-            <Chip label={generations} style={{ width: 100 }} color={"success"} onClick={() => window.open('https://pi.math.cornell.edu/~lipa/mec/lesson6.html')} />
+            <Chip
+                icon={<InfoIcon 
+                    onClick={() => window.open('https://pi.math.cornell.edu/~lipa/mec/lesson6.html')} 
+                    style={{cursor:'pointer'}}
+                    />}
+                label={generations}
+                style={{ width: 100, justifyContent:'space-between' }}
+                color={isRefreshing ? "error" : "info"}
+                variant="outlined"
+            />
         </div>
     </div>
 )
@@ -71,7 +81,7 @@ export const ControlBottom = ({
         }}
     >
         <div style={{ width: width / 3 }}>
-            <span style={{margin: 0, fontSize: '.75em', fontWeight: 'bold'}}>Cell Size</span>
+            <span style={{ margin: 0, fontSize: '.75em', fontWeight: 'bold' }}>Cell Size</span>
             <Slider
                 aria-label="Granularity"
                 defaultValue={20}
@@ -106,7 +116,7 @@ export const ControlBottom = ({
             />
         </div>
         <div style={{ width: width / 3 }}>
-            <span style={{margin: 0, fontSize: '.75em', fontWeight: 'bold'}}>Referesh Rate</span>
+            <span style={{ margin: 0, fontSize: '.75em', fontWeight: 'bold' }}>Referesh Rate</span>
             <Slider
                 aria-label="Refreshrate"
                 defaultValue={120}

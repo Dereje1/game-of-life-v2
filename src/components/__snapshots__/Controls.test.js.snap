@@ -194,14 +194,25 @@ exports[`will render the top control 1`] = `
   </div>
   <div>
     <ForwardRef(Chip)
-      color="success"
+      color="error"
+      icon={
+        <Memo
+          onClick={[Function]}
+          style={
+            Object {
+              "cursor": "pointer",
+            }
+          }
+        />
+      }
       label={6}
-      onClick={[Function]}
       style={
         Object {
+          "justifyContent": "space-between",
           "width": 100,
         }
       }
+      variant="outlined"
     />
   </div>
 </div>
