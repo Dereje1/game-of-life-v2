@@ -1,16 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders 1`] = `
-<div
-  style={
-    Object {
-      "paddingLeft": 20,
-    }
-  }
->
+<Fragment>
   <ControlTop
     generations={0}
-    height={20}
+    height={12}
     isRefreshing={false}
     onClear={[Function]}
     onPause={[Function]}
@@ -18,19 +12,27 @@ exports[`renders 1`] = `
     onReset={[Function]}
     width={80}
   />
-  <canvas
-    height={80}
-    onClick={[Function]}
-    tabIndex="0"
-    width={80}
-  />
   <ControlBottom
     cellSize={20}
     handleCellSize={[Function]}
-    height={20}
+    height={12}
     onRefreshRate={[Function]}
     refreshRate={140}
     width={80}
   />
-</div>
+  <div
+    style={
+      Object {
+        "paddingLeft": 5,
+      }
+    }
+  >
+    <canvas
+      height={80}
+      onClick={[Function]}
+      tabIndex="0"
+      width={80}
+    />
+  </div>
+</Fragment>
 `;

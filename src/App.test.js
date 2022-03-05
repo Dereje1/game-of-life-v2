@@ -48,7 +48,7 @@ beforeEach(() => {
       },
     }),
   );
-  global.innerWidth = 120;
+  global.innerWidth = 90;
   global.innerHeight = 120;
 })
 afterEach(() => {

@@ -132,7 +132,7 @@ class App extends Component {
         const Canvas = this.Canvas.current;
         const { innerWidth, innerHeight } = window;
         const { cellSize } = this.state
-        const cellWidth = Math.floor((innerWidth * 0.8) / cellSize);
+        const cellWidth = Math.floor(innerWidth / cellSize);
         const cellHeight = Math.floor((innerHeight * 0.8) / cellSize);
         const canvasWidth = cellWidth * cellSize;
         const canvasHeight = cellHeight * cellSize
@@ -157,37 +157,36 @@ class App extends Component {
             refresh, generations
         } = this.state;
         return (
-            <div style={{ paddingLeft: canvasLeft }}>
-                {
-                    canvasWidth && <ControlTop
+            <>
+                <>
+                    <ControlTop
                         width={canvasWidth}
-                        height={canvasTop}
+                        height={window.innerHeight * 0.1}
                         isRefreshing={refresh}
                         onRefresh={this.onRefresh}
                         onPause={() => this.setState({ refresh: false })}
                         onReset={this.onReset}
                         onClear={this.onClear}
-                        generations={generations}
-                    />
-                }
-                <canvas
-                    ref={this.Canvas}
-                    width={canvasWidth}
-                    height={canvasHeight}
-                    tabIndex="0"
-                    onClick={this.handleCanvasClick}
-                />
-                {
-                    canvasWidth && <ControlBottom
+                        generations={generations} />
+
+
+                    <ControlBottom
                         width={canvasWidth}
-                        height={canvasTop}
+                        height={window.innerHeight * 0.1}
                         cellSize={cellSize}
                         refreshRate={refreshRate}
                         handleCellSize={this.handleCellSize}
-                        onRefreshRate={this.onRefreshRate}
-                    />
-                }
-            </div>
+                        onRefreshRate={this.onRefreshRate} />
+                </>
+                <div style={{ paddingLeft: canvasLeft }}>
+                    <canvas
+                        ref={this.Canvas}
+                        width={canvasWidth}
+                        height={canvasHeight}
+                        tabIndex="0"
+                        onClick={this.handleCanvasClick} />
+                </div>
+            </>
         )
     }
 }

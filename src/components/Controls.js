@@ -32,9 +32,10 @@ export const ControlTop = ({
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'space-around',
-            width,
-            height
+            justifyContent: 'space-evenly',
+            width: '100%',
+            height,
+            background: '#e5e5e359',
         }}
     >
         <div>
@@ -50,12 +51,12 @@ export const ControlTop = ({
         </div>
         <div>
             <Chip
-                icon={<InfoIcon 
-                    onClick={() => window.open('https://pi.math.cornell.edu/~lipa/mec/lesson6.html')} 
-                    style={{cursor:'pointer'}}
-                    />}
+                icon={<InfoIcon
+                    onClick={() => window.open('https://pi.math.cornell.edu/~lipa/mec/lesson6.html')}
+                    style={{ cursor: 'pointer' }}
+                />}
                 label={generations}
-                style={{ width: 100, justifyContent:'space-between' }}
+                style={{ width: 100, justifyContent: 'space-between' }}
                 color={isRefreshing ? "error" : "info"}
                 variant="outlined"
             />
@@ -76,14 +77,15 @@ export const ControlBottom = ({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-around',
-            width,
-            height
+            width: '100%',
+            height,
+            marginTop: 5 
         }}
     >
-        <div style={{ width: width / 3 }}>
-            <span style={{ margin: 0, fontSize: '.75em', fontWeight: 'bold' }}>Cell Size</span>
+        <div style={{ width: '30%', }}>
+            <span style={{ fontSize: '.75em', fontWeight: 'bold' }}>Cell Size</span>
             <Slider
-                aria-label="Granularity"
+                aria-label="Cellsize"
                 defaultValue={20}
                 valueLabelDisplay="off"
                 step={5}
@@ -115,13 +117,13 @@ export const ControlBottom = ({
                 value={cellSize}
             />
         </div>
-        <div style={{ width: width / 3 }}>
-            <span style={{ margin: 0, fontSize: '.75em', fontWeight: 'bold' }}>Referesh Rate</span>
+        <div style={{ width: '30%' }}>
+            <span style={{ fontSize: '.75em', fontWeight: 'bold' }}>Referesh Rate</span>
             <Slider
                 aria-label="Refreshrate"
-                defaultValue={120}
+                defaultValue={140}
                 valueLabelDisplay="off"
-                step={125}
+                step={120}
                 marks={[
                     {
                         value: 20,
