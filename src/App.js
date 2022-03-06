@@ -25,15 +25,18 @@ class App extends Component {
     }
 
     onReset = () => {
+        clearTimeout(this.timeoutId);
         this.setState({ refresh: false, generations: 0 }, this.setGrid)
     }
 
     onClear = () => {
+        clearTimeout(this.timeoutId);
         this.setState({ refresh: false, generations: 0, empty: true }, this.setGrid)
     }
 
     handleCellSize = ({ target: { value } }) => {
-        this.setState({ refresh: false, cellSize: value }, this.loadCanvas)
+        clearTimeout(this.timeoutId);
+        this.setState({ refresh: false, cellSize: value, generations: 0 }, this.loadCanvas)
     }
 
     onRefreshRate = ({ target: { value } }) => {
@@ -47,14 +50,8 @@ class App extends Component {
         const keys = Object.keys(oldCells);
         const cells = {};
         for (const cell of keys) {
-            if (newLiveCells.includes(cell)) {
-                cells[cell] = {
-                    isAlive: true
-                }
-            } else {
-                cells[cell] = {
-                    isAlive: false
-                }
+            cells[cell] = {
+                isAlive: newLiveCells.includes(cell)
             }
         }
         this.setState({ cells, generations: generations + 1 }, this.updateCells)
@@ -129,7 +126,6 @@ class App extends Component {
     }
 
     loadCanvas = () => {
-        const Canvas = this.Canvas.current;
         const { innerWidth, innerHeight } = window;
         const { cellSize } = this.state
         const cellWidth = Math.floor(innerWidth / cellSize);
@@ -137,22 +133,22 @@ class App extends Component {
         const canvasWidth = cellWidth * cellSize;
         const canvasHeight = cellHeight * cellSize
 
-        if (Canvas) {
-            Canvas.style.backgroundColor = 'black';
-            this.canvasContext = Canvas.getContext('2d');
-            this.setState({
-                canvasWidth,
-                canvasHeight,
-                canvasTop: (innerHeight - canvasHeight) / 2,
-                canvasLeft: (innerWidth - canvasWidth) / 2
-            }, this.setGrid);
-        }
+        const canvas = this.Canvas.current;
+        canvas.style.backgroundColor = 'black';
+        this.canvasContext = canvas.getContext('2d');
+        
+        this.setState({
+            canvasWidth,
+            canvasHeight,
+            canvasTop: (innerHeight - canvasHeight) / 2,
+            canvasLeft: (innerWidth - canvasWidth) / 2
+        }, this.setGrid);
+
     }
 
     render() {
         const {
-            canvasWidth, canvasHeight,
-            canvasTop, canvasLeft,
+            canvasWidth, canvasHeight, canvasLeft,
             cellSize, refreshRate,
             refresh, generations
         } = this.state;
