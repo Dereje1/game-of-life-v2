@@ -6,24 +6,6 @@ import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import App from './App';
 
-const cellsStub = {
-  '0-0': { isAlive: false },
-  '0-20': { isAlive: false },
-  '0-40': { isAlive: false },
-  '0-60': { isAlive: false },
-  '20-0': { isAlive: false },
-  '20-20': { isAlive: false },
-  '20-40': { isAlive: false },
-  '20-60': { isAlive: false },
-  '40-0': { isAlive: false },
-  '40-20': { isAlive: false },
-  '40-40': { isAlive: false },
-  '40-60': { isAlive: false },
-  '60-0': { isAlive: false },
-  '60-20': { isAlive: false },
-  '60-40': { isAlive: false },
-  '60-60': { isAlive: false },
-}
 jest.useFakeTimers();
 
 let useRefSpy;
@@ -66,7 +48,7 @@ test('will set the cells and canvas size', () => {
   const wrapper = shallow(<App />)
   wrapper.setState({ empty: true })
   wrapper.instance().setGrid()
-  expect(wrapper.state().cells).toStrictEqual(cellsStub)
+  expect(wrapper.state().cells).toStrictEqual([])
   expect(wrapper.state().canvasWidth).toBe(80)
   expect(wrapper.state().canvasHeight).toBe(80)
 });
@@ -75,13 +57,7 @@ test('will draw active cells', () => {
   const wrapper = shallow(<App />)
   wrapper.setState({ empty: true })
   wrapper.instance().setGrid()
-  const updatedCells = {
-    ...cellsStub,
-    '20-20': {
-      isAlive: true
-    }
-  }
-  wrapper.setState({ cells: updatedCells })
+  wrapper.setState({ cells: ['20-20'] })
   wrapper.instance().updateCells()
   expect(clearRect).toHaveBeenCalledTimes(3)
   expect(clearRect).toHaveBeenCalledWith(0, 0, 80, 80)
@@ -93,33 +69,15 @@ test('will refresh active cells', () => {
   wrapper.setState({ empty: true })
   wrapper.instance().setGrid()
   // blinker oscillator
-  const updatedCells = {
-    ...cellsStub,
-    '20-20': {
-      isAlive: true
-    },
-    '40-20': {
-      isAlive: true
-    },
-    '60-20': {
-      isAlive: true
-    }
-  }
-  wrapper.setState({ cells: updatedCells, refresh: true })
+  const liveCells = ['20-20','40-20','60-20']
+  wrapper.setState({ cells: liveCells, refresh: true })
   wrapper.instance().updateCells()
   jest.advanceTimersByTime(140);
-  const refreshedCells = {
-    ...cellsStub,
-    '40-0': {
-      isAlive: true
-    },
-    '40-20': {
-      isAlive: true
-    },
-    '40-40': {
-      isAlive: true
-    }
-  }
+  const refreshedCells = [
+    '40-20',
+    '40-0',
+    '40-40'
+  ]
   expect(wrapper.state().cells).toStrictEqual(refreshedCells)
   expect(wrapper.state().generations).toBe(1)
 });
@@ -128,9 +86,9 @@ test('will make cells active on click', () => {
   const wrapper = shallow(<App />)
   wrapper.setState({ empty: true })
   wrapper.instance().setGrid();
-  expect(wrapper.state().cells['20-20'].isAlive).toBe(false)
+  expect(wrapper.state().cells.includes('20-20')).toBe(false)
   wrapper.instance().handleCanvasClick({ clientX: 33, clientY: 28 })
-  expect(wrapper.state().cells['20-20'].isAlive).toBe(true)
+  expect(wrapper.state().cells.includes('20-20')).toBe(true)
 });
 
 test('will handle refreshing cells on play', () => {

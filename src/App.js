@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ControlTop, ControlBottom } from './components/Controls';
-import { getActiveCells, getNewLiveCells } from './components/utils'
+import { getNewLiveCells } from './components/utils'
 
 class App extends Component {
 
@@ -47,28 +47,20 @@ class App extends Component {
     refreshCells = () => {
         const { cells: oldCells, cellSize, canvasWidth: width, canvasHeight: height, generations } = this.state;
         const newLiveCells = getNewLiveCells(oldCells, cellSize, width, height);
-        const keys = Object.keys(oldCells);
-        const cells = {};
-        for (const cell of keys) {
-            cells[cell] = {
-                isAlive: newLiveCells.includes(cell)
-            }
-        }
-        this.setState({ cells, generations: generations + 1 }, this.updateCells)
+        this.setState({ cells: newLiveCells, generations: generations + 1 }, this.updateCells)
     }
 
     updateCells = () => {
         const { cells, canvasWidth, canvasHeight, refresh, cellSize, refreshRate } = this.state;
         const context = this.canvasContext
-        const activeCells = getActiveCells(cells);
         context.clearRect(0, 0, canvasWidth, canvasHeight);
-        activeCells.forEach(cell => {
+        cells.forEach(cell => {
             const [x, y] = cell.split('-');
             context.fillStyle = "#ff0000";
             context.fillRect(x, y, cellSize, cellSize)
         })
         this.refreshGrid();
-        if (refresh && activeCells.length) {
+        if (refresh && cells.length) {
             clearTimeout(this.timeoutId);
             this.timeoutId = setTimeout(this.refreshCells, refreshRate);
         }
@@ -83,26 +75,27 @@ class App extends Component {
         const xFloor = Math.floor(trueX / cellSize) * cellSize
         const yFloor = Math.floor(trueY / cellSize) * cellSize
         const key = `${xFloor}-${yFloor}`
-        this.setState({
-            cells: {
-                ...cells,
-                [key]: {
-                    isAlive: !cells[key].isAlive
-                }
-            }
-        }, this.updateCells)
+
+        let newCells=[];
+        if (cells.includes(key)) {
+            newCells = cells.filter(c => !c === key)
+        }else{
+            newCells = [...cells, key]
+        }
+        this.setState({ cells: newCells}, this.updateCells)
     }
 
     setGrid = () => {
         const { canvasWidth, canvasHeight, cellSize, empty } = this.state;
-        const cells = {}
+        const cells = []
         for (let x = 0; x < canvasWidth; x += cellSize) {
             for (let y = 0; y < canvasHeight; y += cellSize) {
-                cells[`${x}-${y}`] = {
-                    isAlive: empty ? false : Math.random() < 0.5
+                if(!empty && Math.random() < 0.5){
+                    cells.push(`${x}-${y}`)
                 }
             }
         }
+
         this.setState({ cells, empty: false }, this.updateCells)
     }
 
@@ -136,7 +129,7 @@ class App extends Component {
         const canvas = this.Canvas.current;
         canvas.style.backgroundColor = 'black';
         this.canvasContext = canvas.getContext('2d');
-        
+
         this.setState({
             canvasWidth,
             canvasHeight,

@@ -1,10 +1,4 @@
 
-export const getActiveCells = (allCells) => {
-    const allKeys = Object.keys(allCells);
-    const activeCells = allKeys.filter(k => allCells[k].isAlive)
-    return activeCells;
-}
-
 export const getNeighbours = (cell, cellSize, width, height) => {
     const [x, y] = cell.split('-').map(c => Number(c));
     let neighbours = [
@@ -52,19 +46,18 @@ const findNewLiveCells = (deadCells, liveCells, cellSize, width, height) => {
 }
 
 export const getNewLiveCells = (allCells, cellSize, width, height) => {
-    const liveCells = getActiveCells(allCells);
     const stillLive = []
     let deadCells = [];
-    for (const liveCell of liveCells) {
+    for (const liveCell of allCells) {
         const neighbours = getNeighbours(liveCell, cellSize, width, height);
-        const liveNeighbors = neighbours.filter(n => liveCells.includes(n));
-        const deadNeighbors = neighbours.filter(n => !liveCells.includes(n));
+        const liveNeighbors = neighbours.filter(n => allCells.includes(n));
+        const deadNeighbors = neighbours.filter(n => !allCells.includes(n));
         if (liveNeighbors.length === 3 || liveNeighbors.length === 2) {
             stillLive.push(liveCell)
         }
         deadCells = [...deadCells, ...deadNeighbors]
     }
     const uniqueDeadCells = Array.from(new Set(deadCells));
-    const newLiveCells = findNewLiveCells(uniqueDeadCells, liveCells, cellSize, width, height)
+    const newLiveCells = findNewLiveCells(uniqueDeadCells, allCells, cellSize, width, height)
     return [...stillLive, ...newLiveCells];
 }
