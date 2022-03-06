@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ControlTop, ControlBottom } from './components/Controls';
-import { getNewLiveCells } from './components/utils'
+import { getLiveCells } from './components/utils'
 
 class App extends Component {
 
@@ -46,7 +46,7 @@ class App extends Component {
 
     refreshCells = () => {
         const { cells: oldCells, cellSize, canvasWidth: width, canvasHeight: height, generations } = this.state;
-        const newLiveCells = getNewLiveCells(oldCells, cellSize, width, height);
+        const newLiveCells = getLiveCells(oldCells, cellSize, width, height);
         this.setState({ cells: newLiveCells, generations: generations + 1 }, this.updateCells)
     }
 
