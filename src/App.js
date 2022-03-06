@@ -76,13 +76,13 @@ class App extends Component {
         const yFloor = Math.floor(trueY / cellSize) * cellSize
         const key = `${xFloor}-${yFloor}`
 
-        let newCells=[];
+        let newCells = [];
         if (cells.includes(key)) {
-            newCells = cells.filter(c => !c === key)
-        }else{
+            newCells = cells.filter(c => c !== key)
+        } else {
             newCells = [...cells, key]
         }
-        this.setState({ cells: newCells}, this.updateCells)
+        this.setState({ cells: newCells }, this.updateCells)
     }
 
     setGrid = () => {
@@ -90,12 +90,11 @@ class App extends Component {
         const cells = []
         for (let x = 0; x < canvasWidth; x += cellSize) {
             for (let y = 0; y < canvasHeight; y += cellSize) {
-                if(!empty && Math.random() < 0.5){
+                if (!empty && Math.random() < 0.5) {
                     cells.push(`${x}-${y}`)
                 }
             }
         }
-
         this.setState({ cells, empty: false }, this.updateCells)
     }
 
