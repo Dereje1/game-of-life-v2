@@ -10,28 +10,28 @@ exports[`renders 1`] = `
     onPause={[Function]}
     onRefresh={[Function]}
     onReset={[Function]}
-    width={80}
+    width={90}
   />
   <ControlBottom
-    cellSize={20}
+    cellSize={15}
     handleCellSize={[Function]}
     height={12}
     onRefreshRate={[Function]}
     refreshRate={140}
-    width={80}
+    width={90}
   />
   <div
     style={
       Object {
-        "paddingLeft": 5,
+        "paddingLeft": 0,
       }
     }
   >
     <canvas
-      height={80}
+      height={90}
       onClick={[Function]}
       tabIndex="0"
-      width={80}
+      width={90}
     />
   </div>
 </Fragment>

@@ -8,7 +8,7 @@ class App extends Component {
         super(props);
         this.state = {
             refresh: false,
-            cellSize: 20,
+            cellSize: 15,
             refreshRate: 140,
             generations: 0,
             empty: false

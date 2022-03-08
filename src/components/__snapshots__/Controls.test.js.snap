@@ -54,9 +54,13 @@ exports[`will render the bottom control 1`] = `
     </span>
     <ForwardRef(Slider)
       aria-label="Cellsize"
-      defaultValue={20}
+      defaultValue={15}
       marks={
         Array [
+          Object {
+            "label": "5",
+            "value": 5,
+          },
           Object {
             "label": "10",
             "value": 10,
@@ -70,17 +74,13 @@ exports[`will render the bottom control 1`] = `
             "value": 20,
           },
           Object {
-            "label": "25",
+            "label": "25px",
             "value": 25,
-          },
-          Object {
-            "label": "30px",
-            "value": 30,
           },
         ]
       }
-      max={30}
-      min={10}
+      max={25}
+      min={5}
       onChange={[MockFunction]}
       step={5}
       value={20}

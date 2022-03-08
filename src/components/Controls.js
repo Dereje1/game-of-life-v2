@@ -86,10 +86,14 @@ export const ControlBottom = ({
             <span style={{ fontSize: '.75em', fontWeight: 'bold' }}>Cell Size</span>
             <Slider
                 aria-label="Cellsize"
-                defaultValue={20}
+                defaultValue={15}
                 valueLabelDisplay="off"
                 step={5}
                 marks={[
+                    {
+                        value: 5,
+                        label: '5',
+                    },
                     {
                         value: 10,
                         label: '10',
@@ -104,15 +108,11 @@ export const ControlBottom = ({
                     },
                     {
                         value: 25,
-                        label: '25',
-                    },
-                    {
-                        value: 30,
-                        label: '30px',
+                        label: '25px',
                     }
                 ]}
-                min={10}
-                max={30}
+                min={5}
+                max={25}
                 onChange={handleCellSize}
                 value={cellSize}
             />

@@ -49,8 +49,8 @@ test('will set the cells and canvas size', () => {
   wrapper.setState({ empty: true })
   wrapper.instance().setGrid()
   expect(wrapper.state().cells).toStrictEqual([])
-  expect(wrapper.state().canvasWidth).toBe(80)
-  expect(wrapper.state().canvasHeight).toBe(80)
+  expect(wrapper.state().canvasWidth).toBe(90)
+  expect(wrapper.state().canvasHeight).toBe(90)
 });
 
 test('will draw active cells', () => {
@@ -60,8 +60,8 @@ test('will draw active cells', () => {
   wrapper.setState({ cells: ['20-20'] })
   wrapper.instance().updateCells()
   expect(clearRect).toHaveBeenCalledTimes(3)
-  expect(clearRect).toHaveBeenCalledWith(0, 0, 80, 80)
-  expect(fillRect.mock.lastCall).toEqual(['20', '20', 20, 20])
+  expect(clearRect).toHaveBeenCalledWith(0, 0, 90, 90)
+  expect(fillRect.mock.lastCall).toEqual(['20', '20', 15, 15])
 });
 
 test('will refresh active cells', () => {
@@ -69,14 +69,14 @@ test('will refresh active cells', () => {
   wrapper.setState({ empty: true })
   wrapper.instance().setGrid()
   // blinker oscillator
-  const liveCells = ['20-20','40-20','60-20']
+  const liveCells = ['15-15','30-15','45-15']
   wrapper.setState({ cells: liveCells, refresh: true })
   wrapper.instance().updateCells()
   jest.advanceTimersByTime(140);
   const refreshedCells = [
-    '40-20',
-    '40-0',
-    '40-40'
+    '30-15',
+    '30-0',
+    '30-30'
   ]
   expect(wrapper.state().cells).toStrictEqual(refreshedCells)
   expect(wrapper.state().generations).toBe(1)
@@ -86,9 +86,9 @@ test('will make cells active on click', () => {
   const wrapper = shallow(<App />)
   wrapper.setState({ empty: true })
   wrapper.instance().setGrid();
-  expect(wrapper.state().cells.includes('20-20')).toBe(false)
-  wrapper.instance().handleCanvasClick({ clientX: 33, clientY: 28 })
-  expect(wrapper.state().cells.includes('20-20')).toBe(true)
+  expect(wrapper.state().cells.includes('15-15')).toBe(false)
+  wrapper.instance().handleCanvasClick({ clientX: 18, clientY: 18 })
+  expect(wrapper.state().cells.includes('15-15')).toBe(true)
 });
 
 test('will handle refreshing cells on play', () => {
@@ -128,7 +128,7 @@ test('will handle clearing all live cells in the grid', () => {
 test('will handle adjusting the cellSize', () => {
   const wrapper = shallow(<App />)
   wrapper.setState({ refresh: true, generations: 10, empty: false })
-  expect(wrapper.state().cellSize).toBe(20)
+  expect(wrapper.state().cellSize).toBe(15)
   const controlBottom = wrapper.find('ControlBottom')
   controlBottom.props().handleCellSize({ target: { value: 32 } })
   expect(wrapper.state().refresh).toBe(false)
