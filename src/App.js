@@ -50,7 +50,12 @@ class App extends Component {
     refreshCells = () => {
         const { cells: oldCells, cellSize, canvasWidth: width, canvasHeight: height, generations } = this.state;
         const newLiveCells = getLiveCells({ oldCells, cellSize, width, height });
-        this.setState({ cells: newLiveCells, generations: generations + 1 }, this.updateCells)
+        const hasLiveCells = Boolean(newLiveCells.length)
+        this.setState({
+            cells: newLiveCells,
+            generations: hasLiveCells ? generations + 1 : generations,
+            refresh: hasLiveCells
+        }, this.updateCells)
     }
 
     updateCells = () => {
@@ -63,7 +68,7 @@ class App extends Component {
             context.fillRect(x, y, cellSize, cellSize)
         })
         this.refreshGrid();
-        if (refresh && cells.length) {
+        if (refresh) {
             clearTimeout(this.timeoutId);
             this.timeoutId = setTimeout(this.refreshCells, refreshRate);
         }
@@ -172,7 +177,7 @@ class App extends Component {
                         cellSize={cellSize}
                         refreshRate={refreshRate}
                         handleCellSize={this.handleCellSize}
-                        onRefreshRate={this.onRefreshRate} 
+                        onRefreshRate={this.onRefreshRate}
                     />
                 </>
                 <div style={{ paddingLeft: canvasLeft }}>
