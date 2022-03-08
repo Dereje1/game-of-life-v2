@@ -1,9 +1,6 @@
 const addResurrectedCell = (resurrectedCells, cell) => {
     if (!resurrectedCells.length) return [cell];
 
-    const resurrectedCellExists = binarySearch({ arr: resurrectedCells, x: cell, end: resurrectedCells.length - 1 });
-    if (resurrectedCellExists) return resurrectedCells
-
     for (let i = 0; i < resurrectedCells.length; i++) {
         if (cell < resurrectedCells[i]) {
             return [
@@ -98,9 +95,16 @@ const processCell = ({
         if (neighbourIsLive) {
             liveNeighbors++
         } else {
-            const isResurrected = canResurrectCell({ neighbour, liveCells: oldCells, ...args })
-            if (isResurrected) {
-                updatedResurrectedCells = addResurrectedCell(updatedResurrectedCells, neighbour)
+            const resurrectedCellExists = binarySearch({
+                arr: updatedResurrectedCells,
+                x: neighbour,
+                end: updatedResurrectedCells.length - 1
+            });
+            if (!resurrectedCellExists) {
+                const isResurrected = canResurrectCell({ neighbour, liveCells: oldCells, ...args })
+                if (isResurrected) {
+                    updatedResurrectedCells = addResurrectedCell(updatedResurrectedCells, neighbour)
+                }
             }
         }
     }
