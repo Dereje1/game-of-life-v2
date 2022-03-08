@@ -4,7 +4,7 @@ exports[`will render pause when refreshing 1`] = `
 <Memo(ForwardRef(PauseIcon))
   style={
     Object {
-      "color": "red",
+      "color": "#d32f2f",
       "fontSize": "2em",
     }
   }
@@ -15,7 +15,7 @@ exports[`will render play when not refreshing 1`] = `
 <Memo(ForwardRef(PlayCircleFilledWhiteIcon))
   style={
     Object {
-      "color": "green",
+      "color": "#0288d1",
       "fontSize": "2em",
     }
   }
@@ -173,7 +173,7 @@ exports[`will render the top control 1`] = `
       <Memo(ForwardRef(RestartAltIcon))
         style={
           Object {
-            "color": "blue",
+            "color": "#d32f2f",
             "fontSize": "2em",
           }
         }
@@ -186,34 +186,59 @@ exports[`will render the top control 1`] = `
       <Memo(ForwardRef(HighlightOffOutlinedIcon))
         style={
           Object {
+            "color": "#d32f2f",
             "fontSize": "2em",
           }
         }
       />
     </ForwardRef(IconButton)>
   </div>
-  <div>
-    <ForwardRef(Chip)
-      color="error"
-      icon={
-        <Memo
-          onClick={[Function]}
-          style={
-            Object {
-              "cursor": "pointer",
-            }
-          }
-        />
+  <ForwardRef(Chip)
+    color="error"
+    label={6}
+    style={
+      Object {
+        "justifyContent": "space-between",
+        "width": 100,
       }
-      label={6}
-      style={
+    }
+    variant="outlined"
+  />
+  <ForwardRef(Stack)
+    direction="row"
+    spacing={1}
+    style={
+      Object {
+        "marginLeft": 5,
+      }
+    }
+  >
+    <ForwardRef(Avatar)
+      onClick={[Function]}
+      sx={
         Object {
-          "justifyContent": "space-between",
-          "width": 100,
+          "bgcolor": "#737272",
+          "cursor": "pointer",
+          "height": 30,
+          "width": 30,
         }
       }
-      variant="outlined"
-    />
-  </div>
+    >
+      <Memo(ForwardRef(HelpIcon)) />
+    </ForwardRef(Avatar)>
+    <ForwardRef(Avatar)
+      onClick={[Function]}
+      sx={
+        Object {
+          "bgcolor": "#737272",
+          "cursor": "pointer",
+          "height": 30,
+          "width": 30,
+        }
+      }
+    >
+      <Memo(ForwardRef(GitHubIcon)) />
+    </ForwardRef(Avatar)>
+  </ForwardRef(Stack)>
 </div>
 `;

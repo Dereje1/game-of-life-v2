@@ -48,13 +48,13 @@ class App extends Component {
     }
 
     refreshCells = () => {
-        const { cells: oldCells, cellSize, canvasWidth: width, canvasHeight: height, generations } = this.state;
+        const { cells: oldCells, cellSize, canvasWidth: width, canvasHeight: height, generations, refresh } = this.state;
         const newLiveCells = getLiveCells({ oldCells, cellSize, width, height });
         const hasLiveCells = Boolean(newLiveCells.length)
         this.setState({
             cells: newLiveCells,
             generations: hasLiveCells ? generations + 1 : generations,
-            refresh: hasLiveCells
+            refresh: refresh && hasLiveCells
         }, this.updateCells)
     }
 

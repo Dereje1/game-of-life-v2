@@ -6,14 +6,17 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import Slider from '@mui/material/Slider';
 import Chip from '@mui/material/Chip';
-import InfoIcon from '@mui/icons-material/Info';
+import HelpIcon from '@mui/icons-material/Help';
+import Avatar from '@mui/material/Avatar';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import Stack from '@mui/material/Stack';
 import './Controls.css'
 
 export const Action = ({ isRefreshing }) => {
     if (!isRefreshing) {
-        return <PlayCircleFilledWhiteIcon style={{ fontSize: '2em', color: 'green' }} />
+        return <PlayCircleFilledWhiteIcon style={{ fontSize: '2em', color: '#0288d1' }} />
     } else {
-        return <PauseIcon style={{ fontSize: '2em', color: 'red' }} />
+        return <PauseIcon style={{ fontSize: '2em', color: '#d32f2f' }} />
     }
 }
 
@@ -42,24 +45,33 @@ export const ControlTop = ({
                 <Action isRefreshing={isRefreshing} />
             </IconButton>
             <IconButton aria-label="reset" onClick={onReset}>
-                <RestartAltIcon style={{ fontSize: '2em', color: 'blue' }} />
+                <RestartAltIcon style={{ fontSize: '2em', color: isRefreshing ? '#d32f2f' : 'blue' }} />
             </IconButton>
             <IconButton aria-label="clear" onClick={onClear}>
-                <HighlightOffOutlinedIcon style={{ fontSize: '2em' }} />
+                <HighlightOffOutlinedIcon style={{ fontSize: '2em', color: isRefreshing ? '#d32f2f' : 'grey'}} />
             </IconButton>
         </div>
-        <div>
-            <Chip
-                icon={<InfoIcon
-                    onClick={() => window.open('https://pi.math.cornell.edu/~lipa/mec/lesson6.html')}
-                    style={{ cursor: 'pointer' }}
-                />}
-                label={generations}
-                style={{ width: 100, justifyContent: 'space-between' }}
-                color={isRefreshing ? "error" : "info"}
-                variant="outlined"
-            />
-        </div>
+        <Chip
+            label={generations}
+            style={{ width: 100, justifyContent: 'space-between' }}
+            color={isRefreshing ? "error" : "info"}
+            variant="outlined"
+        />
+         <Stack direction="row" spacing={1} style={{marginLeft: 5}}>
+            <Avatar
+                sx={{ width: 30, height: 30, bgcolor: "#737272", cursor: 'pointer' }}
+                onClick={() => window.open('https://pi.math.cornell.edu/~lipa/mec/lesson6.html')}
+            >
+                <HelpIcon />
+            </Avatar>
+
+            <Avatar
+                sx={{ width: 30, height: 30, bgcolor: "#737272", cursor: 'pointer' }}
+                onClick={() => window.open('https://github.com/Dereje1/game-of-life-v2')}
+            >
+                <GitHubIcon />
+            </Avatar>
+        </Stack>
     </div>
 )
 
@@ -77,7 +89,7 @@ export const ControlBottom = ({
             justifyContent: 'space-around',
             width: '100%',
             height,
-            marginTop: 5 
+            marginTop: 5
         }}
     >
         <div style={{ width: '30%', }}>
