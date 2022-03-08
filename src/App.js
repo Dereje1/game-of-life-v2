@@ -123,22 +123,19 @@ class App extends Component {
         const totalCellsX = Math.floor(innerWidth / cellSize);
         const totalCellsY = Math.floor((innerHeight * 0.8) / cellSize);
         const totalElements = totalCellsX * totalCellsY;
-        let canvasWidth = totalCellsX * cellSize;
-        let canvasHeight = totalCellsY * cellSize
-        if (totalElements > 32544) {
-            this.setState({cellSize: 5})
-            canvasWidth=1440
-            canvasHeight=565
-        }
+        const canvasWidth = totalCellsX * cellSize;
+        const canvasHeight = totalCellsY * cellSize
+
         const canvas = this.Canvas.current;
         canvas.style.backgroundColor = 'black';
         this.canvasContext = canvas.getContext('2d');
 
         this.setState({
-            canvasWidth,
-            canvasHeight,
+            canvasWidth: totalElements > 32544 ? 1440: canvasWidth,
+            canvasHeight: totalElements > 32544 ? 565: canvasHeight,
             canvasTop: (innerHeight - canvasHeight) / 2,
-            canvasLeft: (innerWidth - canvasWidth) / 2
+            canvasLeft: (innerWidth - canvasWidth) / 2,
+            cellSize: totalElements > 32544 ? 5 : cellSize
         }, this.setGrid);
 
     }
