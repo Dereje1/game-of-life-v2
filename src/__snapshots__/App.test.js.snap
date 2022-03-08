@@ -10,7 +10,6 @@ exports[`renders 1`] = `
     onPause={[Function]}
     onRefresh={[Function]}
     onReset={[Function]}
-    width={90}
   />
   <ControlBottom
     cellSize={15}
@@ -18,7 +17,6 @@ exports[`renders 1`] = `
     height={12}
     onRefreshRate={[Function]}
     refreshRate={140}
-    width={90}
   />
   <div
     style={

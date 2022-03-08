@@ -158,23 +158,22 @@ class App extends Component {
             <>
                 <>
                     <ControlTop
-                        width={canvasWidth}
                         height={window.innerHeight * 0.1}
                         isRefreshing={refresh}
                         onRefresh={this.onRefresh}
                         onPause={() => this.setState({ refresh: false })}
                         onReset={this.onReset}
                         onClear={this.onClear}
-                        generations={generations} />
-
+                        generations={generations}
+                    />
 
                     <ControlBottom
-                        width={canvasWidth}
                         height={window.innerHeight * 0.1}
                         cellSize={cellSize}
                         refreshRate={refreshRate}
                         handleCellSize={this.handleCellSize}
-                        onRefreshRate={this.onRefreshRate} />
+                        onRefreshRate={this.onRefreshRate} 
+                    />
                 </>
                 <div style={{ paddingLeft: canvasLeft }}>
                     <canvas

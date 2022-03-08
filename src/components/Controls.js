@@ -18,7 +18,6 @@ export const Action = ({ isRefreshing }) => {
 }
 
 export const ControlTop = ({
-    width,
     height,
     onRefresh,
     onPause,
@@ -65,7 +64,6 @@ export const ControlTop = ({
 )
 
 export const ControlBottom = ({
-    width,
     height,
     handleCellSize,
     cellSize,
