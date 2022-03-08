@@ -120,11 +120,16 @@ class App extends Component {
     loadCanvas = () => {
         const { innerWidth, innerHeight } = window;
         const { cellSize } = this.state
-        const cellWidth = Math.floor(innerWidth / cellSize);
-        const cellHeight = Math.floor((innerHeight * 0.8) / cellSize);
-        const canvasWidth = cellWidth * cellSize;
-        const canvasHeight = cellHeight * cellSize
-
+        const totalCellsX = Math.floor(innerWidth / cellSize);
+        const totalCellsY = Math.floor((innerHeight * 0.8) / cellSize);
+        const totalElements = totalCellsX * totalCellsY;
+        let canvasWidth = totalCellsX * cellSize;
+        let canvasHeight = totalCellsY * cellSize
+        if (totalElements > 32544) {
+            this.setState({cellSize: 5})
+            canvasWidth=1440
+            canvasHeight=565
+        }
         const canvas = this.Canvas.current;
         canvas.style.backgroundColor = 'black';
         this.canvasContext = canvas.getContext('2d');
