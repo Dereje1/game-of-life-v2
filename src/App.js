@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { ControlTop, ControlBottom } from './components/Controls';
 import { getLiveCells } from './components/utils'
 
+
+const MAX_ELEMENTS = 32544
+
 class App extends Component {
 
     constructor(props) {
@@ -46,7 +49,7 @@ class App extends Component {
 
     refreshCells = () => {
         const { cells: oldCells, cellSize, canvasWidth: width, canvasHeight: height, generations } = this.state;
-        const newLiveCells = getLiveCells(oldCells, cellSize, width, height);
+        const newLiveCells = getLiveCells({ oldCells, cellSize, width, height });
         this.setState({ cells: newLiveCells, generations: generations + 1 }, this.updateCells)
     }
 
@@ -123,19 +126,24 @@ class App extends Component {
         const totalCellsX = Math.floor(innerWidth / cellSize);
         const totalCellsY = Math.floor((innerHeight * 0.8) / cellSize);
         const totalElements = totalCellsX * totalCellsY;
-        const canvasWidth = totalCellsX * cellSize;
-        const canvasHeight = totalCellsY * cellSize
+        let canvasWidth = totalCellsX * cellSize;
+        let canvasHeight = totalCellsY * cellSize
+
+        if (totalElements > MAX_ELEMENTS) {
+            canvasWidth = 1440;
+            canvasHeight = 565
+        }
 
         const canvas = this.Canvas.current;
         canvas.style.backgroundColor = 'black';
         this.canvasContext = canvas.getContext('2d');
 
         this.setState({
-            canvasWidth: totalElements > 32544 ? 1440: canvasWidth,
-            canvasHeight: totalElements > 32544 ? 565: canvasHeight,
+            canvasWidth,
+            canvasHeight,
             canvasTop: (innerHeight - canvasHeight) / 2,
             canvasLeft: (innerWidth - canvasWidth) / 2,
-            cellSize: totalElements > 32544 ? 5 : cellSize
+            cellSize: totalElements > MAX_ELEMENTS ? 5 : cellSize
         }, this.setGrid);
 
     }

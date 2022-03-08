@@ -1,7 +1,7 @@
 const addResurrectedCell = (resurrectedCells, cell) => {
     if (!resurrectedCells.length) return [cell];
 
-    const resurrectedCellExists = binarySearch(resurrectedCells, cell, 0, resurrectedCells.length - 1);
+    const resurrectedCellExists = binarySearch({ arr: resurrectedCells, x: cell, end: resurrectedCells.length - 1 });
     if (resurrectedCellExists) return resurrectedCells
 
     for (let i = 0; i < resurrectedCells.length; i++) {
@@ -16,11 +16,11 @@ const addResurrectedCell = (resurrectedCells, cell) => {
     return [...resurrectedCells, cell];
 }
 // checks for dead cells
-const findResurrectedCell = (deadCell, liveCells, cellSize, width, height) => {
-    const neighbours = getNeighbours(deadCell, cellSize, width, height);
+const canResurrectCell = ({ neighbour: deadCell, liveCells, cellSize, width, height }) => {
+    const neighbours = getNeighbours({ cell: deadCell, cellSize, width, height });
     let liveNeighbors = 0;
     for (let n = 0; n < neighbours.length; n++) {
-        const isFound = binarySearch(liveCells, neighbours[n], 0, liveCells.length - 1)
+        const isFound = binarySearch({ arr: liveCells, x: neighbours[n], end: liveCells.length - 1 })
         if (isFound) {
             liveNeighbors++
         }
@@ -30,7 +30,7 @@ const findResurrectedCell = (deadCell, liveCells, cellSize, width, height) => {
     return false;
 }
 
-const binarySearch = function (arr, x, start, end) {
+const binarySearch = function ({ arr, x, start = 0, end }) {
     // Base Condition
     if (start > end) return false;
 
@@ -43,15 +43,15 @@ const binarySearch = function (arr, x, start, end) {
     // If element at mid is greater than x,
     // search in the left half of mid
     if (arr[mid] > x)
-        return binarySearch(arr, x, start, mid - 1);
+        return binarySearch({ arr, x, start, end: mid - 1 });
     else
 
         // If element at mid is smaller than x,
         // search in the right half of mid
-        return binarySearch(arr, x, mid + 1, end);
+        return binarySearch({ arr, x, start: mid + 1, end });
 }
 
-const getNeighbours = (cell, cellSize, width, height) => {
+const getNeighbours = ({ cell, cellSize, width, height }) => {
 
     const [x, y] = cell.split('-').map(c => Number(c));
     let neighbours = [
@@ -85,18 +85,22 @@ const getNeighbours = (cell, cellSize, width, height) => {
     return neighbours
 }
 
-const processCell = (cell, cellSize, resurrectedCells, liveCells, width, height) => {
-    const neighbours = getNeighbours(cell, cellSize, width, height);
+const processCell = ({
+    resurrectedCells,
+    ...args
+}) => {
+    const { oldCells } = args;
+    const neighbours = getNeighbours({ ...args });
     let liveNeighbors = 0;
-    //let updatedDeadCells = resurrectedCells;
+    let updatedResurrectedCells = resurrectedCells;
     for (const neighbour of neighbours) {
-        const stillLive = binarySearch(liveCells, neighbour, 0, liveCells.length - 1)
-        if (stillLive) {
+        const neighbourIsLive = binarySearch({ arr: oldCells, x: neighbour, end: oldCells.length - 1 })
+        if (neighbourIsLive) {
             liveNeighbors++
         } else {
-            const isResurrectedCell = findResurrectedCell(neighbour, liveCells, cellSize, width, height)
-            if (isResurrectedCell) {
-                resurrectedCells = addResurrectedCell(resurrectedCells, neighbour)
+            const isResurrected = canResurrectCell({ neighbour, liveCells: oldCells, ...args })
+            if (isResurrected) {
+                updatedResurrectedCells = addResurrectedCell(updatedResurrectedCells, neighbour)
             }
         }
     }
@@ -104,25 +108,26 @@ const processCell = (cell, cellSize, resurrectedCells, liveCells, width, height)
     if (liveNeighbors === 3 || liveNeighbors === 2) {
         return {
             isStillLive: true,
-            updatedDeadCells: resurrectedCells
+            updatedResurrectedCells
         }
     }
 
     return {
         isStillLive: false,
-        updatedDeadCells: resurrectedCells
+        updatedResurrectedCells
     }
 }
 
-export const getLiveCells = (liveCells, cellSize, width, height) => {
+export const getLiveCells = (args) => {
+    const { oldCells } = args;
     const stillLive = []
     let resurrectedCells = [];
-    liveCells.sort()
-    for (const liveCell of liveCells) {
-        const { isStillLive, updatedDeadCells } = processCell(liveCell, cellSize, resurrectedCells, liveCells, width, height);
-        resurrectedCells = updatedDeadCells;
+    oldCells.sort()
+    for (const oldCell of oldCells) {
+        const { isStillLive, updatedResurrectedCells } = processCell({ cell: oldCell, resurrectedCells, ...args });
+        resurrectedCells = updatedResurrectedCells;
         if (isStillLive) {
-            stillLive.push(liveCell)
+            stillLive.push(oldCell)
         }
     }
     return [...stillLive, ...resurrectedCells];
