@@ -143,3 +143,11 @@ test('will handle adjusting the refresh rate', () => {
   expect(wrapper.state().refresh).toBe(false)
   expect(wrapper.state().refreshRate).toBe(300)
 });
+
+test('will toggle the grid', () => {
+  const wrapper = shallow(<App />)
+  expect(wrapper.state().showGrid).toBe(true)
+  const controlTop = wrapper.find('ControlTop')
+  controlTop.props().handleGrid()
+  expect(wrapper.state().showGrid).toBe(false)
+});

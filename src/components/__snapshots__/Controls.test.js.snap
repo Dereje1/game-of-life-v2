@@ -5,7 +5,7 @@ exports[`will render pause when refreshing 1`] = `
   style={
     Object {
       "color": "#d32f2f",
-      "fontSize": "2em",
+      "fontSize": "2.5rem",
     }
   }
 />
@@ -16,7 +16,7 @@ exports[`will render play when not refreshing 1`] = `
   style={
     Object {
       "color": "#0288d1",
-      "fontSize": "2em",
+      "fontSize": "2.5rem",
     }
   }
 />
@@ -133,7 +133,7 @@ exports[`will render the top control 1`] = `
       "display": "flex",
       "flexDirection": "row",
       "height": 80,
-      "justifyContent": "space-around",
+      "justifyContent": "space-evenly",
       "width": "100%",
     }
   }
@@ -155,7 +155,7 @@ exports[`will render the top control 1`] = `
       <Memo(ForwardRef(RestartAltIcon))
         style={
           Object {
-            "fontSize": "2em",
+            "fontSize": "2.5rem",
           }
         }
       />
@@ -168,12 +168,16 @@ exports[`will render the top control 1`] = `
       <Memo(ForwardRef(HighlightOffOutlinedIcon))
         style={
           Object {
-            "fontSize": "2em",
+            "fontSize": "2.5rem",
           }
         }
       />
     </ForwardRef(IconButton)>
   </div>
+  <ForwardRef(Checkbox)
+    checkedIcon={<Memo />}
+    icon={<Memo />}
+  />
   <ForwardRef(Chip)
     color="error"
     label={6}

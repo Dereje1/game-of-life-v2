@@ -14,7 +14,8 @@ class App extends Component {
             cellSize: 15,
             refreshRate: 140,
             generations: 0,
-            empty: false
+            empty: false,
+            showGrid: true
         };
         this.Canvas = React.createRef();
     }
@@ -107,8 +108,9 @@ class App extends Component {
     }
 
     refreshGrid = () => {
+        const { canvasWidth, canvasHeight, cellSize, showGrid } = this.state;
+        if (!showGrid) return null;
         const context = this.canvasContext
-        const { canvasWidth, canvasHeight, cellSize } = this.state;
         for (let x = 0; x <= canvasWidth; x += cellSize) {
             context.beginPath();
             context.moveTo(x, 0);
@@ -146,7 +148,6 @@ class App extends Component {
         this.setState({
             canvasWidth,
             canvasHeight,
-            canvasTop: (innerHeight - canvasHeight) / 2,
             canvasLeft: (innerWidth - canvasWidth) / 2,
             cellSize: totalElements > MAX_ELEMENTS ? 5 : cellSize
         }, this.setGrid);
@@ -156,7 +157,7 @@ class App extends Component {
     render() {
         const {
             canvasWidth, canvasHeight, canvasLeft,
-            cellSize, refreshRate,
+            cellSize, refreshRate, showGrid,
             refresh, generations
         } = this.state;
         return (
@@ -170,6 +171,8 @@ class App extends Component {
                         onReset={this.onReset}
                         onClear={this.onClear}
                         generations={generations}
+                        showGrid={showGrid}
+                        handleGrid={() => this.setState({ showGrid: !showGrid }, this.updateCells)}
                     />
 
                     <ControlBottom

@@ -10,13 +10,16 @@ import HelpIcon from '@mui/icons-material/Help';
 import Avatar from '@mui/material/Avatar';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import Stack from '@mui/material/Stack';
+import Checkbox from '@mui/material/Checkbox';
+import Grid3x3Icon from '@mui/icons-material/Grid3x3';
+import Grid4x4Icon from '@mui/icons-material/Grid4x4';
 import './Controls.css'
 
 export const Action = ({ isRefreshing }) => {
     if (!isRefreshing) {
-        return <PlayCircleFilledWhiteIcon style={{ fontSize: '2em', color: '#0288d1' }} />
+        return <PlayCircleFilledWhiteIcon style={{ fontSize: '2.5rem', color: '#0288d1' }} />
     } else {
-        return <PauseIcon style={{ fontSize: '2em', color: '#d32f2f' }} />
+        return <PauseIcon style={{ fontSize: '2.5rem', color: '#d32f2f' }} />
     }
 }
 
@@ -27,14 +30,16 @@ export const ControlTop = ({
     isRefreshing,
     onReset,
     onClear,
-    generations
+    generations,
+    showGrid,
+    handleGrid
 }) => (
     <div
         style={{
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'space-around',
+            justifyContent: 'space-evenly',
             width: '100%',
             height,
             background: '#e5e5e359',
@@ -45,12 +50,20 @@ export const ControlTop = ({
                 <Action isRefreshing={isRefreshing} />
             </IconButton>
             <IconButton aria-label="reset" onClick={onReset} disabled={isRefreshing}>
-                <RestartAltIcon style={{ fontSize: '2em' }} />
+                <RestartAltIcon style={{ fontSize: '2.5rem' }} />
             </IconButton>
             <IconButton aria-label="clear" onClick={onClear} disabled={isRefreshing}>
-                <HighlightOffOutlinedIcon style={{ fontSize: '2em' }} />
+                <HighlightOffOutlinedIcon style={{ fontSize: '2.5rem' }} />
             </IconButton>
         </div>
+
+        <Checkbox
+            onChange={handleGrid}
+            checked={showGrid}
+            icon={<Grid3x3Icon />}
+            checkedIcon={<Grid4x4Icon />}
+        />
+
         <Chip
             label={generations}
             style={{ width: 100, justifyContent: 'space-between' }}
