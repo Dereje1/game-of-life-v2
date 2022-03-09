@@ -34,7 +34,7 @@ export const ControlTop = ({
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'space-evenly',
+            justifyContent: 'space-around',
             width: '100%',
             height,
             background: '#e5e5e359',
@@ -44,11 +44,11 @@ export const ControlTop = ({
             <IconButton aria-label="play_pause" onClick={isRefreshing ? onPause : onRefresh}>
                 <Action isRefreshing={isRefreshing} />
             </IconButton>
-            <IconButton aria-label="reset" onClick={onReset}>
-                <RestartAltIcon style={{ fontSize: '2em', color: isRefreshing ? '#d32f2f' : 'blue' }} />
+            <IconButton aria-label="reset" onClick={onReset} disabled={isRefreshing}>
+                <RestartAltIcon style={{ fontSize: '2em' }} />
             </IconButton>
-            <IconButton aria-label="clear" onClick={onClear}>
-                <HighlightOffOutlinedIcon style={{ fontSize: '2em', color: isRefreshing ? '#d32f2f' : 'grey'}} />
+            <IconButton aria-label="clear" onClick={onClear} disabled={isRefreshing}>
+                <HighlightOffOutlinedIcon style={{ fontSize: '2em' }} />
             </IconButton>
         </div>
         <Chip
@@ -57,21 +57,7 @@ export const ControlTop = ({
             color={isRefreshing ? "error" : "info"}
             variant="outlined"
         />
-         <Stack direction="row" spacing={1} style={{marginLeft: 5}}>
-            <Avatar
-                sx={{ width: 30, height: 30, bgcolor: "#737272", cursor: 'pointer' }}
-                onClick={() => window.open('https://pi.math.cornell.edu/~lipa/mec/lesson6.html')}
-            >
-                <HelpIcon />
-            </Avatar>
 
-            <Avatar
-                sx={{ width: 30, height: 30, bgcolor: "#737272", cursor: 'pointer' }}
-                onClick={() => window.open('https://github.com/Dereje1/game-of-life-v2')}
-            >
-                <GitHubIcon />
-            </Avatar>
-        </Stack>
     </div>
 )
 
@@ -93,7 +79,6 @@ export const ControlBottom = ({
         }}
     >
         <div style={{ width: '30%', }}>
-            <span style={{ fontSize: '.75em', fontWeight: 'bold' }}>Cell Size</span>
             <Slider
                 aria-label="Cellsize"
                 defaultValue={15}
@@ -128,7 +113,6 @@ export const ControlBottom = ({
             />
         </div>
         <div style={{ width: '30%' }}>
-            <span style={{ fontSize: '.75em', fontWeight: 'bold' }}>Referesh Rate</span>
             <Slider
                 aria-label="Refreshrate"
                 defaultValue={140}
@@ -163,5 +147,24 @@ export const ControlBottom = ({
                 color="secondary"
             />
         </div>
+        <Links />
     </div>
+)
+
+const Links = () => (
+    <Stack direction="column" spacing={1} style={{ marginLeft: 5 }}>
+        <Avatar
+            sx={{ width: 24, height: 24, bgcolor: "#737272", cursor: 'pointer' }}
+            onClick={() => window.open('https://pi.math.cornell.edu/~lipa/mec/lesson6.html')}
+        >
+            <HelpIcon />
+        </Avatar>
+
+        <Avatar
+            sx={{ width: 24, height: 24, bgcolor: "#737272", cursor: 'pointer' }}
+            onClick={() => window.open('https://github.com/Dereje1/game-of-life-v2')}
+        >
+            <GitHubIcon />
+        </Avatar>
+    </Stack>
 )

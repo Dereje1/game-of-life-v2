@@ -42,16 +42,6 @@ exports[`will render the bottom control 1`] = `
       }
     }
   >
-    <span
-      style={
-        Object {
-          "fontSize": ".75em",
-          "fontWeight": "bold",
-        }
-      }
-    >
-      Cell Size
-    </span>
     <ForwardRef(Slider)
       aria-label="Cellsize"
       defaultValue={15}
@@ -94,16 +84,6 @@ exports[`will render the bottom control 1`] = `
       }
     }
   >
-    <span
-      style={
-        Object {
-          "fontSize": ".75em",
-          "fontWeight": "bold",
-        }
-      }
-    >
-      Referesh Rate
-    </span>
     <ForwardRef(Slider)
       aria-label="Refreshrate"
       color="secondary"
@@ -140,6 +120,7 @@ exports[`will render the bottom control 1`] = `
       valueLabelDisplay="off"
     />
   </div>
+  <Links />
 </div>
 `;
 
@@ -152,7 +133,7 @@ exports[`will render the top control 1`] = `
       "display": "flex",
       "flexDirection": "row",
       "height": 80,
-      "justifyContent": "space-evenly",
+      "justifyContent": "space-around",
       "width": "100%",
     }
   }
@@ -168,12 +149,12 @@ exports[`will render the top control 1`] = `
     </ForwardRef(IconButton)>
     <ForwardRef(IconButton)
       aria-label="reset"
+      disabled={true}
       onClick={[MockFunction]}
     >
       <Memo(ForwardRef(RestartAltIcon))
         style={
           Object {
-            "color": "#d32f2f",
             "fontSize": "2em",
           }
         }
@@ -181,12 +162,12 @@ exports[`will render the top control 1`] = `
     </ForwardRef(IconButton)>
     <ForwardRef(IconButton)
       aria-label="clear"
+      disabled={true}
       onClick={[MockFunction]}
     >
       <Memo(ForwardRef(HighlightOffOutlinedIcon))
         style={
           Object {
-            "color": "#d32f2f",
             "fontSize": "2em",
           }
         }
@@ -204,41 +185,5 @@ exports[`will render the top control 1`] = `
     }
     variant="outlined"
   />
-  <ForwardRef(Stack)
-    direction="row"
-    spacing={1}
-    style={
-      Object {
-        "marginLeft": 5,
-      }
-    }
-  >
-    <ForwardRef(Avatar)
-      onClick={[Function]}
-      sx={
-        Object {
-          "bgcolor": "#737272",
-          "cursor": "pointer",
-          "height": 30,
-          "width": 30,
-        }
-      }
-    >
-      <Memo(ForwardRef(HelpIcon)) />
-    </ForwardRef(Avatar)>
-    <ForwardRef(Avatar)
-      onClick={[Function]}
-      sx={
-        Object {
-          "bgcolor": "#737272",
-          "cursor": "pointer",
-          "height": 30,
-          "width": 30,
-        }
-      }
-    >
-      <Memo(ForwardRef(GitHubIcon)) />
-    </ForwardRef(Avatar)>
-  </ForwardRef(Stack)>
 </div>
 `;

@@ -64,7 +64,7 @@ class App extends Component {
         context.clearRect(0, 0, canvasWidth, canvasHeight);
         cells.forEach(cell => {
             const [x, y] = cell.split('-');
-            context.fillStyle = "#ff0000";
+            context.fillStyle = "yellow";
             context.fillRect(x, y, cellSize, cellSize)
         })
         this.refreshGrid();
@@ -186,7 +186,8 @@ class App extends Component {
                         width={canvasWidth}
                         height={canvasHeight}
                         tabIndex="0"
-                        onClick={this.handleCanvasClick} />
+                        onClick={this.handleCanvasClick}
+                    />
                 </div>
             </>
         )
