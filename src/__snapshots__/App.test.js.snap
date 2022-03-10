@@ -39,7 +39,7 @@ exports[`renders 1`] = `
     handleChange={[Function]}
     handleOk={[Function]}
     open={false}
-    value="Random"
+    value="random"
   />
 </Fragment>
 `;

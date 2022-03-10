@@ -18,7 +18,7 @@ class App extends Component {
             empty: false,
             showGrid: true,
             showPatternDialog: false,
-            pattern: 'Random'
+            pattern: 'random'
         };
         this.Canvas = React.createRef();
     }
@@ -45,7 +45,7 @@ class App extends Component {
     handlePatternChange = () => {
         const { pattern, cellSize, canvasWidth, canvasHeight } = this.state;
         clearTimeout(this.timeoutId);
-        if (pattern === 'Random') {
+        if (pattern === 'random') {
             this.setState({ refresh: false, generations: 0, showPatternDialog: false }, this.setGrid)
         } else {
             const activeCells = getPattern({ pattern, cellSize, canvasWidth, canvasHeight })
@@ -201,7 +201,7 @@ class App extends Component {
                 <PatternsDialog
                     open={showPatternDialog}
                     value={pattern}
-                    handleCancel={() => this.setState({ showPatternDialog: false, pattern: '' })}
+                    handleCancel={() => this.setState({ showPatternDialog: false })}
                     handleOk={this.handlePatternChange}
                     handleChange={({ target: { value } }) => this.setState({ pattern: value })}
                 />

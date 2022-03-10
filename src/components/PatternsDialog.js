@@ -7,7 +7,17 @@ import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-const options = ['Random', 'Blinker', 'Glider']
+const options = [
+    { value: 'random', label: 'Random' },
+    { value: 'blinker', label: 'Blinker' },
+    { value: 'toad', label: 'Toad' },
+    { value: 'beacon', label: 'Beacon' },
+    { value: 'glider', label: 'Glider' },
+    { value: 'spaceShip', label: 'Lightweight Space Ship' },
+    { value: 'pulsar', label: 'Evolve to Pulsar' },
+    { value: 'pentaDecathlon', label: 'Evolve to Penta-Decathlon' },
+]
+
 const PatternsDialog = ({
     open,
     handleEntering,
@@ -19,7 +29,7 @@ const PatternsDialog = ({
     handleOk
 
 }) => (<Dialog
-    sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 435 } }}
+    sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 500 } }}
     maxWidth="xs"
     TransitionProps={{ onEntering: handleEntering }}
     open={open}
@@ -34,12 +44,12 @@ const PatternsDialog = ({
             value={value}
             onChange={handleChange}
         >
-            {options.map((option) => (
+            {options.map(({ value, label }) => (
                 <FormControlLabel
-                    value={option}
-                    key={option}
+                    value={value}
+                    key={value}
                     control={<Radio />}
-                    label={option}
+                    label={label}
                 />
             ))}
         </RadioGroup>

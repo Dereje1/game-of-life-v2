@@ -2,7 +2,7 @@ import React from 'react';
 import IconButton from '@mui/material/IconButton';
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 import PauseIcon from '@mui/icons-material/Pause';
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import PatternIcon from '@mui/icons-material/Pattern';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import Slider from '@mui/material/Slider';
 import Chip from '@mui/material/Chip';
@@ -50,7 +50,7 @@ export const ControlTop = ({
                 <Action isRefreshing={isRefreshing} />
             </IconButton>
             <IconButton aria-label="reset" onClick={handleReset} disabled={isRefreshing}>
-                <RestartAltIcon style={{ fontSize: '2.5rem' }} />
+                <PatternIcon style={{ fontSize: '2.5rem' }} />
             </IconButton>
             <IconButton aria-label="clear" onClick={handleClear} disabled={isRefreshing}>
                 <HighlightOffOutlinedIcon style={{ fontSize: '2.5rem' }} />

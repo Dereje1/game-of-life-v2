@@ -152,7 +152,7 @@ exports[`will render the top control 1`] = `
       disabled={true}
       onClick={[MockFunction]}
     >
-      <Memo(ForwardRef(RestartAltIcon))
+      <Memo(ForwardRef(PatternIcon))
         style={
           Object {
             "fontSize": "2.5rem",

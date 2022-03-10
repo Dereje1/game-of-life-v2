@@ -140,22 +140,88 @@ export const getLiveCells = (args) => {
 export const getPattern = ({ pattern, cellSize, canvasWidth, canvasHeight }) => {
     const trueX = Math.floor(canvasWidth / 2);
     const trueY = Math.floor(canvasHeight / 2);
-    const midX = Math.floor(trueX / cellSize) * cellSize
-    const midY = Math.floor(trueY / cellSize) * cellSize
-    if (pattern === 'Blinker') {
+    let midX = Math.floor(trueX / cellSize) * cellSize
+    let midY = Math.floor(trueY / cellSize) * cellSize
+    if (pattern === 'blinker') {
         return [
             `${midX - cellSize}-${midY}`,
             `${midX}-${midY}`,
             `${midX + cellSize}-${midY}`
         ]
     }
-    if (pattern === 'Glider') {
+    if (pattern === 'glider') {
         return [
             `${midX - cellSize}-${midY}`,
             `${midX}-${midY}`,
             `${midX + cellSize}-${midY}`,
             `${midX + cellSize}-${midY - cellSize}`,
             `${midX}-${midY - (2 * cellSize)}`
+        ]
+    }
+    if (pattern === 'toad') {
+        return [
+            `${midX - cellSize}-${midY}`,
+            `${midX}-${midY}`,
+            `${midX + cellSize}-${midY}`,
+            `${midX}-${midY - cellSize}`,
+            `${midX + cellSize}-${midY - cellSize}`,
+            `${midX + (2 * cellSize)}-${midY - cellSize}`
+        ]
+    }
+    if (pattern === 'beacon') {
+        return [
+            `${midX}-${midY}`,
+            `${midX - cellSize}-${midY}`,
+            `${midX - cellSize}-${midY - cellSize}`,
+            `${midX}-${midY - cellSize}`,
+            `${midX + cellSize}-${midY + cellSize}`,
+            `${midX + (2 * cellSize)}-${midY + cellSize}`,
+            `${midX + (2 * cellSize)}-${midY + (2 * cellSize)}`,
+            `${midX + cellSize}-${midY + (2 * cellSize)}`,
+        ]
+    }
+
+    if (pattern === 'pulsar') {
+        midY = midY + (2* cellSize)
+        midX = midX - (cellSize)
+        return [
+            `${midX}-${midY}`,
+            `${midX - cellSize}-${midY}`,
+            `${midX + cellSize}-${midY}`,
+            `${midX}-${midY - cellSize}`,
+            `${midX}-${midY - (6 * cellSize)}`,
+            `${midX - cellSize}-${midY - (6 * cellSize)}`,
+            `${midX + cellSize}-${midY - (6 * cellSize)}`,
+            `${midX}-${midY - (7 * cellSize)}`,
+        ]
+    }
+
+    if (pattern === 'pentaDecathlon') {
+        midY = midY + (2* cellSize)
+        midX = midX - (cellSize)
+        return [
+            `${midX}-${midY}`,
+            `${midX - cellSize}-${midY}`,
+            `${midX + cellSize}-${midY}`,
+            `${midX}-${midY + cellSize}`,
+            `${midX}-${midY - (5 * cellSize)}`,
+            `${midX - cellSize}-${midY - (5 * cellSize)}`,
+            `${midX + cellSize}-${midY - (5 * cellSize)}`,
+            `${midX}-${midY - (6 * cellSize)}`,
+        ]
+    }
+
+    if (pattern === 'spaceShip') {
+        return [
+            `${midX - cellSize}-${midY}`,
+            `${midX}-${midY}`,
+            `${midX + cellSize}-${midY}`,
+            `${midX - (2*cellSize)}-${midY}`,
+            `${midX - (2*cellSize)}-${midY - cellSize}`,
+            `${midX - (2*cellSize)}-${midY - (2*cellSize)}`,
+            `${midX - (cellSize)}-${midY - (3*cellSize)}`,
+            `${midX + (2*cellSize)}-${midY - (3*cellSize)}`,
+            `${midX + (2*cellSize)}-${midY - (cellSize)}`,
         ]
     }
     return []
