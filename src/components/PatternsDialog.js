@@ -7,7 +7,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-const options = ['Random', 'Blinker']
+const options = ['Random', 'Blinker', 'Glider']
 const PatternsDialog = ({
     open,
     handleEntering,

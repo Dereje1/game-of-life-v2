@@ -136,3 +136,27 @@ export const getLiveCells = (args) => {
     }
     return [...stillLive, ...resurrectedCells];
 }
+
+export const getPattern = ({ pattern, cellSize, canvasWidth, canvasHeight }) => {
+    const trueX = Math.floor(canvasWidth / 2);
+    const trueY = Math.floor(canvasHeight / 2);
+    const midX = Math.floor(trueX / cellSize) * cellSize
+    const midY = Math.floor(trueY / cellSize) * cellSize
+    if (pattern === 'Blinker') {
+        return [
+            `${midX - cellSize}-${midY}`,
+            `${midX}-${midY}`,
+            `${midX + cellSize}-${midY}`
+        ]
+    }
+    if (pattern === 'Glider') {
+        return [
+            `${midX - cellSize}-${midY}`,
+            `${midX}-${midY}`,
+            `${midX + cellSize}-${midY}`,
+            `${midX + cellSize}-${midY - cellSize}`,
+            `${midX}-${midY - (2 * cellSize)}`
+        ]
+    }
+    return []
+}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ControlTop, ControlBottom } from './components/Controls';
 import PatternsDialog from './components/PatternsDialog';
-import { getLiveCells } from './components/utils'
+import { getLiveCells, getPattern } from './components/utils'
 
 
 const MAX_ELEMENTS = 32544
@@ -42,13 +42,14 @@ class App extends Component {
         this.setState({ refreshRate: value }, this.updateCells)
     }
 
-    handlePatternDialog = () => {
-        const { pattern } = this.state;
+    handlePatternChange = () => {
+        const { pattern, cellSize, canvasWidth, canvasHeight } = this.state;
+        clearTimeout(this.timeoutId);
         if (pattern === 'Random') {
-            clearTimeout(this.timeoutId);
             this.setState({ refresh: false, generations: 0, showPatternDialog: false }, this.setGrid)
         } else {
-            this.handleClear()
+            const activeCells = getPattern({ pattern, cellSize, canvasWidth, canvasHeight })
+            this.setState({ refresh: false, generations: 0, showPatternDialog: false, cells: activeCells }, this.updateCells)
         }
     }
 
@@ -154,7 +155,7 @@ class App extends Component {
             canvasHeight,
             canvasLeft: (innerWidth - canvasWidth) / 2,
             cellSize: totalElements > MAX_ELEMENTS ? 5 : cellSize
-        }, this.setGrid);
+        }, this.handlePatternChange);
 
     }
 
@@ -201,7 +202,7 @@ class App extends Component {
                     open={showPatternDialog}
                     value={pattern}
                     handleCancel={() => this.setState({ showPatternDialog: false, pattern: '' })}
-                    handleOk={this.handlePatternDialog}
+                    handleOk={this.handlePatternChange}
                     handleChange={({ target: { value } }) => this.setState({ pattern: value })}
                 />
             </>
