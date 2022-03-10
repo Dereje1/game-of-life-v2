@@ -107,13 +107,11 @@ test('will handle stopping cell refresh on pause', () => {
   expect(wrapper.state().refresh).toBe(false)
 });
 
-test('will handle resetting grid', () => {
+test('will handle showing the pattern dialog', () => {
   const wrapper = shallow(<App />)
-  wrapper.setState({ refresh: true, generations: 10 })
   const controlTop = wrapper.find('ControlTop')
   controlTop.props().handleReset()
-  expect(wrapper.state().refresh).toBe(false)
-  expect(wrapper.state().generations).toBe(0)
+  expect(wrapper.state().showPatternDialog).toBe(true)
 });
 
 test('will handle clearing all live cells in the grid', () => {

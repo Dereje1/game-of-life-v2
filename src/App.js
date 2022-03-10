@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { ControlTop, ControlBottom } from './components/Controls';
+import PatternsDialog from './components/PatternsDialog';
 import { getLiveCells } from './components/utils'
 
 
@@ -15,7 +16,9 @@ class App extends Component {
             refreshRate: 140,
             generations: 0,
             empty: false,
-            showGrid: true
+            showGrid: true,
+            showPatternDialog: false,
+            pattern: 'Random'
         };
         this.Canvas = React.createRef();
     }
@@ -24,14 +27,9 @@ class App extends Component {
         this.loadCanvas()
     }
 
-    handleReset = () => {
-        clearTimeout(this.timeoutId);
-        this.setState({ refresh: false, generations: 0 }, this.setGrid)
-    }
-
     handleClear = () => {
         clearTimeout(this.timeoutId);
-        this.setState({ refresh: false, generations: 0, empty: true }, this.setGrid)
+        this.setState({ refresh: false, generations: 0, empty: true, showPatternDialog: false }, this.setGrid)
     }
 
     handleCellSize = ({ target: { value } }) => {
@@ -42,6 +40,16 @@ class App extends Component {
     handleRefreshRate = ({ target: { value } }) => {
         clearTimeout(this.timeoutId);
         this.setState({ refreshRate: value }, this.updateCells)
+    }
+
+    handlePatternDialog = () => {
+        const { pattern } = this.state;
+        if (pattern === 'Random') {
+            clearTimeout(this.timeoutId);
+            this.setState({ refresh: false, generations: 0, showPatternDialog: false }, this.setGrid)
+        } else {
+            this.handleClear()
+        }
     }
 
     refreshCells = () => {
@@ -154,7 +162,8 @@ class App extends Component {
         const {
             canvasWidth, canvasHeight, canvasLeft,
             cellSize, refreshRate, showGrid,
-            refresh, generations
+            refresh, generations, showPatternDialog,
+            pattern
         } = this.state;
         return (
             <>
@@ -166,7 +175,7 @@ class App extends Component {
                         showGrid={showGrid}
                         handleRefresh={() => this.setState({ refresh: true }, this.refreshCells)}
                         handlePause={() => this.setState({ refresh: false })}
-                        handleReset={this.handleReset}
+                        handleReset={() => this.setState({ showPatternDialog: true })}
                         handleClear={this.handleClear}
                         handleGrid={() => this.setState({ showGrid: !showGrid }, this.updateCells)}
                     />
@@ -188,6 +197,13 @@ class App extends Component {
                         onClick={this.handleCanvasClick}
                     />
                 </div>
+                <PatternsDialog
+                    open={showPatternDialog}
+                    value={pattern}
+                    handleCancel={() => this.setState({ showPatternDialog: false, pattern: '' })}
+                    handleOk={this.handlePatternDialog}
+                    handleChange={({ target: { value } }) => this.setState({ pattern: value })}
+                />
             </>
         )
     }

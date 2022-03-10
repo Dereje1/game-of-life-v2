@@ -34,5 +34,12 @@ exports[`renders 1`] = `
       width={90}
     />
   </div>
+  <PatternsDialog
+    handleCancel={[Function]}
+    handleChange={[Function]}
+    handleOk={[Function]}
+    open={false}
+    value="Random"
+  />
 </Fragment>
 `;
