@@ -6,11 +6,11 @@ import { ControlBottom, ControlTop, Action } from './Controls'
 const controlTopProps = {
     width: 80,
     height: 80,
-    onRefresh: jest.fn(),
-    onPause: jest.fn(),
+    handleRefresh: jest.fn(),
+    handlePause: jest.fn(),
     isRefreshing: true,
-    onReset: jest.fn(),
-    onClear: jest.fn(),
+    handleReset: jest.fn(),
+    handleClear: jest.fn(),
     generations: 6
 }
 
@@ -18,7 +18,7 @@ const controlBottomProps = {
     width: 80,
     height: 80,
     handleCellSize: jest.fn(),
-    onRefreshRate: jest.fn(),
+    handleRefreshRate: jest.fn(),
     cellSize: 20,
     refreshRate: 140,
 }

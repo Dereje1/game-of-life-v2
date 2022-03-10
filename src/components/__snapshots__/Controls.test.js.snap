@@ -173,11 +173,11 @@ exports[`will render the top control 1`] = `
         }
       />
     </ForwardRef(IconButton)>
+    <ForwardRef(Checkbox)
+      checkedIcon={<Memo />}
+      icon={<Memo />}
+    />
   </div>
-  <ForwardRef(Checkbox)
-    checkedIcon={<Memo />}
-    icon={<Memo />}
-  />
   <ForwardRef(Chip)
     color="error"
     label={6}

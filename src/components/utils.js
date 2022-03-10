@@ -1,6 +1,5 @@
 const addResurrectedCell = (resurrectedCells, cell) => {
-    if (!resurrectedCells.length) return [cell];
-
+    // add cell by keeping sort order
     for (let i = 0; i < resurrectedCells.length; i++) {
         if (cell < resurrectedCells[i]) {
             return [
@@ -13,12 +12,12 @@ const addResurrectedCell = (resurrectedCells, cell) => {
     return [...resurrectedCells, cell];
 }
 // checks for dead cells
-const canResurrectCell = ({ neighbour: deadCell, liveCells, cellSize, width, height }) => {
-    const neighbours = getNeighbours({ cell: deadCell, cellSize, width, height });
+const canResurrectCell = ({ liveCells, ...args }) => {
+    const neighbours = getNeighbours({ ...args });
     let liveNeighbors = 0;
     for (let n = 0; n < neighbours.length; n++) {
-        const isFound = binarySearch({ arr: liveCells, x: neighbours[n], end: liveCells.length - 1 })
-        if (isFound) {
+        const neighbourIsLive = binarySearch({ arr: liveCells, x: neighbours[n], end: liveCells.length - 1 })
+        if (neighbourIsLive) {
             liveNeighbors++
         }
         if (liveNeighbors > 3) break;
@@ -42,15 +41,14 @@ const binarySearch = function ({ arr, x, start = 0, end }) {
     if (arr[mid] > x)
         return binarySearch({ arr, x, start, end: mid - 1 });
     else
-
         // If element at mid is smaller than x,
         // search in the right half of mid
         return binarySearch({ arr, x, start: mid + 1, end });
 }
 
 const getNeighbours = ({ cell, cellSize, width, height }) => {
-
     const [x, y] = cell.split('-').map(c => Number(c));
+
     let neighbours = [
         [x, y - cellSize],
         [x + cellSize, y - cellSize],
@@ -61,7 +59,7 @@ const getNeighbours = ({ cell, cellSize, width, height }) => {
         [x - cellSize, y],
         [x - cellSize, y - cellSize],
     ]
-    // transform for out of bounds
+    // transform for out of bounds and stringify
     neighbours = neighbours.map(([x, y]) => {
         let u = x, v = y;
         if (x >= width) {
@@ -95,13 +93,15 @@ const processCell = ({
         if (neighbourIsLive) {
             liveNeighbors++
         } else {
+            // check if dead neighbor has already been resurrected
             const resurrectedCellExists = binarySearch({
-                arr: updatedResurrectedCells,
+                arr: resurrectedCells,
                 x: neighbour,
-                end: updatedResurrectedCells.length - 1
+                end: resurrectedCells.length - 1
             });
             if (!resurrectedCellExists) {
-                const isResurrected = canResurrectCell({ neighbour, liveCells: oldCells, ...args })
+                // check if dead neighbor can be resurrected and update list if so
+                const isResurrected = canResurrectCell({ ...args, cell: neighbour, liveCells: oldCells })
                 if (isResurrected) {
                     updatedResurrectedCells = addResurrectedCell(updatedResurrectedCells, neighbour)
                 }

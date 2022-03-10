@@ -24,16 +24,12 @@ class App extends Component {
         this.loadCanvas()
     }
 
-    onRefresh = () => {
-        this.setState({ refresh: true }, this.refreshCells)
-    }
-
-    onReset = () => {
+    handleReset = () => {
         clearTimeout(this.timeoutId);
         this.setState({ refresh: false, generations: 0 }, this.setGrid)
     }
 
-    onClear = () => {
+    handleClear = () => {
         clearTimeout(this.timeoutId);
         this.setState({ refresh: false, generations: 0, empty: true }, this.setGrid)
     }
@@ -43,7 +39,7 @@ class App extends Component {
         this.setState({ refresh: false, cellSize: value, generations: 0 }, this.loadCanvas)
     }
 
-    onRefreshRate = ({ target: { value } }) => {
+    handleRefreshRate = ({ target: { value } }) => {
         clearTimeout(this.timeoutId);
         this.setState({ refreshRate: value }, this.updateCells)
     }
@@ -166,12 +162,12 @@ class App extends Component {
                     <ControlTop
                         height={window.innerHeight * 0.1}
                         isRefreshing={refresh}
-                        onRefresh={this.onRefresh}
-                        onPause={() => this.setState({ refresh: false })}
-                        onReset={this.onReset}
-                        onClear={this.onClear}
                         generations={generations}
                         showGrid={showGrid}
+                        handleRefresh={() => this.setState({ refresh: true }, this.refreshCells)}
+                        handlePause={() => this.setState({ refresh: false })}
+                        handleReset={this.handleReset}
+                        handleClear={this.handleClear}
                         handleGrid={() => this.setState({ showGrid: !showGrid }, this.updateCells)}
                     />
 
@@ -180,7 +176,7 @@ class App extends Component {
                         cellSize={cellSize}
                         refreshRate={refreshRate}
                         handleCellSize={this.handleCellSize}
-                        onRefreshRate={this.onRefreshRate}
+                        handleRefreshRate={this.handleRefreshRate}
                     />
                 </>
                 <div style={{ paddingLeft: canvasLeft }}>

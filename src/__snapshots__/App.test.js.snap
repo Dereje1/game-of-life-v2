@@ -4,20 +4,20 @@ exports[`renders 1`] = `
 <Fragment>
   <ControlTop
     generations={0}
+    handleClear={[Function]}
     handleGrid={[Function]}
+    handlePause={[Function]}
+    handleRefresh={[Function]}
+    handleReset={[Function]}
     height={12}
     isRefreshing={false}
-    onClear={[Function]}
-    onPause={[Function]}
-    onRefresh={[Function]}
-    onReset={[Function]}
     showGrid={true}
   />
   <ControlBottom
     cellSize={15}
     handleCellSize={[Function]}
+    handleRefreshRate={[Function]}
     height={12}
-    onRefreshRate={[Function]}
     refreshRate={140}
   />
   <div

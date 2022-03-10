@@ -95,7 +95,7 @@ test('will handle refreshing cells on play', () => {
   const wrapper = shallow(<App />)
   expect(wrapper.state().refresh).toBe(false)
   const controlTop = wrapper.find('ControlTop')
-  controlTop.props().onRefresh()
+  controlTop.props().handleRefresh()
   expect(wrapper.state().refresh).toBe(true)
 });
 
@@ -103,7 +103,7 @@ test('will handle stopping cell refresh on pause', () => {
   const wrapper = shallow(<App />)
   wrapper.setState({ refresh: true })
   const controlTop = wrapper.find('ControlTop')
-  controlTop.props().onPause()
+  controlTop.props().handlePause()
   expect(wrapper.state().refresh).toBe(false)
 });
 
@@ -111,7 +111,7 @@ test('will handle resetting grid', () => {
   const wrapper = shallow(<App />)
   wrapper.setState({ refresh: true, generations: 10 })
   const controlTop = wrapper.find('ControlTop')
-  controlTop.props().onReset()
+  controlTop.props().handleReset()
   expect(wrapper.state().refresh).toBe(false)
   expect(wrapper.state().generations).toBe(0)
 });
@@ -120,7 +120,7 @@ test('will handle clearing all live cells in the grid', () => {
   const wrapper = shallow(<App />)
   wrapper.setState({ refresh: true, generations: 10, empty: false })
   const controlTop = wrapper.find('ControlTop')
-  controlTop.props().onClear()
+  controlTop.props().handleClear()
   expect(wrapper.state().refresh).toBe(false)
   expect(wrapper.state().generations).toBe(0)
 });
@@ -139,7 +139,7 @@ test('will handle adjusting the refresh rate', () => {
   const wrapper = shallow(<App />)
   expect(wrapper.state().refreshRate).toBe(140)
   const controlBottom = wrapper.find('ControlBottom')
-  controlBottom.props().onRefreshRate({ target: { value: 300 } })
+  controlBottom.props().handleRefreshRate({ target: { value: 300 } })
   expect(wrapper.state().refresh).toBe(false)
   expect(wrapper.state().refreshRate).toBe(300)
 });

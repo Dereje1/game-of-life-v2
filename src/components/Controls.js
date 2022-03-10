@@ -25,13 +25,13 @@ export const Action = ({ isRefreshing }) => {
 
 export const ControlTop = ({
     height,
-    onRefresh,
-    onPause,
     isRefreshing,
-    onReset,
-    onClear,
     generations,
     showGrid,
+    handleRefresh,
+    handlePause,
+    handleReset,
+    handleClear,
     handleGrid
 }) => (
     <div
@@ -46,40 +46,37 @@ export const ControlTop = ({
         }}
     >
         <div>
-            <IconButton aria-label="play_pause" onClick={isRefreshing ? onPause : onRefresh}>
+            <IconButton aria-label="play_pause" onClick={isRefreshing ? handlePause : handleRefresh}>
                 <Action isRefreshing={isRefreshing} />
             </IconButton>
-            <IconButton aria-label="reset" onClick={onReset} disabled={isRefreshing}>
+            <IconButton aria-label="reset" onClick={handleReset} disabled={isRefreshing}>
                 <RestartAltIcon style={{ fontSize: '2.5rem' }} />
             </IconButton>
-            <IconButton aria-label="clear" onClick={onClear} disabled={isRefreshing}>
+            <IconButton aria-label="clear" onClick={handleClear} disabled={isRefreshing}>
                 <HighlightOffOutlinedIcon style={{ fontSize: '2.5rem' }} />
             </IconButton>
+            <Checkbox
+                onChange={handleGrid}
+                checked={showGrid}
+                icon={<Grid3x3Icon />}
+                checkedIcon={<Grid4x4Icon />}
+            />
         </div>
-
-        <Checkbox
-            onChange={handleGrid}
-            checked={showGrid}
-            icon={<Grid3x3Icon />}
-            checkedIcon={<Grid4x4Icon />}
-        />
-
         <Chip
             label={generations}
             style={{ width: 100, justifyContent: 'space-between' }}
             color={isRefreshing ? "error" : "info"}
             variant="outlined"
         />
-
     </div>
 )
 
 export const ControlBottom = ({
     height,
-    handleCellSize,
     cellSize,
-    onRefreshRate,
-    refreshRate
+    refreshRate,
+    handleCellSize,
+    handleRefreshRate
 }) => (
     <div
         style={{
@@ -155,7 +152,7 @@ export const ControlBottom = ({
                 ]}
                 min={20}
                 max={500}
-                onChange={onRefreshRate}
+                onChange={handleRefreshRate}
                 value={refreshRate}
                 color="secondary"
             />
@@ -165,16 +162,16 @@ export const ControlBottom = ({
 )
 
 const Links = () => (
-    <Stack direction="column" spacing={1} style={{ marginLeft: 5 }}>
+    <Stack direction="column" spacing={0.5} style={{ margin: 5 }}>
         <Avatar
-            sx={{ width: 24, height: 24, bgcolor: "#737272", cursor: 'pointer' }}
+            sx={{ width: 26, height: 26, bgcolor: "#737272", cursor: 'pointer' }}
             onClick={() => window.open('https://pi.math.cornell.edu/~lipa/mec/lesson6.html')}
         >
             <HelpIcon />
         </Avatar>
 
         <Avatar
-            sx={{ width: 24, height: 24, bgcolor: "#737272", cursor: 'pointer' }}
+            sx={{ width: 26, height: 26, bgcolor: "#bd2c00", cursor: 'pointer' }}
             onClick={() => window.open('https://github.com/Dereje1/game-of-life-v2')}
         >
             <GitHubIcon />
