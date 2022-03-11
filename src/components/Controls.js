@@ -30,7 +30,7 @@ export const ControlTop = ({
     showGrid,
     handleRefresh,
     handlePause,
-    handleReset,
+    handlePattern,
     handleClear,
     handleGrid
 }) => (
@@ -49,7 +49,7 @@ export const ControlTop = ({
             <IconButton aria-label="play_pause" onClick={isRefreshing ? handlePause : handleRefresh}>
                 <Action isRefreshing={isRefreshing} />
             </IconButton>
-            <IconButton aria-label="reset" onClick={handleReset} disabled={isRefreshing}>
+            <IconButton aria-label="reset" onClick={handlePattern} disabled={isRefreshing}>
                 <PatternIcon style={{ fontSize: '2.5rem' }} />
             </IconButton>
             <IconButton aria-label="clear" onClick={handleClear} disabled={isRefreshing}>
@@ -161,7 +161,7 @@ export const ControlBottom = ({
     </div>
 )
 
-const Links = () => (
+export const Links = () => (
     <Stack direction="column" spacing={0.5} style={{ margin: 5 }}>
         <Avatar
             sx={{ width: 26, height: 26, bgcolor: "#737272", cursor: 'pointer' }}

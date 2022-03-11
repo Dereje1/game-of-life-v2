@@ -6,9 +6,9 @@ exports[`renders 1`] = `
     generations={0}
     handleClear={[Function]}
     handleGrid={[Function]}
+    handlePattern={[Function]}
     handlePause={[Function]}
     handleRefresh={[Function]}
-    handleReset={[Function]}
     height={12}
     isRefreshing={false}
     showGrid={true}
@@ -36,8 +36,8 @@ exports[`renders 1`] = `
   </div>
   <PatternsDialog
     handleCancel={[Function]}
-    handleChange={[Function]}
     handleOk={[Function]}
+    handlePatternChange={[Function]}
     open={false}
     value="random"
   />

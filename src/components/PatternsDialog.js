@@ -16,20 +16,20 @@ const options = [
     { value: 'spaceShip', label: 'Lightweight Space Ship' },
     { value: 'pulsar', label: 'Evolve to Pulsar' },
     { value: 'pentaDecathlon', label: 'Evolve to Penta-decathlon' },
+    { value: 'none', label: 'None' },
 ]
 
 const PatternsDialog = ({
     open,
+    value,
+    handleCancel,
+    handleOk,
+    handlePatternChange,
     handleEntering,
     other,
     radioGroupRef,
-    value,
-    handleChange,
-    handleCancel,
-    handleOk
-
 }) => (<Dialog
-    sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 500 } }}
+    sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 530 } }}
     maxWidth="xs"
     TransitionProps={{ onEntering: handleEntering }}
     open={open}
@@ -42,7 +42,7 @@ const PatternsDialog = ({
             aria-label="patterns"
             name="patterns"
             value={value}
-            onChange={handleChange}
+            onChange={handlePatternChange}
         >
             {options.map(({ value, label }) => (
                 <FormControlLabel

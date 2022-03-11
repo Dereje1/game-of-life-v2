@@ -44,9 +44,13 @@ class App extends Component {
     handlePattern = () => {
         const { pattern, cellSize, canvasWidth, canvasHeight } = this.state;
         clearTimeout(this.timeoutId);
-        const updatedState = { refresh: false, generations: 0, showPatternDialog: false }
         const { cells } = getPattern({ pattern, cellSize, canvasWidth, canvasHeight })
-        this.setState({ ...updatedState, cells }, this.updateCells)
+        this.setState({
+            refresh: pattern !== 'random' && pattern !== 'none',
+            generations: 0,
+            showPatternDialog: false,
+            cells
+        }, this.updateCells)
     }
 
     refreshCells = () => {
@@ -159,7 +163,7 @@ class App extends Component {
                         showGrid={showGrid}
                         handleRefresh={() => this.setState({ refresh: true }, this.refreshCells)}
                         handlePause={() => this.setState({ refresh: false })}
-                        handleReset={() => this.setState({ showPatternDialog: true })}
+                        handlePattern={() => this.setState({ showPatternDialog: true })}
                         handleClear={this.handleClear}
                         handleGrid={() => this.setState({ showGrid: !showGrid }, this.updateCells)}
                     />
@@ -186,7 +190,7 @@ class App extends Component {
                     value={pattern}
                     handleCancel={() => this.setState({ showPatternDialog: false })}
                     handleOk={this.handlePattern}
-                    handleChange={({ target: { value } }) => this.setState({ pattern: value })}
+                    handlePatternChange={({ target: { value } }) => this.setState({ pattern: value })}
                 />
             </>
         )

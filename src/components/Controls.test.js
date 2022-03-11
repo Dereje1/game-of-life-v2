@@ -1,7 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
-import { ControlBottom, ControlTop, Action } from './Controls'
+import { ControlBottom, ControlTop, Action, Links } from './Controls'
 
 const controlTopProps = {
     width: 80,
@@ -40,5 +40,10 @@ test('will render play when not refreshing', () => {
 
 test('will render pause when refreshing', () => { 
     const wrapper = shallow(<Action isRefreshing={true}/>)
+    expect(toJson(wrapper)).toMatchSnapshot();
+})
+
+test('will render links', () => { 
+    const wrapper = shallow(<Links />)
     expect(toJson(wrapper)).toMatchSnapshot();
 })

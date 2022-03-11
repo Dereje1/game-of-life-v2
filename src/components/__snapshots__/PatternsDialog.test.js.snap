@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`will render the top control 1`] = `
+<ForwardRef(Dialog)
+  TransitionProps={
+    Object {
+      "onEntering": undefined,
+    }
+  }
+  maxWidth="xs"
+  open={true}
+  sx={
+    Object {
+      "& .MuiDialog-paper": Object {
+        "maxHeight": 530,
+        "width": "80%",
+      },
+    }
+  }
+>
+  <ForwardRef(DialogTitle)>
+    Choose Pattern
+  </ForwardRef(DialogTitle)>
+  <ForwardRef(DialogContent)
+    dividers={true}
+  >
+    <ForwardRef(RadioGroup)
+      aria-label="patterns"
+      name="patterns"
+      onChange={[MockFunction]}
+      value="Blinker"
+    >
+      <ForwardRef(FormControlLabel)
+        control={<ForwardRef(Radio) />}
+        key="random"
+        label="Random"
+        value="random"
+      />
+      <ForwardRef(FormControlLabel)
+        control={<ForwardRef(Radio) />}
+        key="blinker"
+        label="Blinker"
+        value="blinker"
+      />
+      <ForwardRef(FormControlLabel)
+        control={<ForwardRef(Radio) />}
+        key="toad"
+        label="Toad"
+        value="toad"
+      />
+      <ForwardRef(FormControlLabel)
+        control={<ForwardRef(Radio) />}
+        key="beacon"
+        label="Beacon"
+        value="beacon"
+      />
+      <ForwardRef(FormControlLabel)
+        control={<ForwardRef(Radio) />}
+        key="glider"
+        label="Glider"
+        value="glider"
+      />
+      <ForwardRef(FormControlLabel)
+        control={<ForwardRef(Radio) />}
+        key="spaceShip"
+        label="Lightweight Space Ship"
+        value="spaceShip"
+      />
+      <ForwardRef(FormControlLabel)
+        control={<ForwardRef(Radio) />}
+        key="pulsar"
+        label="Evolve to Pulsar"
+        value="pulsar"
+      />
+      <ForwardRef(FormControlLabel)
+        control={<ForwardRef(Radio) />}
+        key="pentaDecathlon"
+        label="Evolve to Penta-decathlon"
+        value="pentaDecathlon"
+      />
+      <ForwardRef(FormControlLabel)
+        control={<ForwardRef(Radio) />}
+        key="none"
+        label="None"
+        value="none"
+      />
+    </ForwardRef(RadioGroup)>
+  </ForwardRef(DialogContent)>
+  <ForwardRef(DialogActions)>
+    <ForwardRef(Button)
+      autoFocus={true}
+      onClick={[MockFunction]}
+    >
+      Cancel
+    </ForwardRef(Button)>
+    <ForwardRef(Button)
+      onClick={[MockFunction]}
+    >
+      Ok
+    </ForwardRef(Button)>
+  </ForwardRef(DialogActions)>
+</ForwardRef(Dialog)>
+`;

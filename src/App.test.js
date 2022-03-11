@@ -89,6 +89,16 @@ test('will make cells active on click', () => {
   expect(wrapper.state().cells.includes('15-15')).toBe(true)
 });
 
+test('will make cells in-active on click', () => {
+  const wrapper = shallow(<App />)
+  wrapper.setState({ pattern: 'none' })
+  wrapper.instance().handlePattern();
+  wrapper.setState({ cells: ['15-15', '20-20'] })
+  expect(wrapper.state().cells).toEqual(['15-15', '20-20'] )
+  wrapper.instance().handleCanvasClick({ clientX: 18, clientY: 18 })
+  expect(wrapper.state().cells).toEqual(['20-20'] )
+});
+
 test('will handle refreshing cells on play', () => {
   const wrapper = shallow(<App />)
   expect(wrapper.state().refresh).toBe(false)
@@ -108,7 +118,7 @@ test('will handle stopping cell refresh on pause', () => {
 test('will handle showing the pattern dialog', () => {
   const wrapper = shallow(<App />)
   const controlTop = wrapper.find('ControlTop')
-  controlTop.props().handleReset()
+  controlTop.props().handlePattern()
   expect(wrapper.state().showPatternDialog).toBe(true)
 });
 
@@ -146,4 +156,20 @@ test('will toggle the grid', () => {
   const controlTop = wrapper.find('ControlTop')
   controlTop.props().handleGrid()
   expect(wrapper.state().showGrid).toBe(false)
+});
+
+test('will cancel the pattern dialog', () => {
+  const wrapper = shallow(<App />)
+  wrapper.setState({showPatternDialog: true})
+  const controlTop = wrapper.find('PatternsDialog')
+  controlTop.props().handleCancel()
+  expect(wrapper.state().showPatternDialog).toBe(false)
+});
+
+test('will update the selected pattern', () => {
+  const wrapper = shallow(<App />)
+  expect(wrapper.state().pattern).toBe('random')
+  const controlTop = wrapper.find('PatternsDialog')
+  controlTop.props().handlePatternChange({target:{value:'new pattern'}})
+  expect(wrapper.state().pattern).toBe('new pattern')
 });
