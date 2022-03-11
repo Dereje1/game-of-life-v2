@@ -46,8 +46,8 @@ test('renders', () => {
 
 test('will set the cells and canvas size', () => {
   const wrapper = shallow(<App />)
-  wrapper.setState({ empty: true })
-  wrapper.instance().setGrid()
+  wrapper.setState({ pattern: 'none' })
+  wrapper.instance().handlePattern()
   expect(wrapper.state().cells).toStrictEqual([])
   expect(wrapper.state().canvasWidth).toBe(90)
   expect(wrapper.state().canvasHeight).toBe(90)
@@ -55,8 +55,7 @@ test('will set the cells and canvas size', () => {
 
 test('will draw active cells', () => {
   const wrapper = shallow(<App />)
-  wrapper.setState({ empty: true })
-  wrapper.instance().setGrid()
+  wrapper.instance().handlePattern()
   wrapper.setState({ cells: ['20-20'] })
   wrapper.instance().updateCells()
   expect(clearRect).toHaveBeenCalledTimes(3)
@@ -66,8 +65,7 @@ test('will draw active cells', () => {
 
 test('will refresh active cells', () => {
   const wrapper = shallow(<App />)
-  wrapper.setState({ empty: true })
-  wrapper.instance().setGrid()
+  wrapper.instance().handlePattern()
   // blinker oscillator
   const liveCells = ['15-15','30-15','45-15']
   wrapper.setState({ cells: liveCells, refresh: true })
@@ -84,8 +82,8 @@ test('will refresh active cells', () => {
 
 test('will make cells active on click', () => {
   const wrapper = shallow(<App />)
-  wrapper.setState({ empty: true })
-  wrapper.instance().setGrid();
+  wrapper.setState({ pattern: 'none' })
+  wrapper.instance().handlePattern();
   expect(wrapper.state().cells.includes('15-15')).toBe(false)
   wrapper.instance().handleCanvasClick({ clientX: 18, clientY: 18 })
   expect(wrapper.state().cells.includes('15-15')).toBe(true)
@@ -116,7 +114,7 @@ test('will handle showing the pattern dialog', () => {
 
 test('will handle clearing all live cells in the grid', () => {
   const wrapper = shallow(<App />)
-  wrapper.setState({ refresh: true, generations: 10, empty: false })
+  wrapper.setState({ refresh: true, generations: 10 })
   const controlTop = wrapper.find('ControlTop')
   controlTop.props().handleClear()
   expect(wrapper.state().refresh).toBe(false)
@@ -125,7 +123,7 @@ test('will handle clearing all live cells in the grid', () => {
 
 test('will handle adjusting the cellSize', () => {
   const wrapper = shallow(<App />)
-  wrapper.setState({ refresh: true, generations: 10, empty: false })
+  wrapper.setState({ refresh: true, generations: 10 })
   expect(wrapper.state().cellSize).toBe(15)
   const controlBottom = wrapper.find('ControlBottom')
   controlBottom.props().handleCellSize({ target: { value: 32 } })

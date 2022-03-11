@@ -15,7 +15,6 @@ class App extends Component {
             cellSize: 15,
             refreshRate: 140,
             generations: 0,
-            empty: false,
             showGrid: true,
             showPatternDialog: false,
             pattern: 'random'
@@ -29,7 +28,7 @@ class App extends Component {
 
     handleClear = () => {
         clearTimeout(this.timeoutId);
-        this.setState({ refresh: false, generations: 0, empty: true, showPatternDialog: false }, this.setGrid)
+        this.setState({ refresh: false, generations: 0, pattern: 'none', showPatternDialog: false }, this.handlePattern)
     }
 
     handleCellSize = ({ target: { value } }) => {
@@ -42,15 +41,12 @@ class App extends Component {
         this.setState({ refreshRate: value }, this.updateCells)
     }
 
-    handlePatternChange = () => {
+    handlePattern = () => {
         const { pattern, cellSize, canvasWidth, canvasHeight } = this.state;
         clearTimeout(this.timeoutId);
-        if (pattern === 'random') {
-            this.setState({ refresh: false, generations: 0, showPatternDialog: false }, this.setGrid)
-        } else {
-            const activeCells = getPattern({ pattern, cellSize, canvasWidth, canvasHeight })
-            this.setState({ refresh: false, generations: 0, showPatternDialog: false, cells: activeCells }, this.updateCells)
-        }
+        const updatedState = { refresh: false, generations: 0, showPatternDialog: false }
+        const { cells } = getPattern({ pattern, cellSize, canvasWidth, canvasHeight })
+        this.setState({ ...updatedState, cells }, this.updateCells)
     }
 
     refreshCells = () => {
@@ -99,19 +95,6 @@ class App extends Component {
         this.setState({ cells: newCells }, this.updateCells)
     }
 
-    setGrid = () => {
-        const { canvasWidth, canvasHeight, cellSize, empty } = this.state;
-        const cells = []
-        for (let x = 0; x < canvasWidth; x += cellSize) {
-            for (let y = 0; y < canvasHeight; y += cellSize) {
-                if (!empty && Math.random() < 0.5) {
-                    cells.push(`${x}-${y}`)
-                }
-            }
-        }
-        this.setState({ cells, empty: false }, this.updateCells)
-    }
-
     refreshGrid = () => {
         const { canvasWidth, canvasHeight, cellSize, showGrid } = this.state;
         if (!showGrid) return null;
@@ -155,7 +138,7 @@ class App extends Component {
             canvasHeight,
             canvasLeft: (innerWidth - canvasWidth) / 2,
             cellSize: totalElements > MAX_ELEMENTS ? 5 : cellSize
-        }, this.handlePatternChange);
+        }, this.handlePattern);
 
     }
 
@@ -202,7 +185,7 @@ class App extends Component {
                     open={showPatternDialog}
                     value={pattern}
                     handleCancel={() => this.setState({ showPatternDialog: false })}
-                    handleOk={this.handlePatternChange}
+                    handleOk={this.handlePattern}
                     handleChange={({ target: { value } }) => this.setState({ pattern: value })}
                 />
             </>

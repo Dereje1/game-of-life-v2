@@ -142,15 +142,27 @@ export const getPattern = ({ pattern, cellSize, canvasWidth, canvasHeight }) => 
     const trueY = Math.floor(canvasHeight / 2);
     let midX = Math.floor(trueX / cellSize) * cellSize
     let midY = Math.floor(trueY / cellSize) * cellSize
+    let cells = [];
+
+    if (pattern === 'random') {
+        for (let x = 0; x < canvasWidth; x += cellSize) {
+            for (let y = 0; y < canvasHeight; y += cellSize) {
+                if ( Math.random() < 0.5) {
+                    cells.push(`${x}-${y}`)
+                }
+            }
+        }
+    }
+
     if (pattern === 'blinker') {
-        return [
+        cells = [
             `${midX - cellSize}-${midY}`,
             `${midX}-${midY}`,
             `${midX + cellSize}-${midY}`
         ]
     }
     if (pattern === 'glider') {
-        return [
+        cells = [
             `${midX - cellSize}-${midY}`,
             `${midX}-${midY}`,
             `${midX + cellSize}-${midY}`,
@@ -159,7 +171,7 @@ export const getPattern = ({ pattern, cellSize, canvasWidth, canvasHeight }) => 
         ]
     }
     if (pattern === 'toad') {
-        return [
+        cells = [
             `${midX - cellSize}-${midY}`,
             `${midX}-${midY}`,
             `${midX + cellSize}-${midY}`,
@@ -169,7 +181,7 @@ export const getPattern = ({ pattern, cellSize, canvasWidth, canvasHeight }) => 
         ]
     }
     if (pattern === 'beacon') {
-        return [
+        cells = [
             `${midX}-${midY}`,
             `${midX - cellSize}-${midY}`,
             `${midX - cellSize}-${midY - cellSize}`,
@@ -182,9 +194,9 @@ export const getPattern = ({ pattern, cellSize, canvasWidth, canvasHeight }) => 
     }
 
     if (pattern === 'pulsar') {
-        midY = midY + (2* cellSize)
+        midY = midY + (2 * cellSize)
         midX = midX - (cellSize)
-        return [
+        cells = [
             `${midX}-${midY}`,
             `${midX - cellSize}-${midY}`,
             `${midX + cellSize}-${midY}`,
@@ -197,9 +209,9 @@ export const getPattern = ({ pattern, cellSize, canvasWidth, canvasHeight }) => 
     }
 
     if (pattern === 'pentaDecathlon') {
-        midY = midY + (2* cellSize)
+        midY = midY + (2 * cellSize)
         midX = midX - (cellSize)
-        return [
+        cells = [
             `${midX}-${midY}`,
             `${midX - cellSize}-${midY}`,
             `${midX + cellSize}-${midY}`,
@@ -212,17 +224,17 @@ export const getPattern = ({ pattern, cellSize, canvasWidth, canvasHeight }) => 
     }
 
     if (pattern === 'spaceShip') {
-        return [
+        cells = [
             `${midX - cellSize}-${midY}`,
             `${midX}-${midY}`,
             `${midX + cellSize}-${midY}`,
-            `${midX - (2*cellSize)}-${midY}`,
-            `${midX - (2*cellSize)}-${midY - cellSize}`,
-            `${midX - (2*cellSize)}-${midY - (2*cellSize)}`,
-            `${midX - (cellSize)}-${midY - (3*cellSize)}`,
-            `${midX + (2*cellSize)}-${midY - (3*cellSize)}`,
-            `${midX + (2*cellSize)}-${midY - (cellSize)}`,
+            `${midX - (2 * cellSize)}-${midY}`,
+            `${midX - (2 * cellSize)}-${midY - cellSize}`,
+            `${midX - (2 * cellSize)}-${midY - (2 * cellSize)}`,
+            `${midX - (cellSize)}-${midY - (3 * cellSize)}`,
+            `${midX + (2 * cellSize)}-${midY - (3 * cellSize)}`,
+            `${midX + (2 * cellSize)}-${midY - (cellSize)}`,
         ]
     }
-    return []
+    return { cells }
 }

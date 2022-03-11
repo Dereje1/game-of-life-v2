@@ -15,7 +15,7 @@ const options = [
     { value: 'glider', label: 'Glider' },
     { value: 'spaceShip', label: 'Lightweight Space Ship' },
     { value: 'pulsar', label: 'Evolve to Pulsar' },
-    { value: 'pentaDecathlon', label: 'Evolve to Penta-Decathlon' },
+    { value: 'pentaDecathlon', label: 'Evolve to Penta-decathlon' },
 ]
 
 const PatternsDialog = ({
