@@ -24,10 +24,10 @@ const PatternsDialog = ({
     value,
     handleCancel,
     handleOk,
-    handlePatternChange,
     handleEntering,
     other,
     radioGroupRef,
+    handlePatternChange,
 }) => (<Dialog
     sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 530 } }}
     maxWidth="xs"

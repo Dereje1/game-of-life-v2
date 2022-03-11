@@ -101,7 +101,7 @@ test('will make cells in-active on click', () => {
 
 test('will handle refreshing cells on play', () => {
   const wrapper = shallow(<App />)
-  expect(wrapper.state().refresh).toBe(false)
+  wrapper.setState({refresh: false})
   const controlTop = wrapper.find('ControlTop')
   controlTop.props().handleRefresh()
   expect(wrapper.state().refresh).toBe(true)
@@ -137,7 +137,6 @@ test('will handle adjusting the cellSize', () => {
   expect(wrapper.state().cellSize).toBe(15)
   const controlBottom = wrapper.find('ControlBottom')
   controlBottom.props().handleCellSize({ target: { value: 32 } })
-  expect(wrapper.state().refresh).toBe(false)
   expect(wrapper.state().cellSize).toBe(32)
 });
 
@@ -146,7 +145,6 @@ test('will handle adjusting the refresh rate', () => {
   expect(wrapper.state().refreshRate).toBe(140)
   const controlBottom = wrapper.find('ControlBottom')
   controlBottom.props().handleRefreshRate({ target: { value: 300 } })
-  expect(wrapper.state().refresh).toBe(false)
   expect(wrapper.state().refreshRate).toBe(300)
 });
 

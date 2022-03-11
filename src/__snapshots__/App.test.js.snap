@@ -10,7 +10,7 @@ exports[`renders 1`] = `
     handlePause={[Function]}
     handleRefresh={[Function]}
     height={12}
-    isRefreshing={false}
+    isRefreshing={true}
     showGrid={true}
   />
   <ControlBottom
@@ -23,6 +23,7 @@ exports[`renders 1`] = `
   <div
     style={
       Object {
+        "background": "black",
         "paddingLeft": 0,
       }
     }
@@ -36,9 +37,15 @@ exports[`renders 1`] = `
   </div>
   <PatternsDialog
     handleCancel={[Function]}
+    handleEntering={[Function]}
     handleOk={[Function]}
     handlePatternChange={[Function]}
     open={false}
+    radioGroupRef={
+      Object {
+        "current": null,
+      }
+    }
     value="random"
   />
 </Fragment>

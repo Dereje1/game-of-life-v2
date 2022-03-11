@@ -1,4 +1,4 @@
-const addResurrectedCell = (resurrectedCells, cell) => {
+const addCellAscending = (resurrectedCells, cell) => {
     // add cell by keeping sort order
     for (let i = 0; i < resurrectedCells.length; i++) {
         if (cell < resurrectedCells[i]) {
@@ -103,7 +103,7 @@ const processCell = ({
                 // check if dead neighbor can be resurrected and update list if so
                 const isResurrected = canResurrectCell({ ...args, cell: neighbour, liveCells: oldCells })
                 if (isResurrected) {
-                    updatedResurrectedCells = addResurrectedCell(updatedResurrectedCells, neighbour)
+                    updatedResurrectedCells = addCellAscending(updatedResurrectedCells, neighbour)
                 }
             }
         }
@@ -147,7 +147,7 @@ export const getPattern = ({ pattern, cellSize, canvasWidth, canvasHeight }) => 
     if (pattern === 'random') {
         for (let x = 0; x < canvasWidth; x += cellSize) {
             for (let y = 0; y < canvasHeight; y += cellSize) {
-                if ( Math.random() < 0.5) {
+                if (Math.random() < 0.5) {
                     cells.push(`${x}-${y}`)
                 }
             }
