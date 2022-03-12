@@ -238,3 +238,87 @@ export const getPattern = ({ pattern, cellSize, canvasWidth, canvasHeight }) => 
     }
     return { cells }
 }
+
+export const getIndexFromCoordinates = ({ x, y, width, cellSize }) => {
+    const cellsPerRow = width / cellSize;
+    const xPos = Math.floor(x / cellSize);
+    const yPos = Math.floor(y / cellSize);
+    const index = xPos + yPos * cellsPerRow
+    return index;
+}
+
+export const getCoordinatesFromIndex = ({ index, width, cellSize }) => {
+    const cellsPerRow = width / cellSize;
+    const row = Math.floor(index / cellsPerRow)
+    const column = index % cellsPerRow
+    const x = column * cellSize;
+    const y = row * cellSize;
+    return [x, y]
+}
+
+export const neighborTest = ({ index, width, height, cellSize }) => {
+    const cellsPerRow = width / cellSize;
+    const cellsPerColumn = height / cellSize;
+    const offsets = getOffsets({ index, width, height, cellSize })
+    let neighbours = [
+        index - cellsPerRow, //north
+        index - cellsPerRow + 1, //north east
+        index + 1, // east
+        index + cellsPerRow + 1, //southeast
+        index + cellsPerRow, // south
+        index + cellsPerRow - 1, // south west
+        index - 1, // west
+        index - cellsPerRow - 1, // northwest
+    ]
+
+    if (offsets) {
+        offsets.forEach(offset => {
+            if (offset === 'left') {
+                neighbours[5] = neighbours[5] + cellsPerRow;
+                neighbours[6] = neighbours[6] + cellsPerRow;
+                neighbours[7] = neighbours[7] + cellsPerRow;
+            } 
+            if (offset === 'top') {
+                neighbours[0] = neighbours[0] + (cellsPerColumn * cellsPerRow);
+                neighbours[1] = neighbours[1] + (cellsPerColumn * cellsPerRow);
+                neighbours[7] = neighbours[7] + (cellsPerColumn * cellsPerRow);
+            } 
+            if (offset === 'right') {
+                neighbours[1] = neighbours[1] - cellsPerRow;
+                neighbours[2] = neighbours[2] - cellsPerRow;
+                neighbours[3] = neighbours[3] - cellsPerRow;
+            }
+            if (offset === 'bottom') {
+                neighbours[3] = neighbours[3] - (cellsPerColumn * cellsPerRow);
+                neighbours[4] = neighbours[4] - (cellsPerColumn * cellsPerRow);
+                neighbours[5] = neighbours[5] - (cellsPerColumn * cellsPerRow);
+            }
+        })
+    }
+
+    return neighbours
+
+}
+const getOffsets = ({ index, width, height, cellSize }) => {
+    const cellsPerRow = width / cellSize;
+    const cellsPerColumn = height / cellSize;
+    const row = Math.floor(index / cellsPerRow)
+    const column = index % cellsPerRow
+    let offset = []
+    if (row === 0) {
+        offset = [...offset, 'top']
+    }
+    if (column === 0) {
+        offset = [...offset, 'left']
+    }
+
+    if (column === cellsPerRow - 1) {
+        offset = [...offset, 'right']
+    }
+
+    if (row === cellsPerColumn - 1) {
+        offset = [...offset, 'bottom']
+    }
+
+    return Boolean(offset.length) && offset
+}
