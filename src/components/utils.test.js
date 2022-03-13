@@ -10,27 +10,31 @@ describe('getting patterns', () => {
 
     test('will get the blinker pattern', () => {
         const updatedInput = { ...input, pattern: 'blinker' };
-        expect(getPattern(updatedInput)).toEqual({ cells: ['90-100', '100-100', '110-100'] })
+        expect(getPattern(updatedInput)).toEqual({ cells: [210, 209, 211] })
     })
 
     test('will get the glider pattern', () => {
         const updatedInput = { ...input, pattern: 'glider' };
-        expect(getPattern(updatedInput)).toEqual({ cells: ['90-100', '100-100', '110-100', '110-90', '100-80'] })
+        expect(getPattern(updatedInput)).toEqual({ cells: [210, 209, 211, 191, 170] })
     })
 
     test('will get the toad pattern', () => {
         const updatedInput = { ...input, pattern: 'toad' };
-        expect(getPattern(updatedInput)).toEqual({ cells: ['90-100', '100-100', '110-100', '100-90', '110-90', '120-90'] })
+        expect(getPattern(updatedInput)).toEqual({ cells: [210, 209, 211, 190, 191, 192] })
     })
 
     test('will get the beacon pattern', () => {
         const updatedInput = { ...input, pattern: 'beacon' };
         expect(getPattern(updatedInput)).toEqual({
             cells: [
-                '100-100', '90-100',
-                '90-90', '100-90',
-                '110-110', '120-110',
-                '120-120', '110-120'
+                210,
+                209,
+                189,
+                190,
+                231,
+                232,
+                251,
+                252,
             ]
         })
     })
@@ -39,10 +43,14 @@ describe('getting patterns', () => {
         const updatedInput = { ...input, pattern: 'pulsar' };
         expect(getPattern(updatedInput)).toEqual({
             cells: [
-                '90-120', '80-120',
-                '100-120', '90-110',
-                '90-60', '80-60',
-                '100-60', '90-50'
+                150,
+                149,
+                151,
+                170,
+                270,
+                269,
+                271,
+                250,
             ]
         })
     })
@@ -51,10 +59,14 @@ describe('getting patterns', () => {
         const updatedInput = { ...input, pattern: 'pentaDecathlon' };
         expect(getPattern(updatedInput)).toEqual({
             cells: [
-                '90-120', '80-120',
-                '100-120', '90-130',
-                '90-70', '80-70',
-                '100-70', '90-60'
+                170,
+                169,
+                171,
+                150,
+                270,
+                269,
+                271,
+                290,
             ]
         })
     })
@@ -63,11 +75,15 @@ describe('getting patterns', () => {
         const updatedInput = { ...input, pattern: 'spaceShip' };
         expect(getPattern(updatedInput)).toEqual({
             cells: [
-                '90-100', '100-100',
-                '110-100', '80-100',
-                '80-90', '80-80',
-                '90-70', '120-70',
-                '120-90'
+                     210,
+                     211,
+                     212,
+                     213,
+                     194,
+                     190,
+                     170,
+                     151,
+                     154,
             ]
         })
     })

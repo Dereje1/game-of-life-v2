@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { ControlTop, ControlBottom } from './components/Controls';
 import PatternsDialog from './components/PatternsDialog';
-import { getLiveCells, getPattern } from './components/utils'
+import {
+    getLiveCells,
+    getPattern,
+    getIndexFromCoordinates,
+    getCoordinatesFromIndex,
+} from './components/utils'
 
 
 const MAX_ELEMENTS = 38000
@@ -63,20 +68,18 @@ class App extends Component {
     handleCanvasClick = (e) => {
         const { clientX, clientY } = e;
         e.preventDefault()
-        const { cells, cellSize } = this.state
+        const { cells, cellSize, canvasWidth: width, canvasHeight: height } = this.state
         const Canvas = this.Canvas.current;
         const { left, top } = Canvas.getBoundingClientRect();
         const trueX = clientX - left;
         const trueY = clientY - top;
-        const xFloor = Math.floor(trueX / cellSize) * cellSize
-        const yFloor = Math.floor(trueY / cellSize) * cellSize
-        const key = `${xFloor}-${yFloor}`
+        const index = getIndexFromCoordinates({ x: trueX, y: trueY, width, height, cellSize })
 
         let newCells = [];
-        if (cells.includes(key)) {
-            newCells = cells.filter(c => c !== key)
+        if (cells.includes(index)) {
+            newCells = cells.filter(c => c !== index)
         } else {
-            newCells = [...cells, key]
+            newCells = [...cells, index]
         }
         this.setState({ cells: newCells }, this.updateCells)
     }
@@ -97,7 +100,7 @@ class App extends Component {
         const context = this.canvasContext
         context.clearRect(0, 0, canvasWidth, canvasHeight);
         cells.forEach(cell => {
-            const [x, y] = cell.split('-');
+            const [x, y] = getCoordinatesFromIndex({ index: cell, width: canvasWidth, cellSize })
             context.fillStyle = "yellow";
             context.fillRect(x, y, cellSize, cellSize)
         })
@@ -185,7 +188,7 @@ class App extends Component {
                         handleRefreshRate={this.handleRefreshRate}
                     />
                 </>
-                <div style={{ paddingLeft: canvasLeft, background:'black' }}>
+                <div style={{ paddingLeft: canvasLeft, background: 'black' }}>
                     <canvas
                         ref={this.Canvas}
                         width={canvasWidth}
