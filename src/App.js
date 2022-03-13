@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { ControlTop, ControlBottom } from './components/Controls';
 import PatternsDialog from './components/PatternsDialog';
 import {
-    getLiveCells, getPattern, getIndexFromCoordinates, getCoordinatesFromIndex,
-    neighborTest
+    getLiveCells,
+    getPattern,
+    getIndexFromCoordinates,
+    getCoordinatesFromIndex,
 } from './components/utils'
 
 

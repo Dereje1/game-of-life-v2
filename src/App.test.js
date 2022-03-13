@@ -11,8 +11,9 @@ jest.useFakeTimers();
 let useRefSpy;
 const clearRect = jest.fn();
 const fillRect = jest.fn();
+const focus = jest.fn()
 beforeEach(() => {
-  useRefSpy = jest.spyOn(React, 'createRef').mockImplementationOnce(
+  useRefSpy = jest.spyOn(React, 'createRef').mockImplementation(
     () => ({
       current: {
         style: {},
@@ -26,7 +27,8 @@ beforeEach(() => {
             stroke: jest.fn()
           }
         ),
-        getBoundingClientRect: () => ({ left: 1, top: 1 })
+        getBoundingClientRect: () => ({ left: 1, top: 1 }),
+        focus
       },
     }),
   );
@@ -37,6 +39,7 @@ afterEach(() => {
   useRefSpy.mockClear();
   clearRect.mockClear()
   fillRect.mockClear()
+  focus.mockClear()
 })
 
 test('renders', () => {
@@ -169,4 +172,12 @@ test('will update the selected pattern', () => {
   const controlTop = wrapper.find('PatternsDialog')
   controlTop.props().handlePatternChange({ target: { value: 'new pattern' } })
   expect(wrapper.state().pattern).toBe('new pattern')
+});
+
+test('will handle focus on entering of the pattern dialog', () => {
+  const wrapper = shallow(<App />)
+  wrapper.setState({ showPatternDialog: true })
+  const controlTop = wrapper.find('PatternsDialog')
+  controlTop.props().handleEntering()
+  expect(focus).toHaveBeenCalledTimes(1)
 });

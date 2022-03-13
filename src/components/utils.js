@@ -50,7 +50,7 @@ const getNeighbours = ({ cell, cellSize, width, height }) => {
     const cellsPerRow = width / cellSize;
     const cellsPerColumn = height / cellSize;
     const totalElements = cellsPerRow * cellsPerColumn;
-    const offsets = getOffsets({ index: cell, width, height, cellSize })
+    const edges = cellIsOnEdge({ index: cell, width, height, cellSize })
     /* order of neigbbours - clockwise
         0: north
         1: north east
@@ -73,24 +73,24 @@ const getNeighbours = ({ cell, cellSize, width, height }) => {
     ]
 
     // to wrap cells around edges
-    if (offsets) {
-        offsets.forEach(offset => {
-            if (offset === 'left') {
+    if (edges) {
+        edges.forEach(edge => {
+            if (edge === 'left') {
                 neighbours[5] = neighbours[5] + cellsPerRow;
                 neighbours[6] = neighbours[6] + cellsPerRow;
                 neighbours[7] = neighbours[7] + cellsPerRow;
             }
-            if (offset === 'top') {
+            if (edge === 'top') {
                 neighbours[0] = neighbours[0] + (totalElements);
                 neighbours[1] = neighbours[1] + (totalElements);
                 neighbours[7] = neighbours[7] + (totalElements);
             }
-            if (offset === 'right') {
+            if (edge === 'right') {
                 neighbours[1] = neighbours[1] - cellsPerRow;
                 neighbours[2] = neighbours[2] - cellsPerRow;
                 neighbours[3] = neighbours[3] - cellsPerRow;
             }
-            if (offset === 'bottom') {
+            if (edge === 'bottom') {
                 neighbours[3] = neighbours[3] - (totalElements);
                 neighbours[4] = neighbours[4] - (totalElements);
                 neighbours[5] = neighbours[5] - (totalElements);
@@ -161,9 +161,6 @@ export const getLiveCells = (args) => {
 export const getPattern = ({ pattern, cellSize, canvasWidth, canvasHeight }) => {
     const trueX = Math.floor(canvasWidth / 2);
     const trueY = Math.floor(canvasHeight / 2);
-    let midX = Math.floor(trueX / cellSize) * cellSize
-    let midY = Math.floor(trueY / cellSize) * cellSize
-    let cells = [];
     const cellsPerRow = canvasWidth / cellSize;
     const centerIndex = getIndexFromCoordinates({
         x: trueX,
@@ -171,6 +168,7 @@ export const getPattern = ({ pattern, cellSize, canvasWidth, canvasHeight }) => 
         width: canvasWidth,
         cellSize
     })
+    let cells = [];
     if (pattern === 'random') {
         let index = 0;
         for (let x = 0; x < canvasWidth; x += cellSize) {
@@ -182,7 +180,6 @@ export const getPattern = ({ pattern, cellSize, canvasWidth, canvasHeight }) => 
             }
         }
     }
-
     if (pattern === 'blinker') {
         cells = [
             centerIndex,
@@ -221,7 +218,6 @@ export const getPattern = ({ pattern, cellSize, canvasWidth, canvasHeight }) => 
             centerIndex + cellsPerRow + 2 + cellsPerRow,
         ]
     }
-
     if (pattern === 'pulsar') {
         const top = centerIndex - (cellsPerRow * 3)
         const bottom = centerIndex + (cellsPerRow * 3)
@@ -236,7 +232,6 @@ export const getPattern = ({ pattern, cellSize, canvasWidth, canvasHeight }) => 
             bottom - cellsPerRow
         ]
     }
-
     if (pattern === 'pentaDecathlon') {
         const top = centerIndex - (cellsPerRow * 2)
         const bottom = centerIndex + (cellsPerRow * 3)
@@ -251,7 +246,6 @@ export const getPattern = ({ pattern, cellSize, canvasWidth, canvasHeight }) => 
             bottom + cellsPerRow
         ]
     }
-
     if (pattern === 'spaceShip') {
         cells = [
             centerIndex,
@@ -272,7 +266,7 @@ export const getIndexFromCoordinates = ({ x, y, width, cellSize }) => {
     const cellsPerRow = width / cellSize;
     const xPos = Math.floor(x / cellSize);
     const yPos = Math.floor(y / cellSize);
-    const index = xPos + yPos * cellsPerRow
+    const index = xPos + (yPos * cellsPerRow)
     return index;
 }
 
@@ -285,26 +279,26 @@ export const getCoordinatesFromIndex = ({ index, width, cellSize }) => {
     return [x, y]
 }
 
-const getOffsets = ({ index, width, height, cellSize }) => {
+const cellIsOnEdge = ({ index, width, height, cellSize }) => {
     const cellsPerRow = width / cellSize;
     const cellsPerColumn = height / cellSize;
     const row = Math.floor(index / cellsPerRow)
     const column = index % cellsPerRow
-    let offset = []
+    let edges = []
     if (row === 0) {
-        offset = [...offset, 'top']
+        edges = [...edges, 'top']
     }
 
     if (row === cellsPerColumn - 1) {
-        offset = [...offset, 'bottom']
+        edges = [...edges, 'bottom']
     }
 
     if (column === 0) {
-        offset = [...offset, 'left']
+        edges = [...edges, 'left']
     }
 
     if (column === cellsPerRow - 1) {
-        offset = [...offset, 'right']
+        edges = [...edges, 'right']
     }
-    return Boolean(offset.length) && offset
+    return Boolean(edges.length) && edges
 }
