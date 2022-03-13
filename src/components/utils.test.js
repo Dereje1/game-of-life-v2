@@ -10,27 +10,31 @@ describe('getting patterns', () => {
 
     test('will get the blinker pattern', () => {
         const updatedInput = { ...input, pattern: 'blinker' };
-        expect(getPattern(updatedInput)).toEqual({ cells: ['90-100', '100-100', '110-100'] })
+        expect(getPattern(updatedInput)).toEqual({ cells: [210, 209, 211] })
     })
 
     test('will get the glider pattern', () => {
         const updatedInput = { ...input, pattern: 'glider' };
-        expect(getPattern(updatedInput)).toEqual({ cells: ['90-100', '100-100', '110-100', '110-90', '100-80'] })
+        expect(getPattern(updatedInput)).toEqual({ cells: [210, 209, 211, 191, 170] })
     })
 
     test('will get the toad pattern', () => {
         const updatedInput = { ...input, pattern: 'toad' };
-        expect(getPattern(updatedInput)).toEqual({ cells: ['90-100', '100-100', '110-100', '100-90', '110-90', '120-90'] })
+        expect(getPattern(updatedInput)).toEqual({ cells: [210, 209, 211, 190, 191, 192] })
     })
 
     test('will get the beacon pattern', () => {
         const updatedInput = { ...input, pattern: 'beacon' };
         expect(getPattern(updatedInput)).toEqual({
             cells: [
-                '100-100', '90-100',
-                '90-90', '100-90',
-                '110-110', '120-110',
-                '120-120', '110-120'
+                210,
+                209,
+                189,
+                190,
+                231,
+                232,
+                251,
+                252,
             ]
         })
     })

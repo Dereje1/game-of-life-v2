@@ -70,7 +70,6 @@ class App extends Component {
         const trueX = clientX - left;
         const trueY = clientY - top;
         const index = getIndexFromCoordinates({ x: trueX, y: trueY, width, height, cellSize })
-        console.log({index})
 
         let newCells = [];
         if (cells.includes(index)) {

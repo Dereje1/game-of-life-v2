@@ -165,14 +165,12 @@ export const getPattern = ({ pattern, cellSize, canvasWidth, canvasHeight }) => 
     let midY = Math.floor(trueY / cellSize) * cellSize
     let cells = [];
     const cellsPerRow = canvasWidth / cellSize;
-    const cellsPerColumn = canvasHeight / cellSize;
     const centerIndex = getIndexFromCoordinates({
         x: trueX,
         y: trueY,
         width: canvasWidth,
         cellSize
     })
-    console.log({centerIndex})
     if (pattern === 'random') {
         let index = 0;
         for (let x = 0; x < canvasWidth; x += cellSize) {

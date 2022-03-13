@@ -56,25 +56,25 @@ test('will set the cells and canvas size', () => {
 test('will draw active cells', () => {
   const wrapper = shallow(<App />)
   wrapper.instance().handlePattern()
-  wrapper.setState({ cells: ['20-20'] })
+  wrapper.setState({ cells: [7] })
   wrapper.instance().updateCells()
   expect(clearRect).toHaveBeenCalledTimes(3)
   expect(clearRect).toHaveBeenCalledWith(0, 0, 90, 90)
-  expect(fillRect.mock.lastCall).toEqual(['20', '20', 15, 15])
+  expect(fillRect.mock.lastCall).toEqual([15, 15, 15, 15])
 });
 
 test('will refresh active cells', () => {
   const wrapper = shallow(<App />)
   wrapper.instance().handlePattern()
   // blinker oscillator
-  const liveCells = ['15-15','30-15','45-15']
+  const liveCells = [6, 7, 8]
   wrapper.setState({ cells: liveCells, refresh: true })
   wrapper.instance().updateCells()
   jest.advanceTimersByTime(140);
   const refreshedCells = [
-    '30-15',
-    '30-0',
-    '30-30'
+    7,
+    1,
+    13
   ]
   expect(wrapper.state().cells).toStrictEqual(refreshedCells)
   expect(wrapper.state().generations).toBe(1)
@@ -84,24 +84,23 @@ test('will make cells active on click', () => {
   const wrapper = shallow(<App />)
   wrapper.setState({ pattern: 'none' })
   wrapper.instance().handlePattern();
-  expect(wrapper.state().cells.includes('15-15')).toBe(false)
+  expect(wrapper.state().cells.includes(7)).toBe(false)
   wrapper.instance().handleCanvasClick({ clientX: 18, clientY: 18 })
-  expect(wrapper.state().cells.includes('15-15')).toBe(true)
+  expect(wrapper.state().cells.includes(7)).toBe(true)
 });
 
 test('will make cells in-active on click', () => {
   const wrapper = shallow(<App />)
   wrapper.setState({ pattern: 'none' })
   wrapper.instance().handlePattern();
-  wrapper.setState({ cells: ['15-15', '20-20'] })
-  expect(wrapper.state().cells).toEqual(['15-15', '20-20'] )
+  wrapper.setState({ cells: [7,8] })
   wrapper.instance().handleCanvasClick({ clientX: 18, clientY: 18 })
-  expect(wrapper.state().cells).toEqual(['20-20'] )
+  expect(wrapper.state().cells).toEqual([8])
 });
 
 test('will handle refreshing cells on play', () => {
   const wrapper = shallow(<App />)
-  wrapper.setState({refresh: false})
+  wrapper.setState({ refresh: false })
   const controlTop = wrapper.find('ControlTop')
   controlTop.props().handleRefresh()
   expect(wrapper.state().refresh).toBe(true)
@@ -158,7 +157,7 @@ test('will toggle the grid', () => {
 
 test('will cancel the pattern dialog', () => {
   const wrapper = shallow(<App />)
-  wrapper.setState({showPatternDialog: true})
+  wrapper.setState({ showPatternDialog: true })
   const controlTop = wrapper.find('PatternsDialog')
   controlTop.props().handleCancel()
   expect(wrapper.state().showPatternDialog).toBe(false)
@@ -168,6 +167,6 @@ test('will update the selected pattern', () => {
   const wrapper = shallow(<App />)
   expect(wrapper.state().pattern).toBe('random')
   const controlTop = wrapper.find('PatternsDialog')
-  controlTop.props().handlePatternChange({target:{value:'new pattern'}})
+  controlTop.props().handlePatternChange({ target: { value: 'new pattern' } })
   expect(wrapper.state().pattern).toBe('new pattern')
 });
