@@ -158,7 +158,7 @@ export const getLiveCells = (args) => {
     return [...stillLive, ...resurrectedCells];
 }
 
-export const getPattern = ({ pattern, cellSize, canvasWidth, canvasHeight }) => {
+export const getPattern = ({ patternName, cellSize, canvasWidth, canvasHeight }) => {
     const trueX = Math.floor(canvasWidth / 2);
     const trueY = Math.floor(canvasHeight / 2);
     const cellsPerRow = canvasWidth / cellSize;
@@ -169,7 +169,7 @@ export const getPattern = ({ pattern, cellSize, canvasWidth, canvasHeight }) => 
         cellSize
     })
     let cells = [];
-    if (pattern === 'random') {
+    if (patternName === 'random') {
         let index = 0;
         for (let x = 0; x < canvasWidth; x += cellSize) {
             for (let y = 0; y < canvasHeight; y += cellSize) {
@@ -180,14 +180,14 @@ export const getPattern = ({ pattern, cellSize, canvasWidth, canvasHeight }) => 
             }
         }
     }
-    if (pattern === 'blinker') {
+    if (patternName === 'blinker') {
         cells = [
             centerIndex,
             centerIndex - 1,
             centerIndex + 1,
         ]
     }
-    if (pattern === 'glider') {
+    if (patternName === 'glider') {
         cells = [
             centerIndex,
             centerIndex - 1,
@@ -196,7 +196,7 @@ export const getPattern = ({ pattern, cellSize, canvasWidth, canvasHeight }) => 
             centerIndex - (2 * cellsPerRow)
         ]
     }
-    if (pattern === 'toad') {
+    if (patternName === 'toad') {
         cells = [
             centerIndex,
             centerIndex - 1,
@@ -206,7 +206,7 @@ export const getPattern = ({ pattern, cellSize, canvasWidth, canvasHeight }) => 
             centerIndex - cellsPerRow + 2,
         ]
     }
-    if (pattern === 'beacon') {
+    if (patternName === 'beacon') {
         cells = [
             centerIndex,
             centerIndex - 1,
@@ -218,7 +218,7 @@ export const getPattern = ({ pattern, cellSize, canvasWidth, canvasHeight }) => 
             centerIndex + cellsPerRow + 2 + cellsPerRow,
         ]
     }
-    if (pattern === 'pulsar') {
+    if (patternName === 'pulsar') {
         const top = centerIndex - (cellsPerRow * 3)
         const bottom = centerIndex + (cellsPerRow * 3)
         cells = [
@@ -232,7 +232,7 @@ export const getPattern = ({ pattern, cellSize, canvasWidth, canvasHeight }) => 
             bottom - cellsPerRow
         ]
     }
-    if (pattern === 'pentaDecathlon') {
+    if (patternName === 'pentaDecathlon') {
         const top = centerIndex - (cellsPerRow * 2)
         const bottom = centerIndex + (cellsPerRow * 3)
         cells = [
@@ -246,7 +246,7 @@ export const getPattern = ({ pattern, cellSize, canvasWidth, canvasHeight }) => 
             bottom + cellsPerRow
         ]
     }
-    if (pattern === 'spaceShip') {
+    if (patternName === 'spaceShip') {
         cells = [
             centerIndex,
             centerIndex + 1,

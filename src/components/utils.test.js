@@ -2,29 +2,29 @@ import { getPattern } from './utils'
 
 describe('getting patterns', () => {
     const input = {
-        pattern: 'none',
+        patternName: 'none',
         cellSize: 10,
         canvasWidth: 200,
         canvasHeight: 200
     }
 
     test('will get the blinker pattern', () => {
-        const updatedInput = { ...input, pattern: 'blinker' };
+        const updatedInput = { ...input, patternName: 'blinker' };
         expect(getPattern(updatedInput)).toEqual({ cells: [210, 209, 211] })
     })
 
     test('will get the glider pattern', () => {
-        const updatedInput = { ...input, pattern: 'glider' };
+        const updatedInput = { ...input, patternName: 'glider' };
         expect(getPattern(updatedInput)).toEqual({ cells: [210, 209, 211, 191, 170] })
     })
 
     test('will get the toad pattern', () => {
-        const updatedInput = { ...input, pattern: 'toad' };
+        const updatedInput = { ...input, patternName: 'toad' };
         expect(getPattern(updatedInput)).toEqual({ cells: [210, 209, 211, 190, 191, 192] })
     })
 
     test('will get the beacon pattern', () => {
-        const updatedInput = { ...input, pattern: 'beacon' };
+        const updatedInput = { ...input, patternName: 'beacon' };
         expect(getPattern(updatedInput)).toEqual({
             cells: [
                 210,
@@ -40,7 +40,7 @@ describe('getting patterns', () => {
     })
 
     test('will get the pulsar pattern', () => {
-        const updatedInput = { ...input, pattern: 'pulsar' };
+        const updatedInput = { ...input, patternName: 'pulsar' };
         expect(getPattern(updatedInput)).toEqual({
             cells: [
                 150,
@@ -56,7 +56,7 @@ describe('getting patterns', () => {
     })
 
     test('will get the pentaDecathlon pattern', () => {
-        const updatedInput = { ...input, pattern: 'pentaDecathlon' };
+        const updatedInput = { ...input, patternName: 'pentaDecathlon' };
         expect(getPattern(updatedInput)).toEqual({
             cells: [
                 170,
@@ -72,7 +72,7 @@ describe('getting patterns', () => {
     })
 
     test('will get the spaceShip pattern', () => {
-        const updatedInput = { ...input, pattern: 'spaceShip' };
+        const updatedInput = { ...input, patternName: 'spaceShip' };
         expect(getPattern(updatedInput)).toEqual({
             cells: [
                      210,
@@ -89,7 +89,7 @@ describe('getting patterns', () => {
     })
 
     test('will get an empty pattern', () => {
-        const updatedInput = { ...input, pattern: 'none' };
+        const updatedInput = { ...input, patternName: 'none' };
         expect(getPattern(updatedInput)).toEqual({
             cells: []
         })

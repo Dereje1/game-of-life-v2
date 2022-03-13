@@ -7,7 +7,7 @@ import {
     getIndexFromCoordinates,
     getCoordinatesFromIndex,
 } from './components/utils'
-
+import './App.css'
 
 const MAX_ELEMENTS = 38000
 
@@ -18,11 +18,11 @@ class App extends Component {
         this.state = {
             refresh: false,
             cellSize: 15,
-            refreshRate: 140,
+            refreshRate: 100,
             generations: 0,
             showGrid: true,
             showPatternDialog: false,
-            pattern: 'random'
+            patternName: 'random'
         };
         this.Canvas = React.createRef();
         this.radioGroupRef = React.createRef();
@@ -34,7 +34,12 @@ class App extends Component {
 
     handleClear = () => {
         clearTimeout(this.timeoutId);
-        this.setState({ refresh: false, generations: 0, pattern: 'none', showPatternDialog: false }, this.handlePattern)
+        this.setState({
+            refresh: false,
+            generations: 0,
+            patternName: 'none',
+            showPatternDialog: false
+        }, this.handlePattern)
     }
 
     handleCellSize = ({ target: { value } }) => {
@@ -48,11 +53,21 @@ class App extends Component {
     }
 
     handlePattern = () => {
-        const { pattern, cellSize, canvasWidth, canvasHeight } = this.state;
+        const {
+            patternName,
+            cellSize,
+            canvasWidth,
+            canvasHeight
+        } = this.state;
         clearTimeout(this.timeoutId);
-        const { cells } = getPattern({ pattern, cellSize, canvasWidth, canvasHeight })
+        const { cells } = getPattern({
+            patternName,
+            cellSize,
+            canvasWidth,
+            canvasHeight
+        })
         this.setState({
-            refresh: pattern !== 'none',
+            refresh: patternName !== 'none',
             generations: 0,
             showPatternDialog: false,
             cells
@@ -68,12 +83,23 @@ class App extends Component {
     handleCanvasClick = (e) => {
         const { clientX, clientY } = e;
         e.preventDefault()
-        const { cells, cellSize, canvasWidth: width, canvasHeight: height } = this.state
+        const {
+            cells,
+            cellSize,
+            canvasWidth: width,
+            canvasHeight: height
+        } = this.state
         const Canvas = this.Canvas.current;
         const { left, top } = Canvas.getBoundingClientRect();
         const trueX = clientX - left;
         const trueY = clientY - top;
-        const index = getIndexFromCoordinates({ x: trueX, y: trueY, width, height, cellSize })
+        const index = getIndexFromCoordinates({
+            x: trueX,
+            y: trueY,
+            width,
+            height,
+            cellSize
+        })
 
         let newCells = [];
         if (cells.includes(index)) {
@@ -85,18 +111,39 @@ class App extends Component {
     }
 
     refreshCells = () => {
-        const { cells: oldCells, cellSize, canvasWidth: width, canvasHeight: height, generations, refresh } = this.state;
-        const newLiveCells = getLiveCells({ oldCells, cellSize, width, height });
+        const {
+            cells: oldCells,
+            cellSize,
+            canvasWidth: width,
+            canvasHeight: height,
+            generations,
+            refresh,
+            patternName
+        } = this.state;
+        const newLiveCells = getLiveCells({
+            oldCells,
+            cellSize,
+            width,
+            height
+        });
         const hasLiveCells = Boolean(newLiveCells.length)
         this.setState({
             cells: newLiveCells,
             generations: hasLiveCells ? generations + 1 : generations,
-            refresh: refresh && hasLiveCells
+            refresh: refresh && hasLiveCells,
+            patternName: hasLiveCells ? patternName: 'none'
         }, this.updateCells)
     }
 
     updateCells = () => {
-        const { cells, canvasWidth, canvasHeight, refresh, cellSize, refreshRate } = this.state;
+        const {
+            cells,
+            canvasWidth,
+            canvasHeight,
+            refresh,
+            cellSize,
+            refreshRate
+        } = this.state;
         const context = this.canvasContext
         context.clearRect(0, 0, canvasWidth, canvasHeight);
         cells.forEach(cell => {
@@ -112,7 +159,12 @@ class App extends Component {
     }
 
     refreshGrid = () => {
-        const { canvasWidth, canvasHeight, cellSize, showGrid } = this.state;
+        const {
+            canvasWidth,
+            canvasHeight,
+            cellSize,
+            showGrid
+         } = this.state;
         if (!showGrid) return null;
         const context = this.canvasContext
         for (let x = 0; x <= canvasWidth; x += cellSize) {
@@ -163,7 +215,7 @@ class App extends Component {
             canvasWidth, canvasHeight, canvasLeft,
             cellSize, refreshRate, showGrid,
             refresh, generations, showPatternDialog,
-            pattern
+            patternName
         } = this.state;
         return (
             <>
@@ -199,10 +251,10 @@ class App extends Component {
                 </div>
                 <PatternsDialog
                     open={showPatternDialog}
-                    value={pattern}
+                    value={patternName}
                     handleCancel={() => this.setState({ showPatternDialog: false })}
                     handleOk={this.handlePattern}
-                    handlePatternChange={({ target: { value } }) => this.setState({ pattern: value })}
+                    handlePatternChange={({ target: { value } }) => this.setState({ patternName: value })}
                     radioGroupRef={this.radioGroupRef}
                     handleEntering={this.handleEntering}
                 />

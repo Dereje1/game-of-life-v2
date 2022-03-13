@@ -18,7 +18,7 @@ exports[`renders 1`] = `
     handleCellSize={[Function]}
     handleRefreshRate={[Function]}
     height={12}
-    refreshRate={140}
+    refreshRate={100}
   />
   <div
     style={
