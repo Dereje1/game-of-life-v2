@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { ControlTop, ControlBottom } from './components/Controls';
 import PatternsDialog from './components/PatternsDialog';
-import { getLiveCells, getPattern } from './components/utils'
+import {
+    getLiveCells, getPattern, getIndexFromCoordinates, getCoordinatesFromIndex,
+    neighborTest
+} from './components/utils'
 
 
 const MAX_ELEMENTS = 38000
@@ -61,7 +64,7 @@ class App extends Component {
     }
 
     handleCanvasClick = ({ clientX, clientY }) => {
-        const { cells, cellSize } = this.state
+        const { cells, cellSize, canvasWidth: width, canvasHeight: height } = this.state
         const Canvas = this.Canvas.current;
         const { left, top } = Canvas.getBoundingClientRect();
         const trueX = clientX - left;
@@ -70,18 +73,27 @@ class App extends Component {
         const yFloor = Math.floor(trueY / cellSize) * cellSize
         const key = `${xFloor}-${yFloor}`
 
+        const ans = getIndexFromCoordinates({ x: trueX, y: trueY, width, height, cellSize })
+        const coords = getCoordinatesFromIndex({ index: ans, width, cellSize })
+        const neig = neighborTest({ index: ans, width, height, cellSize })
+        console.log(`Index number is --> ${ans}`)
+        //console.log(`Coordinates are --> ${coords}`)
+        console.log(`Neighbors are --> ${neig}`)
+
         let newCells = [];
-        if (cells.includes(key)) {
-            newCells = cells.filter(c => c !== key)
+        if (cells.includes(ans)) {
+            newCells = cells.filter(c => c !== ans)
         } else {
-            newCells = [...cells, key]
+            newCells = [...cells, ans]
         }
         this.setState({ cells: newCells }, this.updateCells)
     }
 
     refreshCells = () => {
         const { cells: oldCells, cellSize, canvasWidth: width, canvasHeight: height, generations, refresh } = this.state;
+        console.time('perf')
         const newLiveCells = getLiveCells({ oldCells, cellSize, width, height });
+        console.timeEnd('perf')
         const hasLiveCells = Boolean(newLiveCells.length)
         this.setState({
             cells: newLiveCells,
@@ -95,7 +107,7 @@ class App extends Component {
         const context = this.canvasContext
         context.clearRect(0, 0, canvasWidth, canvasHeight);
         cells.forEach(cell => {
-            const [x, y] = cell.split('-');
+            const [x, y] = getCoordinatesFromIndex({ index: cell, width: canvasWidth, cellSize })
             context.fillStyle = "yellow";
             context.fillRect(x, y, cellSize, cellSize)
         })
@@ -183,7 +195,7 @@ class App extends Component {
                         handleRefreshRate={this.handleRefreshRate}
                     />
                 </>
-                <div style={{ paddingLeft: canvasLeft, background:'black' }}>
+                <div style={{ paddingLeft: canvasLeft, background: 'black' }}>
                     <canvas
                         ref={this.Canvas}
                         width={canvasWidth}
