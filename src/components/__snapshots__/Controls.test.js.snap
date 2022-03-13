@@ -189,6 +189,7 @@ exports[`will render the top control 1`] = `
     </ForwardRef(IconButton)>
     <ForwardRef(IconButton)
       aria-label="reset"
+      onClick={[MockFunction]}
     >
       <Memo(ForwardRef(PatternIcon))
         style={
@@ -211,8 +212,10 @@ exports[`will render the top control 1`] = `
       />
     </ForwardRef(IconButton)>
     <ForwardRef(Checkbox)
+      checked={true}
       checkedIcon={<Memo />}
       icon={<Memo />}
+      onChange={[MockFunction]}
     />
   </div>
   <ForwardRef(Chip)
