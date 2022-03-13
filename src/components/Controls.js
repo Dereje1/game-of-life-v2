@@ -49,10 +49,10 @@ export const ControlTop = ({
             <IconButton aria-label="play_pause" onClick={isRefreshing ? handlePause : handleRefresh}>
                 <Action isRefreshing={isRefreshing} />
             </IconButton>
-            <IconButton aria-label="reset" onClick={handlePattern} disabled={isRefreshing}>
+            <IconButton aria-label="reset" onClick={handlePattern} >
                 <PatternIcon style={{ fontSize: '2.5rem' }} />
             </IconButton>
-            <IconButton aria-label="clear" onClick={handleClear} disabled={isRefreshing}>
+            <IconButton aria-label="clear" onClick={handleClear} >
                 <HighlightOffOutlinedIcon style={{ fontSize: '2.5rem' }} />
             </IconButton>
             <Checkbox
@@ -124,34 +124,35 @@ export const ControlBottom = ({
         </div>
         <div style={{ width: '30%' }}>
             <Slider
+                track="inverted"
                 aria-label="Refreshrate"
-                defaultValue={140}
+                defaultValue={100}
                 valueLabelDisplay="off"
-                step={120}
+                step={null}
                 marks={[
                     {
-                        value: 20,
-                        label: '20',
+                        value: 400,
+                        label: '400ms',
                     },
                     {
-                        value: 140,
-                        label: '140',
+                        value: 300,
+                        label: '300',
                     },
                     {
-                        value: 260,
-                        label: '260',
+                        value: 200,
+                        label: '200',
                     },
                     {
-                        value: 380,
-                        label: '380',
+                        value: 100,
+                        label: '100',
                     },
                     {
-                        value: 500,
-                        label: '500ms',
-                    }
+                        value: 1,
+                        label: 'max',
+                    },
                 ]}
-                min={20}
-                max={500}
+                min={1}
+                max={400}
                 onChange={handleRefreshRate}
                 value={refreshRate}
                 color="secondary"

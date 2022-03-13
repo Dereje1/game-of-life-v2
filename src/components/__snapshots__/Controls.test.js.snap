@@ -126,35 +126,36 @@ exports[`will render the bottom control 1`] = `
     <ForwardRef(Slider)
       aria-label="Refreshrate"
       color="secondary"
-      defaultValue={140}
+      defaultValue={100}
       marks={
         Array [
           Object {
-            "label": "20",
-            "value": 20,
+            "label": "400ms",
+            "value": 400,
           },
           Object {
-            "label": "140",
-            "value": 140,
+            "label": "300",
+            "value": 300,
           },
           Object {
-            "label": "260",
-            "value": 260,
+            "label": "200",
+            "value": 200,
           },
           Object {
-            "label": "380",
-            "value": 380,
+            "label": "100",
+            "value": 100,
           },
           Object {
-            "label": "500ms",
-            "value": 500,
+            "label": "max",
+            "value": 1,
           },
         ]
       }
-      max={500}
-      min={20}
+      max={400}
+      min={1}
       onChange={[MockFunction]}
-      step={120}
+      step={null}
+      track="inverted"
       value={140}
       valueLabelDisplay="off"
     />
@@ -188,7 +189,6 @@ exports[`will render the top control 1`] = `
     </ForwardRef(IconButton)>
     <ForwardRef(IconButton)
       aria-label="reset"
-      disabled={true}
     >
       <Memo(ForwardRef(PatternIcon))
         style={
@@ -200,7 +200,6 @@ exports[`will render the top control 1`] = `
     </ForwardRef(IconButton)>
     <ForwardRef(IconButton)
       aria-label="clear"
-      disabled={true}
       onClick={[MockFunction]}
     >
       <Memo(ForwardRef(HighlightOffOutlinedIcon))
