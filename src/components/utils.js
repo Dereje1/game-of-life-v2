@@ -223,46 +223,46 @@ export const getPattern = ({ pattern, cellSize, canvasWidth, canvasHeight }) => 
     }
 
     if (pattern === 'pulsar') {
-        midY = midY + (2 * cellSize)
-        midX = midX - (cellSize)
+        const top = centerIndex - (cellsPerRow * 3)
+        const bottom = centerIndex + (cellsPerRow * 3)
         cells = [
-            `${midX}-${midY}`,
-            `${midX - cellSize}-${midY}`,
-            `${midX + cellSize}-${midY}`,
-            `${midX}-${midY - cellSize}`,
-            `${midX}-${midY - (6 * cellSize)}`,
-            `${midX - cellSize}-${midY - (6 * cellSize)}`,
-            `${midX + cellSize}-${midY - (6 * cellSize)}`,
-            `${midX}-${midY - (7 * cellSize)}`,
+            top,
+            top - 1,
+            top + 1,
+            top + cellsPerRow,
+            bottom,
+            bottom - 1,
+            bottom + 1,
+            bottom - cellsPerRow
         ]
     }
 
     if (pattern === 'pentaDecathlon') {
-        midY = midY + (2 * cellSize)
-        midX = midX - (cellSize)
+        const top = centerIndex - (cellsPerRow * 2)
+        const bottom = centerIndex + (cellsPerRow * 3)
         cells = [
-            `${midX}-${midY}`,
-            `${midX - cellSize}-${midY}`,
-            `${midX + cellSize}-${midY}`,
-            `${midX}-${midY + cellSize}`,
-            `${midX}-${midY - (5 * cellSize)}`,
-            `${midX - cellSize}-${midY - (5 * cellSize)}`,
-            `${midX + cellSize}-${midY - (5 * cellSize)}`,
-            `${midX}-${midY - (6 * cellSize)}`,
+            top,
+            top - 1,
+            top + 1,
+            top - cellsPerRow,
+            bottom,
+            bottom - 1,
+            bottom + 1,
+            bottom + cellsPerRow
         ]
     }
 
     if (pattern === 'spaceShip') {
         cells = [
-            `${midX - cellSize}-${midY}`,
-            `${midX}-${midY}`,
-            `${midX + cellSize}-${midY}`,
-            `${midX - (2 * cellSize)}-${midY}`,
-            `${midX - (2 * cellSize)}-${midY - cellSize}`,
-            `${midX - (2 * cellSize)}-${midY - (2 * cellSize)}`,
-            `${midX - (cellSize)}-${midY - (3 * cellSize)}`,
-            `${midX + (2 * cellSize)}-${midY - (3 * cellSize)}`,
-            `${midX + (2 * cellSize)}-${midY - (cellSize)}`,
+            centerIndex,
+            centerIndex + 1,
+            centerIndex + 2,
+            centerIndex + 3,
+            centerIndex + 4 - cellsPerRow,
+            centerIndex - cellsPerRow,
+            centerIndex - (2 * cellsPerRow),
+            centerIndex - (3 * cellsPerRow) + 1,
+            centerIndex + 4 - (3 * cellsPerRow),
         ]
     }
     return { cells }
