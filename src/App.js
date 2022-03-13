@@ -69,31 +69,21 @@ class App extends Component {
         const { left, top } = Canvas.getBoundingClientRect();
         const trueX = clientX - left;
         const trueY = clientY - top;
-        const xFloor = Math.floor(trueX / cellSize) * cellSize
-        const yFloor = Math.floor(trueY / cellSize) * cellSize
-        const key = `${xFloor}-${yFloor}`
-
-        const ans = getIndexFromCoordinates({ x: trueX, y: trueY, width, height, cellSize })
-        const coords = getCoordinatesFromIndex({ index: ans, width, cellSize })
-        const neig = neighborTest({ index: ans, width, height, cellSize })
-        console.log(`Index number is --> ${ans}`)
-        //console.log(`Coordinates are --> ${coords}`)
-        console.log(`Neighbors are --> ${neig}`)
+        const index = getIndexFromCoordinates({ x: trueX, y: trueY, width, height, cellSize })
+        console.log({index})
 
         let newCells = [];
-        if (cells.includes(ans)) {
-            newCells = cells.filter(c => c !== ans)
+        if (cells.includes(index)) {
+            newCells = cells.filter(c => c !== index)
         } else {
-            newCells = [...cells, ans]
+            newCells = [...cells, index]
         }
         this.setState({ cells: newCells }, this.updateCells)
     }
 
     refreshCells = () => {
         const { cells: oldCells, cellSize, canvasWidth: width, canvasHeight: height, generations, refresh } = this.state;
-        console.time('perf')
         const newLiveCells = getLiveCells({ oldCells, cellSize, width, height });
-        console.timeEnd('perf')
         const hasLiveCells = Boolean(newLiveCells.length)
         this.setState({
             cells: newLiveCells,

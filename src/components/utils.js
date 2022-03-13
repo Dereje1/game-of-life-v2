@@ -49,18 +49,30 @@ const binarySearch = function ({ arr, x, start = 0, end }) {
 const getNeighbours = ({ cell, cellSize, width, height }) => {
     const cellsPerRow = width / cellSize;
     const cellsPerColumn = height / cellSize;
+    const totalElements = cellsPerRow * cellsPerColumn;
     const offsets = getOffsets({ index: cell, width, height, cellSize })
+    /* order of neigbbours - clockwise
+        0: north
+        1: north east
+        2: east
+        3: southeast
+        4: south
+        5: south west
+        6: west
+        7: northwest
+    */
     let neighbours = [
-        cell - cellsPerRow, //north
-        cell - cellsPerRow + 1, //north east
-        cell + 1, // east
-        cell + cellsPerRow + 1, //southeast
-        cell + cellsPerRow, // south
-        cell + cellsPerRow - 1, // south west
-        cell - 1, // west
-        cell - cellsPerRow - 1, // northwest
+        cell - cellsPerRow,
+        cell - cellsPerRow + 1,
+        cell + 1,
+        cell + cellsPerRow + 1,
+        cell + cellsPerRow,
+        cell + cellsPerRow - 1,
+        cell - 1,
+        cell - cellsPerRow - 1,
     ]
 
+    // to wrap cells around edges
     if (offsets) {
         offsets.forEach(offset => {
             if (offset === 'left') {
@@ -69,9 +81,9 @@ const getNeighbours = ({ cell, cellSize, width, height }) => {
                 neighbours[7] = neighbours[7] + cellsPerRow;
             }
             if (offset === 'top') {
-                neighbours[0] = neighbours[0] + (cellsPerColumn * cellsPerRow);
-                neighbours[1] = neighbours[1] + (cellsPerColumn * cellsPerRow);
-                neighbours[7] = neighbours[7] + (cellsPerColumn * cellsPerRow);
+                neighbours[0] = neighbours[0] + (totalElements);
+                neighbours[1] = neighbours[1] + (totalElements);
+                neighbours[7] = neighbours[7] + (totalElements);
             }
             if (offset === 'right') {
                 neighbours[1] = neighbours[1] - cellsPerRow;
@@ -79,9 +91,9 @@ const getNeighbours = ({ cell, cellSize, width, height }) => {
                 neighbours[3] = neighbours[3] - cellsPerRow;
             }
             if (offset === 'bottom') {
-                neighbours[3] = neighbours[3] - (cellsPerColumn * cellsPerRow);
-                neighbours[4] = neighbours[4] - (cellsPerColumn * cellsPerRow);
-                neighbours[5] = neighbours[5] - (cellsPerColumn * cellsPerRow);
+                neighbours[3] = neighbours[3] - (totalElements);
+                neighbours[4] = neighbours[4] - (totalElements);
+                neighbours[5] = neighbours[5] - (totalElements);
             }
         })
     }
@@ -154,7 +166,13 @@ export const getPattern = ({ pattern, cellSize, canvasWidth, canvasHeight }) => 
     let cells = [];
     const cellsPerRow = canvasWidth / cellSize;
     const cellsPerColumn = canvasHeight / cellSize;
-    const midNew = Math.floor((cellsPerRow * cellsPerColumn) / 2)
+    const centerIndex = getIndexFromCoordinates({
+        x: trueX,
+        y: trueY,
+        width: canvasWidth,
+        cellSize
+    })
+    console.log({centerIndex})
     if (pattern === 'random') {
         let index = 0;
         for (let x = 0; x < canvasWidth; x += cellSize) {
@@ -169,40 +187,40 @@ export const getPattern = ({ pattern, cellSize, canvasWidth, canvasHeight }) => 
 
     if (pattern === 'blinker') {
         cells = [
-            `${midX - cellSize}-${midY}`,
-            `${midX}-${midY}`,
-            `${midX + cellSize}-${midY}`
+            centerIndex,
+            centerIndex - 1,
+            centerIndex + 1,
         ]
     }
     if (pattern === 'glider') {
         cells = [
-            midNew,
-            midNew - 1,
-            midNew + 1,
-            midNew + 1 - cellsPerRow,
-            midNew - (2 * cellsPerRow)
+            centerIndex,
+            centerIndex - 1,
+            centerIndex + 1,
+            centerIndex + 1 - cellsPerRow,
+            centerIndex - (2 * cellsPerRow)
         ]
     }
     if (pattern === 'toad') {
         cells = [
-            `${midX - cellSize}-${midY}`,
-            `${midX}-${midY}`,
-            `${midX + cellSize}-${midY}`,
-            `${midX}-${midY - cellSize}`,
-            `${midX + cellSize}-${midY - cellSize}`,
-            `${midX + (2 * cellSize)}-${midY - cellSize}`
+            centerIndex,
+            centerIndex - 1,
+            centerIndex + 1,
+            centerIndex - cellsPerRow,
+            centerIndex - cellsPerRow + 1,
+            centerIndex - cellsPerRow + 2,
         ]
     }
     if (pattern === 'beacon') {
         cells = [
-            `${midX}-${midY}`,
-            `${midX - cellSize}-${midY}`,
-            `${midX - cellSize}-${midY - cellSize}`,
-            `${midX}-${midY - cellSize}`,
-            `${midX + cellSize}-${midY + cellSize}`,
-            `${midX + (2 * cellSize)}-${midY + cellSize}`,
-            `${midX + (2 * cellSize)}-${midY + (2 * cellSize)}`,
-            `${midX + cellSize}-${midY + (2 * cellSize)}`,
+            centerIndex,
+            centerIndex - 1,
+            centerIndex - 1 - cellsPerRow,
+            centerIndex - cellsPerRow,
+            centerIndex + cellsPerRow + 1,
+            centerIndex + cellsPerRow + 2,
+            centerIndex + cellsPerRow + 1 + cellsPerRow,
+            centerIndex + cellsPerRow + 2 + cellsPerRow,
         ]
     }
 
@@ -269,49 +287,6 @@ export const getCoordinatesFromIndex = ({ index, width, cellSize }) => {
     return [x, y]
 }
 
-export const neighborTest = ({ index, width, height, cellSize }) => {
-    const cellsPerRow = width / cellSize;
-    const cellsPerColumn = height / cellSize;
-    const offsets = getOffsets({ index, width, height, cellSize })
-    let neighbours = [
-        index - cellsPerRow, //north
-        index - cellsPerRow + 1, //north east
-        index + 1, // east
-        index + cellsPerRow + 1, //southeast
-        index + cellsPerRow, // south
-        index + cellsPerRow - 1, // south west
-        index - 1, // west
-        index - cellsPerRow - 1, // northwest
-    ]
-
-    if (offsets) {
-        offsets.forEach(offset => {
-            if (offset === 'left') {
-                neighbours[5] = neighbours[5] + cellsPerRow;
-                neighbours[6] = neighbours[6] + cellsPerRow;
-                neighbours[7] = neighbours[7] + cellsPerRow;
-            }
-            if (offset === 'top') {
-                neighbours[0] = neighbours[0] + (cellsPerColumn * cellsPerRow);
-                neighbours[1] = neighbours[1] + (cellsPerColumn * cellsPerRow);
-                neighbours[7] = neighbours[7] + (cellsPerColumn * cellsPerRow);
-            }
-            if (offset === 'right') {
-                neighbours[1] = neighbours[1] - cellsPerRow;
-                neighbours[2] = neighbours[2] - cellsPerRow;
-                neighbours[3] = neighbours[3] - cellsPerRow;
-            }
-            if (offset === 'bottom') {
-                neighbours[3] = neighbours[3] - (cellsPerColumn * cellsPerRow);
-                neighbours[4] = neighbours[4] - (cellsPerColumn * cellsPerRow);
-                neighbours[5] = neighbours[5] - (cellsPerColumn * cellsPerRow);
-            }
-        })
-    }
-
-    return neighbours
-
-}
 const getOffsets = ({ index, width, height, cellSize }) => {
     const cellsPerRow = width / cellSize;
     const cellsPerColumn = height / cellSize;
@@ -321,16 +296,17 @@ const getOffsets = ({ index, width, height, cellSize }) => {
     if (row === 0) {
         offset = [...offset, 'top']
     }
+
+    if (row === cellsPerColumn - 1) {
+        offset = [...offset, 'bottom']
+    }
+
     if (column === 0) {
         offset = [...offset, 'left']
     }
 
     if (column === cellsPerRow - 1) {
         offset = [...offset, 'right']
-    }
-
-    if (row === cellsPerColumn - 1) {
-        offset = [...offset, 'bottom']
     }
     return Boolean(offset.length) && offset
 }
