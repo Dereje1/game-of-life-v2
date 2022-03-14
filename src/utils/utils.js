@@ -170,25 +170,25 @@ export const getLiveCells = (args) => {
   return [...stillLive, ...resurrectedCells];
 };
 
-export const getPattern = ({ patternName, cellSize, canvasWidth, canvasHeight }) => {
-  const trueX = Math.floor(canvasWidth / 2);
-  const trueY = Math.floor(canvasHeight / 2);
-  const cellsPerRow = canvasWidth / cellSize;
+export const getPattern = ({ patternName, cellSize, width, height }) => {
+  const trueX = Math.floor(width / 2);
+  const trueY = Math.floor(height / 2);
+  const cellsPerRow = width / cellSize;
   const centerIndex = getIndexFromCoordinates({
     x: trueX,
     y: trueY,
-    width: canvasWidth,
+    width,
     cellSize
   });
   let cells = [];
   if (patternName === "random") {
     let index = 0;
-    for (let x = 0; x < canvasWidth; x += cellSize) {
-      for (let y = 0; y < canvasHeight; y += cellSize) {
-        index++;
+    for (let x = 0; x < width; x += cellSize) {
+      for (let y = 0; y < height; y += cellSize) {
         if (Math.random() < 0.5) {
           cells.push(index);
         }
+        index++;
       }
     }
   }

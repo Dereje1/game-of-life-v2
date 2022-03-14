@@ -4,8 +4,8 @@ describe("getting patterns", () => {
   const input = {
     patternName: "none",
     cellSize: 10,
-    canvasWidth: 200,
-    canvasHeight: 200
+    width: 200,
+    height: 200
   };
 
   test("will get the blinker pattern", () => {

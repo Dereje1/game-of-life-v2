@@ -33,6 +33,8 @@ afterEach(() => {
   clearRect.mockClear();
   fillRect.mockClear();
   focus.mockClear();
+  global.innerWidth = 0;
+  global.innerHeight = 0;
 });
 
 test("renders", () => {
@@ -47,6 +49,19 @@ test("will set the cells and canvas size", () => {
   expect(wrapper.state().cells).toStrictEqual([]);
   expect(wrapper.state().canvasWidth).toBe(90);
   expect(wrapper.state().canvasHeight).toBe(90);
+  expect(wrapper.state().cellSize).toBe(15);
+});
+
+test("will limit the canvas size if # elements exceeds allotted", () => {
+  global.innerWidth = 3500;
+  global.innerHeight = 3500;
+  const wrapper = shallow(<App />);
+  wrapper.setState({ patternName: "none" });
+  wrapper.instance().handlePattern();
+  expect(wrapper.state().cells).toStrictEqual([]);
+  expect(wrapper.state().canvasWidth).toBe(1440);
+  expect(wrapper.state().canvasHeight).toBe(655);
+  expect(wrapper.state().cellSize).toBe(5);
 });
 
 test("will draw active cells", () => {

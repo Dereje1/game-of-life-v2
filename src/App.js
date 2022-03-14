@@ -55,13 +55,13 @@ class App extends Component {
   };
 
   handlePattern = () => {
-    const { patternName, cellSize, canvasWidth, canvasHeight } = this.state;
+    const { patternName, cellSize, canvasWidth: width, canvasHeight: height } = this.state;
     clearTimeout(this.timeoutId);
     const { cells } = getPattern({
       patternName,
       cellSize,
-      canvasWidth,
-      canvasHeight
+      width,
+      height
     });
     this.setState(
       {
@@ -175,7 +175,7 @@ class App extends Component {
 
   loadCanvas = () => {
     const { innerWidth, innerHeight } = window;
-    const { cellSize } = this.state;
+    let { cellSize } = this.state;
     const totalCellsX = Math.floor(innerWidth / cellSize);
     const totalCellsY = Math.floor((innerHeight * 0.8) / cellSize);
     const totalElements = totalCellsX * totalCellsY;
@@ -184,7 +184,8 @@ class App extends Component {
 
     if (totalElements > MAX_ELEMENTS) {
       canvasWidth = 1440;
-      canvasHeight = 565;
+      canvasHeight = 655;
+      cellSize = 5;
     }
 
     const canvas = this.Canvas.current;
@@ -196,7 +197,7 @@ class App extends Component {
         canvasWidth,
         canvasHeight,
         canvasLeft: (innerWidth - canvasWidth) / 2,
-        cellSize: totalElements > MAX_ELEMENTS ? 5 : cellSize
+        cellSize
       },
       this.handlePattern
     );
