@@ -6,7 +6,7 @@ import {
   getPattern,
   getIndexFromCoordinates,
   getCoordinatesFromIndex
-} from "./components/utils";
+} from "./utils/utils";
 import "./App.css";
 
 const MAX_ELEMENTS = 38000;
