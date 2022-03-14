@@ -1,11 +1,16 @@
-const addCellAscending = (resurrectedCells, cell) => {
+const addCellAscending = (cells, cell) => {
   // add cell by keeping sort order
-  for (let i = 0; i < resurrectedCells.length; i++) {
-    if (cell < resurrectedCells[i]) {
-      return [...resurrectedCells.slice(0, i), cell, ...resurrectedCells.slice(i)];
+  for (let i = 0; i < cells.length; i++) {
+    if (cell < cells[i]) {
+      /*
+        note: splice seems slightly more performant than the prev slice method:
+        return [...cells.slice(0, i), cell, ...cells.slice(i)];
+      */
+      cells.splice(i, 0, cell);
+      return cells;
     }
   }
-  return [...resurrectedCells, cell];
+  return [...cells, cell];
 };
 // checks for dead cells
 const canResurrectCell = ({ liveCells, ...args }) => {
@@ -217,8 +222,8 @@ export const getPattern = ({ patternName, cellSize, canvasWidth, canvasHeight })
       centerIndex - cellsPerRow,
       centerIndex + cellsPerRow + 1,
       centerIndex + cellsPerRow + 2,
-      centerIndex + cellsPerRow + 1 + cellsPerRow,
-      centerIndex + cellsPerRow + 2 + cellsPerRow
+      centerIndex + 1 + 2 * cellsPerRow,
+      centerIndex + 2 + 2 * cellsPerRow
     ];
   }
   if (patternName === "pulsar") {
