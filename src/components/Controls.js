@@ -125,35 +125,34 @@ export const ControlBottom = ({
     </div>
     <div style={{ width: "30%" }}>
       <Slider
-        track="inverted"
         aria-label="Refreshrate"
-        defaultValue={100}
+        defaultValue={-100}
         valueLabelDisplay="off"
         step={null}
         marks={[
           {
-            value: 400,
+            value: -400,
             label: "400ms"
           },
           {
-            value: 300,
+            value: -300,
             label: "300"
           },
           {
-            value: 200,
+            value: -200,
             label: "200"
           },
           {
-            value: 100,
+            value: -100,
             label: "100"
           },
           {
-            value: 1,
+            value: -1,
             label: "max"
           }
         ]}
-        min={1}
-        max={400}
+        min={-400}
+        max={-1}
         onChange={handleRefreshRate}
         value={refreshRate}
         color="secondary"

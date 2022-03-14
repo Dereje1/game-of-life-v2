@@ -2,7 +2,8 @@
   "env": {
     "browser": true,
     "es2021": true,
-    "jest": true
+    "jest": true,
+    "node": true
   },
   "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:prettier/recommended"],
   "parserOptions": {
@@ -15,5 +16,11 @@
   "plugins": ["react"],
   "rules": {
     "comma-dangle": [2, "never"]
+  },
+  "ignorePatterns": ["build/*"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   }
 }

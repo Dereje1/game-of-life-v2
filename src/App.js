@@ -51,7 +51,7 @@ class App extends Component {
 
   handleRefreshRate = ({ target: { value } }) => {
     clearTimeout(this.timeoutId);
-    this.setState({ refreshRate: value }, this.updateCells);
+    this.setState({ refreshRate: value * -1 }, this.updateCells);
   };
 
   handlePattern = () => {
@@ -233,7 +233,7 @@ class App extends Component {
           <ControlBottom
             height={window.innerHeight * 0.1}
             cellSize={cellSize}
-            refreshRate={refreshRate}
+            refreshRate={refreshRate * -1}
             handleCellSize={this.handleCellSize}
             handleRefreshRate={this.handleRefreshRate}
           />

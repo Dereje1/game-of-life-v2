@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import React from "react";
 import { shallow } from "enzyme";
 import toJson from "enzyme-to-json";
@@ -163,7 +160,7 @@ test("will handle adjusting the refresh rate", () => {
   const wrapper = shallow(<App />);
   expect(wrapper.state().refreshRate).toBe(100);
   const controlBottom = wrapper.find("ControlBottom");
-  controlBottom.props().handleRefreshRate({ target: { value: 300 } });
+  controlBottom.props().handleRefreshRate({ target: { value: -300 } });
   expect(wrapper.state().refreshRate).toBe(300);
 });
 

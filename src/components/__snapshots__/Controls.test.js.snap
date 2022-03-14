@@ -126,36 +126,35 @@ exports[`will render the bottom control 1`] = `
     <ForwardRef(Slider)
       aria-label="Refreshrate"
       color="secondary"
-      defaultValue={100}
+      defaultValue={-100}
       marks={
         Array [
           Object {
             "label": "400ms",
-            "value": 400,
+            "value": -400,
           },
           Object {
             "label": "300",
-            "value": 300,
+            "value": -300,
           },
           Object {
             "label": "200",
-            "value": 200,
+            "value": -200,
           },
           Object {
             "label": "100",
-            "value": 100,
+            "value": -100,
           },
           Object {
             "label": "max",
-            "value": 1,
+            "value": -1,
           },
         ]
       }
-      max={400}
-      min={1}
+      max={-1}
+      min={-400}
       onChange={[MockFunction]}
       step={null}
-      track="inverted"
       value={140}
       valueLabelDisplay="off"
     />
