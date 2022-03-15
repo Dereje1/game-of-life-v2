@@ -4,9 +4,19 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+const props = {
+  refresh: false,
+  cellSize: 15,
+  refreshRate: 100,
+  generations: 0,
+  showGrid: true,
+  showPatternDialog: false,
+  patternName: "random"
+};
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App {...props} />
   </React.StrictMode>,
   document.getElementById("root")
 );

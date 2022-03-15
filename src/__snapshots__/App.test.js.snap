@@ -10,7 +10,8 @@ exports[`renders 1`] = `
     handlePause={[Function]}
     handleRefresh={[Function]}
     height={12}
-    isRefreshing={true}
+    isRefreshing={false}
+    patternName="none"
     showGrid={true}
   />
   <ControlBottom
@@ -51,7 +52,7 @@ exports[`renders 1`] = `
         },
       }
     }
-    value="random"
+    value="none"
   />
 </Fragment>
 `;

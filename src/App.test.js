@@ -5,10 +5,21 @@ import App from "./App";
 
 jest.useFakeTimers();
 
+const initialProps = {
+  refresh: false,
+  cellSize: 15,
+  refreshRate: 100,
+  generations: 0,
+  showGrid: true,
+  showPatternDialog: false,
+  patternName: "none"
+};
+
 let useRefSpy;
 const clearRect = jest.fn();
 const fillRect = jest.fn();
 const focus = jest.fn();
+
 beforeEach(() => {
   useRefSpy = jest.spyOn(React, "createRef").mockImplementation(() => ({
     current: {
@@ -38,14 +49,12 @@ afterEach(() => {
 });
 
 test("renders", () => {
-  const wrapper = shallow(<App />);
+  const wrapper = shallow(<App {...initialProps} />);
   expect(toJson(wrapper)).toMatchSnapshot();
 });
 
-test("will set the cells and canvas size", () => {
-  const wrapper = shallow(<App />);
-  wrapper.setState({ patternName: "none" });
-  wrapper.instance().handlePattern();
+test("will set the size of the canvas and cells", () => {
+  const wrapper = shallow(<App {...initialProps} />);
   expect(wrapper.state().cells).toStrictEqual([]);
   expect(wrapper.state().canvasWidth).toBe(90);
   expect(wrapper.state().canvasHeight).toBe(90);
@@ -55,27 +64,26 @@ test("will set the cells and canvas size", () => {
 test("will limit the canvas size if # elements exceeds allotted", () => {
   global.innerWidth = 3500;
   global.innerHeight = 3500;
-  const wrapper = shallow(<App />);
-  wrapper.setState({ patternName: "none" });
-  wrapper.instance().handlePattern();
+  const wrapper = shallow(<App {...initialProps} />);
   expect(wrapper.state().cells).toStrictEqual([]);
   expect(wrapper.state().canvasWidth).toBe(1440);
   expect(wrapper.state().canvasHeight).toBe(655);
   expect(wrapper.state().cellSize).toBe(5);
 });
 
-test("will draw active cells", () => {
-  const wrapper = shallow(<App />);
-  wrapper.instance().handlePattern();
+test("will draw active cells on canvas", () => {
+  const wrapper = shallow(<App {...initialProps} />);
   wrapper.setState({ cells: [7] });
   wrapper.instance().updateCells();
-  expect(clearRect).toHaveBeenCalledTimes(3);
+  //first call for clearRect on CDM, second one on updateCells
+  expect(clearRect).toHaveBeenCalledTimes(2);
   expect(clearRect).toHaveBeenCalledWith(0, 0, 90, 90);
+  expect(fillRect).toHaveBeenCalledTimes(1);
   expect(fillRect.mock.lastCall).toEqual([15, 15, 15, 15]);
 });
 
 test("will refresh active cells", () => {
-  const wrapper = shallow(<App />);
+  const wrapper = shallow(<App {...initialProps} />);
   wrapper.instance().handlePattern();
   // blinker oscillator
   const liveCells = [6, 7, 8];
@@ -95,7 +103,7 @@ test("will refresh active cells", () => {
 });
 
 test("will stop refresh of active cells if no live cells found", () => {
-  const wrapper = shallow(<App />);
+  const wrapper = shallow(<App {...initialProps} />);
   wrapper.instance().handlePattern();
   const liveCells = [7];
   wrapper.setState({
@@ -113,8 +121,7 @@ test("will stop refresh of active cells if no live cells found", () => {
 });
 
 test("will make cells active on click", () => {
-  const wrapper = shallow(<App />);
-  wrapper.setState({ patternName: "none" });
+  const wrapper = shallow(<App {...initialProps} />);
   wrapper.instance().handlePattern();
   expect(wrapper.state().cells.includes(7)).toBe(false);
   wrapper.instance().handleCanvasClick({ clientX: 18, clientY: 18, preventDefault: jest.fn() });
@@ -122,24 +129,22 @@ test("will make cells active on click", () => {
 });
 
 test("will make cells in-active on click", () => {
-  const wrapper = shallow(<App />);
-  wrapper.setState({ pattern: "none" });
-  wrapper.instance().handlePattern();
+  const wrapper = shallow(<App {...initialProps} />);
   wrapper.setState({ cells: [7, 8] });
   wrapper.instance().handleCanvasClick({ clientX: 18, clientY: 18, preventDefault: jest.fn() });
   expect(wrapper.state().cells).toEqual([8]);
 });
 
 test("will handle refreshing cells on play", () => {
-  const wrapper = shallow(<App />);
-  wrapper.setState({ refresh: false });
+  const wrapper = shallow(<App {...initialProps} />);
+  wrapper.setState({ refresh: false, cells: [6, 7, 8] });
   const controlTop = wrapper.find("ControlTop");
   controlTop.props().handleRefresh();
   expect(wrapper.state().refresh).toBe(true);
 });
 
 test("will handle stopping cell refresh on pause", () => {
-  const wrapper = shallow(<App />);
+  const wrapper = shallow(<App {...initialProps} />);
   wrapper.setState({ refresh: true });
   const controlTop = wrapper.find("ControlTop");
   controlTop.props().handlePause();
@@ -147,14 +152,14 @@ test("will handle stopping cell refresh on pause", () => {
 });
 
 test("will handle showing the pattern dialog", () => {
-  const wrapper = shallow(<App />);
+  const wrapper = shallow(<App {...initialProps} />);
   const controlTop = wrapper.find("ControlTop");
   controlTop.props().handlePattern();
   expect(wrapper.state().showPatternDialog).toBe(true);
 });
 
 test("will handle clearing all live cells in the grid", () => {
-  const wrapper = shallow(<App />);
+  const wrapper = shallow(<App {...initialProps} />);
   wrapper.setState({ refresh: true, generations: 10 });
   const controlTop = wrapper.find("ControlTop");
   controlTop.props().handleClear();
@@ -163,7 +168,7 @@ test("will handle clearing all live cells in the grid", () => {
 });
 
 test("will handle adjusting the cellSize", () => {
-  const wrapper = shallow(<App />);
+  const wrapper = shallow(<App {...initialProps} />);
   wrapper.setState({ refresh: true, generations: 10 });
   expect(wrapper.state().cellSize).toBe(15);
   const controlBottom = wrapper.find("ControlBottom");
@@ -172,7 +177,7 @@ test("will handle adjusting the cellSize", () => {
 });
 
 test("will handle adjusting the refresh rate", () => {
-  const wrapper = shallow(<App />);
+  const wrapper = shallow(<App {...initialProps} />);
   expect(wrapper.state().refreshRate).toBe(100);
   const controlBottom = wrapper.find("ControlBottom");
   controlBottom.props().handleRefreshRate({ target: { value: -300 } });
@@ -180,7 +185,7 @@ test("will handle adjusting the refresh rate", () => {
 });
 
 test("will toggle the grid", () => {
-  const wrapper = shallow(<App />);
+  const wrapper = shallow(<App {...initialProps} />);
   expect(wrapper.state().showGrid).toBe(true);
   const controlTop = wrapper.find("ControlTop");
   controlTop.props().handleGrid();
@@ -188,25 +193,26 @@ test("will toggle the grid", () => {
 });
 
 test("will cancel the pattern dialog", () => {
-  const wrapper = shallow(<App />);
-  wrapper.setState({ showPatternDialog: true });
-  const controlTop = wrapper.find("PatternsDialog");
-  controlTop.props().handleCancel();
+  const wrapper = shallow(<App {...initialProps} />);
+  const controlTop = wrapper.find("ControlTop");
+  controlTop.props().handlePattern();
+  expect(wrapper.state().showPatternDialog).toBe(true);
+  const patternsDialog = wrapper.find("PatternsDialog");
+  patternsDialog.props().handleCancel();
   expect(wrapper.state().showPatternDialog).toBe(false);
 });
 
 test("will update the selected pattern", () => {
-  const wrapper = shallow(<App />);
-  expect(wrapper.state().patternName).toBe("random");
-  const controlTop = wrapper.find("PatternsDialog");
-  controlTop.props().handlePatternChange({ target: { value: "new pattern" } });
+  const wrapper = shallow(<App {...initialProps} />);
+  expect(wrapper.state().patternName).toBe("none");
+  const patternsDialog = wrapper.find("PatternsDialog");
+  patternsDialog.props().handlePatternChange({ target: { value: "new pattern" } });
   expect(wrapper.state().patternName).toBe("new pattern");
 });
 
 test("will handle focus on entering of the pattern dialog", () => {
-  const wrapper = shallow(<App />);
-  wrapper.setState({ showPatternDialog: true });
-  const controlTop = wrapper.find("PatternsDialog");
-  controlTop.props().handleEntering();
+  const wrapper = shallow(<App {...initialProps} />);
+  const patternsDialog = wrapper.find("PatternsDialog");
+  patternsDialog.props().handleEntering();
   expect(focus).toHaveBeenCalledTimes(1);
 });

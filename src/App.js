@@ -14,15 +14,7 @@ const MAX_ELEMENTS = 38000;
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      refresh: false,
-      cellSize: 15,
-      refreshRate: 100,
-      generations: 0,
-      showGrid: true,
-      showPatternDialog: false,
-      patternName: "random"
-    };
+    this.state = { ...this.props };
     this.Canvas = React.createRef();
     this.radioGroupRef = React.createRef();
   }
@@ -229,6 +221,7 @@ class App extends Component {
             handlePattern={() => this.setState({ showPatternDialog: true })}
             handleClear={this.handleClear}
             handleGrid={() => this.setState({ showGrid: !showGrid }, this.updateCells)}
+            patternName={patternName}
           />
 
           <ControlBottom
