@@ -189,7 +189,8 @@ class App extends Component {
         canvasWidth,
         canvasHeight,
         canvasLeft: (innerWidth - canvasWidth) / 2,
-        cellSize
+        cellSize,
+        isMaxElemets: totalElements > MAX_ELEMENTS
       },
       this.handlePattern
     );
@@ -206,7 +207,8 @@ class App extends Component {
       refresh,
       generations,
       showPatternDialog,
-      patternName
+      patternName,
+      isMaxElemets
     } = this.state;
     return (
       <>
@@ -232,7 +234,13 @@ class App extends Component {
             handleRefreshRate={this.handleRefreshRate}
           />
         </>
-        <div style={{ paddingLeft: canvasLeft, background: "black" }}>
+        <div
+          style={{
+            paddingLeft: canvasLeft,
+            background: isMaxElemets ? "white" : "black",
+            height: window.innerHeight * 0.8
+          }}
+        >
           <canvas
             ref={this.Canvas}
             width={canvasWidth}
