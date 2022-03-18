@@ -11,7 +11,8 @@ const props = {
   generations: 0,
   showGrid: true,
   showPatternDialog: false,
-  patternName: "random"
+  patternName: "random",
+  metricCounter: 0
 };
 
 ReactDOM.render(

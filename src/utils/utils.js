@@ -39,7 +39,7 @@ const binarySearch = function ({ arr, x, start = 0, end }) {
   let mid = Math.floor((start + end) / 2);
 
   // Compare mid with given key x
-  if (arr[mid] === x) return true;
+  if ((arr[mid] ^ x) == 0) return true;
 
   // If element at mid is greater than x,
   // search in the left half of mid
@@ -50,8 +50,8 @@ const binarySearch = function ({ arr, x, start = 0, end }) {
 };
 
 const getNeighbours = ({ cell, cellSize, width, height }) => {
-  const cellsPerRow = width / cellSize;
-  const cellsPerColumn = height / cellSize;
+  const cellsPerRow = ~~(width / cellSize);
+  const cellsPerColumn = ~~(height / cellSize);
   const totalElements = cellsPerRow * cellsPerColumn;
   const edges = cellIsOnEdge({ index: cell, width, height, cellSize });
   /* order of neigbbours - clockwise

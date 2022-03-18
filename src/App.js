@@ -38,12 +38,24 @@ class App extends Component {
 
   handleCellSize = ({ target: { value } }) => {
     clearTimeout(this.timeoutId);
-    this.setState({ refresh: false, cellSize: value, generations: 0 }, this.loadCanvas);
+    this.setState(
+      {
+        refresh: false,
+        cellSize: value,
+        generations: 0,
+        metricTimeStamp: Date.now(),
+        metricCounter: 0
+      },
+      this.loadCanvas
+    );
   };
 
   handleRefreshRate = ({ target: { value } }) => {
     clearTimeout(this.timeoutId);
-    this.setState({ refreshRate: value * -1 }, this.updateCells);
+    this.setState(
+      { refreshRate: value * -1, metricTimeStamp: Date.now(), metricCounter: 0 },
+      this.updateCells
+    );
   };
 
   handlePattern = () => {
@@ -60,7 +72,9 @@ class App extends Component {
         refresh: patternName !== "none",
         generations: 0,
         showPatternDialog: false,
-        cells
+        cells,
+        metricTimeStamp: Date.now(),
+        metricCounter: 0
       },
       this.updateCells
     );
@@ -105,7 +119,9 @@ class App extends Component {
       canvasHeight: height,
       generations,
       refresh,
-      patternName
+      patternName,
+      metricTimeStamp,
+      metricCounter: prevMetricCounter
     } = this.state;
     const newLiveCells = getLiveCells({
       oldCells,
@@ -114,12 +130,17 @@ class App extends Component {
       height
     });
     const hasLiveCells = Boolean(newLiveCells.length);
+    const metricCounter = hasLiveCells ? prevMetricCounter + 1 : prevMetricCounter;
+    const elapsedTime = Date.now() - metricTimeStamp;
+    const generationsPerSecond = (metricCounter / elapsedTime) * 1000;
     this.setState(
       {
         cells: newLiveCells,
         generations: hasLiveCells ? generations + 1 : generations,
         refresh: refresh && hasLiveCells,
-        patternName: hasLiveCells ? patternName : "none"
+        patternName: hasLiveCells ? patternName : "none",
+        metricCounter,
+        generationsPerSecond
       },
       this.updateCells
     );
@@ -208,7 +229,8 @@ class App extends Component {
       generations,
       showPatternDialog,
       patternName,
-      isMaxElemets
+      isMaxElemets,
+      generationsPerSecond
     } = this.state;
     return (
       <>
@@ -218,12 +240,19 @@ class App extends Component {
             isRefreshing={refresh}
             generations={generations}
             showGrid={showGrid}
+            generationsPerSecond={generationsPerSecond}
+            refreshRate={refreshRate}
+            metrics={{
+              generationsPerSecond,
+              refreshRate
+            }}
             handleRefresh={() => this.setState({ refresh: true }, this.refreshCells)}
-            handlePause={() => this.setState({ refresh: false })}
+            handlePause={() =>
+              this.setState({ refresh: false, metricTimeStamp: Date.now(), metricCounter: 0 })
+            }
             handlePattern={() => this.setState({ showPatternDialog: true })}
             handleClear={this.handleClear}
             handleGrid={() => this.setState({ showGrid: !showGrid }, this.updateCells)}
-            patternName={patternName}
           />
 
           <ControlBottom

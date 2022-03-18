@@ -11,7 +11,13 @@ exports[`renders 1`] = `
     handleRefresh={[Function]}
     height={12}
     isRefreshing={false}
-    patternName="none"
+    metrics={
+      Object {
+        "generationsPerSecond": undefined,
+        "refreshRate": 100,
+      }
+    }
+    refreshRate={100}
     showGrid={true}
   />
   <ControlBottom

@@ -167,66 +167,97 @@ exports[`will render the top control 1`] = `
 <div
   style={
     Object {
-      "alignItems": "center",
       "background": "#e5e5e359",
       "display": "flex",
-      "flexDirection": "row",
+      "flexDirection": "column",
       "height": 80,
-      "justifyContent": "space-evenly",
+      "justifyContent": "flex-end",
       "width": "100%",
     }
   }
 >
-  <div>
-    <ForwardRef(IconButton)
-      aria-label="play_pause"
-      onClick={[MockFunction]}
-    >
-      <Action
-        isRefreshing={true}
-      />
-    </ForwardRef(IconButton)>
-    <ForwardRef(IconButton)
-      aria-label="reset"
-      onClick={[MockFunction]}
-    >
-      <Memo(ForwardRef(PatternIcon))
-        style={
-          Object {
-            "fontSize": "2.5rem",
-          }
-        }
-      />
-    </ForwardRef(IconButton)>
-    <ForwardRef(IconButton)
-      aria-label="clear"
-      onClick={[MockFunction]}
-    >
-      <Memo(ForwardRef(HighlightOffOutlinedIcon))
-        style={
-          Object {
-            "fontSize": "2.5rem",
-          }
-        }
-      />
-    </ForwardRef(IconButton)>
-    <ForwardRef(Checkbox)
-      checked={true}
-      checkedIcon={<Memo />}
-      icon={<Memo />}
-      onChange={[MockFunction]}
-    />
-  </div>
-  <ForwardRef(Chip)
-    color="error"
-    label={6}
+  <div
     style={
       Object {
-        "justifyContent": "space-between",
-        "width": 100,
+        "alignItems": "center",
+        "display": "flex",
+        "flexDirection": "row",
+        "justifyContent": "space-evenly",
+        "width": "100%",
       }
     }
-    variant="outlined"
-  />
+  >
+    <div>
+      <ForwardRef(IconButton)
+        aria-label="play_pause"
+        onClick={[MockFunction]}
+      >
+        <Action
+          isRefreshing={true}
+        />
+      </ForwardRef(IconButton)>
+      <ForwardRef(IconButton)
+        aria-label="reset"
+        onClick={[MockFunction]}
+      >
+        <Memo(ForwardRef(PatternIcon))
+          style={
+            Object {
+              "fontSize": "2.5rem",
+            }
+          }
+        />
+      </ForwardRef(IconButton)>
+      <ForwardRef(IconButton)
+        aria-label="clear"
+        onClick={[MockFunction]}
+      >
+        <Memo(ForwardRef(HighlightOffOutlinedIcon))
+          style={
+            Object {
+              "fontSize": "2.5rem",
+            }
+          }
+        />
+      </ForwardRef(IconButton)>
+      <ForwardRef(Checkbox)
+        checked={true}
+        checkedIcon={<Memo />}
+        icon={<Memo />}
+        onChange={[MockFunction]}
+      />
+    </div>
+    <div>
+      <ForwardRef(Chip)
+        color="error"
+        label={6}
+        style={
+          Object {
+            "justifyContent": "space-between",
+            "marginBottom": 3,
+            "width": 100,
+          }
+        }
+        variant="outlined"
+      />
+    </div>
+  </div>
+  <ForwardRef(Tooltip)
+    placement="top-start"
+    title="7.0 generations/sec"
+  >
+    <ForwardRef(LinearProgress)
+      sx={
+        Object {
+          "& .MuiLinearProgress-bar": Object {
+            "bgcolor": "#d32f2f",
+          },
+          "background": "#e5e5e359",
+        }
+      }
+      value={98}
+      variant="determinate"
+    />
+  </ForwardRef(Tooltip)>
 </div>
 `;

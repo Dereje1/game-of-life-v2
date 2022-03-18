@@ -14,7 +14,16 @@ import Stack from "@mui/material/Stack";
 import Checkbox from "@mui/material/Checkbox";
 import Grid3x3Icon from "@mui/icons-material/Grid3x3";
 import Grid4x4Icon from "@mui/icons-material/Grid4x4";
+import LinearProgress from "@mui/material/LinearProgress";
+import Tooltip from "@mui/material/Tooltip";
 import "./Controls.css";
+
+const getLinearProgressValue = (generationsPerSecond, refreshRate) => {
+  // aim for 50 gens/sec for max refreshrate (1ms)
+  const maxGenerationsPerSecond = refreshRate === 1 ? 50 : 1000 / refreshRate;
+  const value = generationsPerSecond / maxGenerationsPerSecond;
+  return value < 1 ? Math.floor(value * 100) : 100;
+};
 
 export const Action = ({ isRefreshing }) => {
   if (!isRefreshing) {
@@ -33,42 +42,68 @@ export const ControlTop = ({
   handlePause,
   handlePattern,
   handleClear,
-  handleGrid
+  handleGrid,
+  metrics: { generationsPerSecond, refreshRate }
 }) => (
   <div
     style={{
       display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-evenly",
+      flexDirection: "column",
+      justifyContent: "flex-end",
       width: "100%",
       height,
       background: "#e5e5e359"
     }}
   >
-    <div>
-      <IconButton aria-label="play_pause" onClick={isRefreshing ? handlePause : handleRefresh}>
-        <Action isRefreshing={isRefreshing} />
-      </IconButton>
-      <IconButton aria-label="reset" onClick={handlePattern}>
-        <PatternIcon style={{ fontSize: "2.5rem" }} />
-      </IconButton>
-      <IconButton aria-label="clear" onClick={handleClear}>
-        <HighlightOffOutlinedIcon style={{ fontSize: "2.5rem" }} />
-      </IconButton>
-      <Checkbox
-        onChange={handleGrid}
-        checked={showGrid}
-        icon={<Grid3x3Icon />}
-        checkedIcon={<Grid4x4Icon />}
-      />
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-evenly",
+        width: "100%"
+      }}
+    >
+      <div>
+        <IconButton aria-label="play_pause" onClick={isRefreshing ? handlePause : handleRefresh}>
+          <Action isRefreshing={isRefreshing} />
+        </IconButton>
+        <IconButton aria-label="reset" onClick={handlePattern}>
+          <PatternIcon style={{ fontSize: "2.5rem" }} />
+        </IconButton>
+        <IconButton aria-label="clear" onClick={handleClear}>
+          <HighlightOffOutlinedIcon style={{ fontSize: "2.5rem" }} />
+        </IconButton>
+        <Checkbox
+          onChange={handleGrid}
+          checked={showGrid}
+          icon={<Grid3x3Icon />}
+          checkedIcon={<Grid4x4Icon />}
+        />
+      </div>
+      <div>
+        <Chip
+          label={generations}
+          style={{ width: 100, justifyContent: "space-between", marginBottom: 3 }}
+          color={isRefreshing ? "error" : "info"}
+          variant="outlined"
+        />
+      </div>
     </div>
-    <Chip
-      label={generations}
-      style={{ width: 100, justifyContent: "space-between" }}
-      color={isRefreshing ? "error" : "info"}
-      variant="outlined"
-    />
+    {isRefreshing && generationsPerSecond ? (
+      <Tooltip title={`${generationsPerSecond.toFixed(1)} generations/sec`} placement="top-start">
+        <LinearProgress
+          value={getLinearProgressValue(generationsPerSecond, refreshRate)}
+          variant="determinate"
+          sx={{
+            background: "#e5e5e359",
+            "& .MuiLinearProgress-bar": { bgcolor: "#d32f2f" }
+          }}
+        />
+      </Tooltip>
+    ) : (
+      <div style={{ height: 4, background: "#e5e5e359" }}></div>
+    )}
   </div>
 );
 
@@ -189,6 +224,7 @@ ControlTop.propTypes = {
   isRefreshing: PropTypes.bool.isRequired,
   generations: PropTypes.number.isRequired,
   showGrid: PropTypes.bool.isRequired,
+  metrics: PropTypes.object.isRequired,
   handleRefresh: PropTypes.func.isRequired,
   handlePause: PropTypes.func.isRequired,
   handlePattern: PropTypes.func.isRequired,

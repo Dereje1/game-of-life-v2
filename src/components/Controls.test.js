@@ -14,7 +14,11 @@ const controlTopProps = {
   generations: 6,
   showGrid: true,
   handleGrid: jest.fn(),
-  handlePattern: jest.fn()
+  handlePattern: jest.fn(),
+  metrics: {
+    generationsPerSecond: 7,
+    refreshRate: 140
+  }
 };
 
 const controlBottomProps = {
