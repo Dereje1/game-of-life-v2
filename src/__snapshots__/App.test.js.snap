@@ -14,10 +14,9 @@ exports[`renders 1`] = `
     metrics={
       Object {
         "generationsPerSecond": undefined,
-        "refreshRate": 100,
+        "refreshVal": 3,
       }
     }
-    refreshRate={100}
     showGrid={true}
   />
   <ControlBottom
@@ -25,7 +24,7 @@ exports[`renders 1`] = `
     handleCellSize={[Function]}
     handleRefreshRate={[Function]}
     height={12}
-    refreshRate={-100}
+    refreshVal={3}
   />
   <div
     style={

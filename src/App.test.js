@@ -8,11 +8,12 @@ jest.useFakeTimers();
 const initialProps = {
   refresh: false,
   cellSize: 15,
-  refreshRate: 100,
+  refreshRate: 125,
   generations: 0,
   showGrid: true,
   showPatternDialog: false,
-  patternName: "none"
+  patternName: "none",
+  refreshVal: 3
 };
 
 let useRefSpy;
@@ -178,10 +179,10 @@ test("will handle adjusting the cellSize", () => {
 
 test("will handle adjusting the refresh rate", () => {
   const wrapper = shallow(<App {...initialProps} />);
-  expect(wrapper.state().refreshRate).toBe(100);
+  expect(wrapper.state().refreshRate).toBe(125);
   const controlBottom = wrapper.find("ControlBottom");
-  controlBottom.props().handleRefreshRate({ target: { value: -300 } });
-  expect(wrapper.state().refreshRate).toBe(300);
+  controlBottom.props().handleRefreshRate({ target: { value: 2 } });
+  expect(wrapper.state().refreshRate).toBe(250);
 });
 
 test("will toggle the grid", () => {

@@ -81,29 +81,37 @@ exports[`will render the bottom control 1`] = `
       }
     }
   >
+    <ForwardRef(Typography)
+      gutterBottom={true}
+      id="linear-slider"
+      sx={
+        Object {
+          "fontSize": "1.3vmax",
+          "fontWeight": "bold",
+          "marginBottom": 0,
+        }
+      }
+    >
+      Element size: 20px
+    </ForwardRef(Typography)>
     <ForwardRef(Slider)
       aria-label="Cellsize"
       defaultValue={15}
       marks={
         Array [
           Object {
-            "label": "5",
             "value": 5,
           },
           Object {
-            "label": "10",
             "value": 10,
           },
           Object {
-            "label": "15",
             "value": 15,
           },
           Object {
-            "label": "20",
             "value": 20,
           },
           Object {
-            "label": "25px",
             "value": 25,
           },
         ]
@@ -123,39 +131,45 @@ exports[`will render the bottom control 1`] = `
       }
     }
   >
+    <ForwardRef(Typography)
+      gutterBottom={true}
+      id="non-linear-slider"
+      sx={
+        Object {
+          "fontSize": "1.3vmax",
+          "fontWeight": "bold",
+          "marginBottom": 0,
+        }
+      }
+    >
+      8 generations / sec
+    </ForwardRef(Typography)>
     <ForwardRef(Slider)
       aria-label="Refreshrate"
       color="secondary"
-      defaultValue={-100}
+      defaultValue={3}
       marks={
         Array [
           Object {
-            "label": "400ms",
-            "value": -400,
+            "value": 1,
           },
           Object {
-            "label": "300",
-            "value": -300,
+            "value": 2,
           },
           Object {
-            "label": "200",
-            "value": -200,
+            "value": 3,
           },
           Object {
-            "label": "100",
-            "value": -100,
-          },
-          Object {
-            "label": "max",
-            "value": -1,
+            "value": 6,
           },
         ]
       }
-      max={-1}
-      min={-400}
+      max={6}
+      min={1}
       onChange={[MockFunction]}
+      scale={[Function]}
       step={null}
-      value={140}
+      value={3}
       valueLabelDisplay="off"
     />
   </div>
@@ -255,7 +269,7 @@ exports[`will render the top control 1`] = `
           "background": "#e5e5e359",
         }
       }
-      value={98}
+      value={87}
       variant="determinate"
     />
   </ForwardRef(Tooltip)>

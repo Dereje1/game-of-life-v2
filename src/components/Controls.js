@@ -16,12 +16,12 @@ import Grid3x3Icon from "@mui/icons-material/Grid3x3";
 import Grid4x4Icon from "@mui/icons-material/Grid4x4";
 import LinearProgress from "@mui/material/LinearProgress";
 import Tooltip from "@mui/material/Tooltip";
-import "./Controls.css";
+import Typography from "@mui/material/Typography";
 
-const getLinearProgressValue = (generationsPerSecond, refreshRate) => {
+const getLinearProgressValue = (generationsPerSecond, refreshVal) => {
   // aim for 50 gens/sec for max refreshrate (1ms)
-  const maxGenerationsPerSecond = refreshRate === 1 ? 50 : 1000 / refreshRate;
-  const value = generationsPerSecond / maxGenerationsPerSecond;
+  const requestedRefreshRate = refreshVal === 6 ? 50 : Math.pow(2, refreshVal);
+  const value = generationsPerSecond / requestedRefreshRate;
   return value < 1 ? Math.floor(value * 100) : 100;
 };
 
@@ -43,7 +43,7 @@ export const ControlTop = ({
   handlePattern,
   handleClear,
   handleGrid,
-  metrics: { generationsPerSecond, refreshRate }
+  metrics: { generationsPerSecond, refreshVal }
 }) => (
   <div
     style={{
@@ -93,7 +93,7 @@ export const ControlTop = ({
     {isRefreshing && generationsPerSecond ? (
       <Tooltip title={`${generationsPerSecond.toFixed(1)} generations/sec`} placement="top-start">
         <LinearProgress
-          value={getLinearProgressValue(generationsPerSecond, refreshRate)}
+          value={getLinearProgressValue(generationsPerSecond, refreshVal)}
           variant="determinate"
           sx={{
             background: "#e5e5e359",
@@ -102,7 +102,7 @@ export const ControlTop = ({
         />
       </Tooltip>
     ) : (
-      <div style={{ height: 4, background: "#e5e5e359" }}></div>
+      <div id="empty-progress-div" style={{ height: 4, background: "#e5e5e359" }}></div>
     )}
   </div>
 );
@@ -110,7 +110,7 @@ export const ControlTop = ({
 export const ControlBottom = ({
   height,
   cellSize,
-  refreshRate,
+  refreshVal,
   handleCellSize,
   handleRefreshRate
 }) => (
@@ -125,6 +125,13 @@ export const ControlBottom = ({
     }}
   >
     <div style={{ width: "30%" }}>
+      <Typography
+        id="linear-slider"
+        gutterBottom
+        sx={{ fontSize: "1.3vmax", marginBottom: 0, fontWeight: "bold" }}
+      >
+        {`Element size: ${cellSize}px`}
+      </Typography>
       <Slider
         aria-label="Cellsize"
         defaultValue={15}
@@ -132,24 +139,19 @@ export const ControlBottom = ({
         step={5}
         marks={[
           {
-            value: 5,
-            label: "5"
+            value: 5
           },
           {
-            value: 10,
-            label: "10"
+            value: 10
           },
           {
-            value: 15,
-            label: "15"
+            value: 15
           },
           {
-            value: 20,
-            label: "20"
+            value: 20
           },
           {
-            value: 25,
-            label: "25px"
+            value: 25
           }
         ]}
         min={5}
@@ -159,38 +161,38 @@ export const ControlBottom = ({
       />
     </div>
     <div style={{ width: "30%" }}>
+      <Typography
+        id="non-linear-slider"
+        gutterBottom
+        sx={{ fontSize: "1.3vmax", marginBottom: 0, fontWeight: "bold" }}
+      >
+        {`${refreshVal === 6 ? "Max" : 2 ** refreshVal} generations / sec`}
+      </Typography>
       <Slider
         aria-label="Refreshrate"
-        defaultValue={-100}
+        defaultValue={3}
         valueLabelDisplay="off"
         step={null}
+        min={1}
+        max={6}
+        onChange={handleRefreshRate}
+        value={refreshVal}
+        color="secondary"
+        scale={(x) => 2 ** x}
         marks={[
           {
-            value: -400,
-            label: "400ms"
+            value: 1
           },
           {
-            value: -300,
-            label: "300"
+            value: 2
           },
           {
-            value: -200,
-            label: "200"
+            value: 3
           },
           {
-            value: -100,
-            label: "100"
-          },
-          {
-            value: -1,
-            label: "max"
+            value: 6
           }
         ]}
-        min={-400}
-        max={-1}
-        onChange={handleRefreshRate}
-        value={refreshRate}
-        color="secondary"
       />
     </div>
     <Links />
@@ -235,7 +237,7 @@ ControlTop.propTypes = {
 ControlBottom.propTypes = {
   height: PropTypes.number.isRequired,
   cellSize: PropTypes.number.isRequired,
-  refreshRate: PropTypes.number.isRequired,
+  refreshVal: PropTypes.number.isRequired,
   handleCellSize: PropTypes.func.isRequired,
   handleRefreshRate: PropTypes.func.isRequired
 };

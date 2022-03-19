@@ -52,8 +52,15 @@ class App extends Component {
 
   handleRefreshRate = ({ target: { value } }) => {
     clearTimeout(this.timeoutId);
+    // use maximum refresh rate of 1ms for max slider
+    const refreshRate = value === 6 ? 1 : 1000 / Math.pow(2, value);
     this.setState(
-      { refreshRate: value * -1, metricTimeStamp: Date.now(), metricCounter: 0 },
+      {
+        refreshRate,
+        metricTimeStamp: Date.now(),
+        metricCounter: 0,
+        refreshVal: value
+      },
       this.updateCells
     );
   };
@@ -223,14 +230,14 @@ class App extends Component {
       canvasHeight,
       canvasLeft,
       cellSize,
-      refreshRate,
       showGrid,
       refresh,
       generations,
       showPatternDialog,
       patternName,
       isMaxElemets,
-      generationsPerSecond
+      generationsPerSecond,
+      refreshVal
     } = this.state;
     return (
       <>
@@ -241,10 +248,9 @@ class App extends Component {
             generations={generations}
             showGrid={showGrid}
             generationsPerSecond={generationsPerSecond}
-            refreshRate={refreshRate}
             metrics={{
               generationsPerSecond,
-              refreshRate
+              refreshVal
             }}
             handleRefresh={() => this.setState({ refresh: true }, this.refreshCells)}
             handlePause={() =>
@@ -258,7 +264,7 @@ class App extends Component {
           <ControlBottom
             height={window.innerHeight * 0.1}
             cellSize={cellSize}
-            refreshRate={refreshRate * -1}
+            refreshVal={refreshVal}
             handleCellSize={this.handleCellSize}
             handleRefreshRate={this.handleRefreshRate}
           />
