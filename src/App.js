@@ -252,10 +252,13 @@ class App extends Component {
               generationsPerSecond,
               refreshVal
             }}
-            handleRefresh={() => this.setState({ refresh: true }, this.refreshCells)}
-            handlePause={() =>
-              this.setState({ refresh: false, metricTimeStamp: Date.now(), metricCounter: 0 })
+            handleRefresh={() =>
+              this.setState(
+                { refresh: true, metricTimeStamp: Date.now(), metricCounter: 0 },
+                this.refreshCells
+              )
             }
+            handlePause={() => this.setState({ refresh: false })}
             handlePattern={() => this.setState({ showPatternDialog: true })}
             handleClear={this.handleClear}
             handleGrid={() => this.setState({ showGrid: !showGrid }, this.updateCells)}
