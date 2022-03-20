@@ -1,44 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`will render links 1`] = `
-<ForwardRef(Stack)
-  direction="column"
-  spacing={0.5}
-  style={
-    Object {
-      "margin": 5,
-    }
-  }
->
-  <ForwardRef(Avatar)
-    onClick={[Function]}
-    sx={
-      Object {
-        "bgcolor": "#737272",
-        "cursor": "pointer",
-        "height": 26,
-        "width": 26,
-      }
-    }
-  >
-    <Memo(ForwardRef(HelpIcon)) />
-  </ForwardRef(Avatar)>
-  <ForwardRef(Avatar)
-    onClick={[Function]}
-    sx={
-      Object {
-        "bgcolor": "#bd2c00",
-        "cursor": "pointer",
-        "height": 26,
-        "width": 26,
-      }
-    }
-  >
-    <Memo(ForwardRef(GitHubIcon)) />
-  </ForwardRef(Avatar)>
-</ForwardRef(Stack)>
-`;
-
 exports[`will render pause when refreshing 1`] = `
 <Memo(ForwardRef(PauseIcon))
   style={
@@ -173,7 +134,6 @@ exports[`will render the bottom control 1`] = `
       valueLabelDisplay="off"
     />
   </div>
-  <Links />
 </div>
 `;
 

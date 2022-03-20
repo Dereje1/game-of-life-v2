@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import toJson from "enzyme-to-json";
-import { ControlBottom, ControlTop, Action, Links } from "./Controls";
+import { ControlBottom, ControlTop, Action } from "./Controls";
 
 const controlTopProps = {
   width: 80,
@@ -31,17 +31,6 @@ const controlBottomProps = {
   refreshVal: 3
 };
 
-let windowSpy;
-let open = jest.fn();
-beforeEach(() => {
-  windowSpy = jest.spyOn(global, "window", "get");
-  windowSpy.mockImplementation(() => ({ open }));
-});
-
-afterEach(() => {
-  jest.clearAllMocks();
-});
-
 test("will render the top control", () => {
   const wrapper = shallow(<ControlTop {...controlTopProps} />);
   expect(toJson(wrapper)).toMatchSnapshot();
@@ -60,25 +49,6 @@ test("will render play when not refreshing", () => {
 test("will render pause when refreshing", () => {
   const wrapper = shallow(<Action isRefreshing={true} />);
   expect(toJson(wrapper)).toMatchSnapshot();
-});
-
-test("will render links", () => {
-  const wrapper = shallow(<Links />);
-  expect(toJson(wrapper)).toMatchSnapshot();
-});
-
-test("will render link to open the information page", () => {
-  const wrapper = shallow(<Links />);
-  const info = wrapper.find("ForwardRef(Avatar)").at(0);
-  info.props().onClick();
-  expect(open).toHaveBeenCalledWith("https://pi.math.cornell.edu/~lipa/mec/lesson6.html");
-});
-
-test("will render link to open the github source page", () => {
-  const wrapper = shallow(<Links />);
-  const github = wrapper.find("ForwardRef(Avatar)").at(1);
-  github.props().onClick();
-  expect(open).toHaveBeenCalledWith("https://github.com/Dereje1/game-of-life-v2");
 });
 
 test("The linear progress bar will display 100% for rates exceeding 50 gen/sec on max setting", () => {

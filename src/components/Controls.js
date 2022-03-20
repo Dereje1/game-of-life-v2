@@ -7,10 +7,6 @@ import PatternIcon from "@mui/icons-material/Pattern";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import Slider from "@mui/material/Slider";
 import Chip from "@mui/material/Chip";
-import HelpIcon from "@mui/icons-material/Help";
-import Avatar from "@mui/material/Avatar";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import Stack from "@mui/material/Stack";
 import Checkbox from "@mui/material/Checkbox";
 import Grid3x3Icon from "@mui/icons-material/Grid3x3";
 import Grid4x4Icon from "@mui/icons-material/Grid4x4";
@@ -200,26 +196,7 @@ export const ControlBottom = ({
         ]}
       />
     </div>
-    <Links />
   </div>
-);
-
-export const Links = () => (
-  <Stack direction="column" spacing={0.5} style={{ margin: 5 }}>
-    <Avatar
-      sx={{ width: 26, height: 26, bgcolor: "#737272", cursor: "pointer" }}
-      onClick={() => window.open("https://pi.math.cornell.edu/~lipa/mec/lesson6.html")}
-    >
-      <HelpIcon />
-    </Avatar>
-
-    <Avatar
-      sx={{ width: 26, height: 26, bgcolor: "#bd2c00", cursor: "pointer" }}
-      onClick={() => window.open("https://github.com/Dereje1/game-of-life-v2")}
-    >
-      <GitHubIcon />
-    </Avatar>
-  </Stack>
 );
 
 Action.propTypes = {
