@@ -310,3 +310,14 @@ const cellIsOnEdge = ({ index, width, height, cellSize }) => {
   }
   return Boolean(edges.length) && edges;
 };
+
+export const buildInformation = ({ ...state }) => {
+  const { cells, generationsPerSecond, canvasWidth, canvasHeight, cellSize } = state;
+  const totalElements = (canvasWidth / cellSize) * (canvasHeight / cellSize);
+  return [
+    { title: "Total Cells", value: totalElements },
+    { title: "Live Cells", value: cells.length },
+    { title: "Dead Cells", value: totalElements - cells.length },
+    { title: "Actual generations per second", value: generationsPerSecond.toFixed(2) }
+  ];
+};

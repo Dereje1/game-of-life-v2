@@ -13,7 +13,10 @@ const props = {
   showPatternDialog: false, // True when user reuests to select a pattern
   patternName: "random", // Name of the last pattern selected
   metricCounter: 0, // generation counter for metrics/perf display
-  refreshVal: 3 // mui slider refresh rate val before scaling
+  refreshVal: 3, // mui slider refresh rate val before scaling
+  showInfoDialog: false,
+  cells: [],
+  generationsPerSecond: 0
 };
 
 ReactDOM.render(

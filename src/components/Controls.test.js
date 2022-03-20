@@ -14,11 +14,12 @@ const controlTopProps = {
   generations: 6,
   showGrid: true,
   handleGrid: jest.fn(),
-  handlePattern: jest.fn(),
+  handlePatternDialog: jest.fn(),
   metrics: {
     generationsPerSecond: 7,
     refreshVal: 3
-  }
+  },
+  handleInfoDialog: jest.fn()
 };
 
 const controlBottomProps = {

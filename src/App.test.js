@@ -13,7 +13,10 @@ const initialProps = {
   showGrid: true,
   showPatternDialog: false,
   patternName: "none",
-  refreshVal: 3
+  refreshVal: 3,
+  showInfoDialog: false,
+  cells: [],
+  generationsPerSecond: 0
 };
 
 let useRefSpy;
@@ -155,7 +158,7 @@ test("will handle stopping cell refresh on pause", () => {
 test("will handle showing the pattern dialog", () => {
   const wrapper = shallow(<App {...initialProps} />);
   const controlTop = wrapper.find("ControlTop");
-  controlTop.props().handlePattern();
+  controlTop.props().handlePatternDialog();
   expect(wrapper.state().showPatternDialog).toBe(true);
 });
 
@@ -196,7 +199,7 @@ test("will toggle the grid", () => {
 test("will cancel the pattern dialog", () => {
   const wrapper = shallow(<App {...initialProps} />);
   const controlTop = wrapper.find("ControlTop");
-  controlTop.props().handlePattern();
+  controlTop.props().handlePatternDialog();
   expect(wrapper.state().showPatternDialog).toBe(true);
   const patternsDialog = wrapper.find("PatternsDialog");
   patternsDialog.props().handleCancel();

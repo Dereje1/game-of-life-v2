@@ -4,16 +4,18 @@ exports[`renders 1`] = `
 <Fragment>
   <ControlTop
     generations={0}
+    generationsPerSecond={0}
     handleClear={[Function]}
     handleGrid={[Function]}
-    handlePattern={[Function]}
+    handleInfoDialog={[Function]}
+    handlePatternDialog={[Function]}
     handlePause={[Function]}
     handleRefresh={[Function]}
     height={12}
     isRefreshing={false}
     metrics={
       Object {
-        "generationsPerSecond": undefined,
+        "generationsPerSecond": 0,
         "refreshVal": 3,
       }
     }
@@ -59,6 +61,30 @@ exports[`renders 1`] = `
       }
     }
     value="none"
+  />
+  <InfoDialog
+    handleOk={[Function]}
+    open={false}
+    values={
+      Array [
+        Object {
+          "title": "Total Cells",
+          "value": 36,
+        },
+        Object {
+          "title": "Live Cells",
+          "value": 0,
+        },
+        Object {
+          "title": "Dead Cells",
+          "value": 36,
+        },
+        Object {
+          "title": "Actual generations per second",
+          "value": "0.00",
+        },
+      ]
+    }
   />
 </Fragment>
 `;

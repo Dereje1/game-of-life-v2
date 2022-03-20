@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`will render links 1`] = `
+<ForwardRef(Stack)
+  direction="row"
+  spacing={10}
+>
+  <ForwardRef(Avatar)
+    onClick={[Function]}
+    sx={
+      Object {
+        "bgcolor": "#737272",
+        "cursor": "pointer",
+        "height": 26,
+        "width": 26,
+      }
+    }
+  >
+    <Memo(ForwardRef(HelpIcon)) />
+  </ForwardRef(Avatar)>
+  <ForwardRef(Avatar)
+    onClick={[Function]}
+    sx={
+      Object {
+        "bgcolor": "#bd2c00",
+        "cursor": "pointer",
+        "height": 26,
+        "width": 26,
+      }
+    }
+  >
+    <Memo(ForwardRef(GitHubIcon)) />
+  </ForwardRef(Avatar)>
+</ForwardRef(Stack)>
+`;
+
+exports[`will render the information dialog 1`] = `
+<ForwardRef(Dialog)
+  maxWidth="xs"
+  onClose={[MockFunction]}
+  open={true}
+  sx={
+    Object {
+      "& .MuiDialog-paper": Object {
+        "maxHeight": 530,
+        "width": "80%",
+      },
+    }
+  }
+>
+  <ForwardRef(DialogContent)
+    dividers={true}
+  >
+    <ForwardRef(ListItem)
+      key="Info 1"
+    >
+      <ForwardRef(ListItemText)
+        primary="Info 1"
+        secondary="Info 1 value"
+      />
+    </ForwardRef(ListItem)>
+    <ForwardRef(ListItem)
+      key="Info 2"
+    >
+      <ForwardRef(ListItemText)
+        primary="Info 2"
+        secondary="Info 2 value"
+      />
+    </ForwardRef(ListItem)>
+  </ForwardRef(DialogContent)>
+  <ForwardRef(DialogActions)>
+    <Links />
+    <ForwardRef(Button)
+      onClick={[MockFunction]}
+      sx={
+        Object {
+          "marginLeft": 10,
+        }
+      }
+    >
+      Ok
+    </ForwardRef(Button)>
+  </ForwardRef(DialogActions)>
+</ForwardRef(Dialog)>
+`;

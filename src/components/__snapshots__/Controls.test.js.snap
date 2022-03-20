@@ -240,6 +240,19 @@ exports[`will render the top control 1`] = `
         icon={<Memo />}
         onChange={[MockFunction]}
       />
+      <ForwardRef(IconButton)
+        aria-label="clear"
+        onClick={[MockFunction]}
+      >
+        <Memo(ForwardRef(InfoIcon))
+          color="error"
+          style={
+            Object {
+              "fontSize": "1.5rem",
+            }
+          }
+        />
+      </ForwardRef(IconButton)>
     </div>
     <div>
       <ForwardRef(Chip)

@@ -17,6 +17,7 @@ import Grid4x4Icon from "@mui/icons-material/Grid4x4";
 import LinearProgress from "@mui/material/LinearProgress";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
+import InfoIcon from "@mui/icons-material/Info";
 
 const getLinearProgressValue = (generationsPerSecond, refreshVal) => {
   // aim for 50 gens/sec for max refreshrate (1ms)
@@ -40,10 +41,11 @@ export const ControlTop = ({
   showGrid,
   handleRefresh,
   handlePause,
-  handlePattern,
+  handlePatternDialog,
   handleClear,
   handleGrid,
-  metrics: { generationsPerSecond, refreshVal }
+  metrics: { generationsPerSecond, refreshVal },
+  handleInfoDialog
 }) => (
   <div
     style={{
@@ -68,7 +70,7 @@ export const ControlTop = ({
         <IconButton aria-label="play_pause" onClick={isRefreshing ? handlePause : handleRefresh}>
           <Action isRefreshing={isRefreshing} />
         </IconButton>
-        <IconButton aria-label="reset" onClick={handlePattern}>
+        <IconButton aria-label="reset" onClick={handlePatternDialog}>
           <PatternIcon style={{ fontSize: "2.5rem" }} />
         </IconButton>
         <IconButton aria-label="clear" onClick={handleClear}>
@@ -80,6 +82,9 @@ export const ControlTop = ({
           icon={<Grid3x3Icon />}
           checkedIcon={<Grid4x4Icon />}
         />
+        <IconButton aria-label="clear" onClick={handleInfoDialog}>
+          <InfoIcon style={{ fontSize: "1.5rem" }} color={isRefreshing ? "error" : "info"} />
+        </IconButton>
       </div>
       <div>
         <Chip
@@ -229,9 +234,10 @@ ControlTop.propTypes = {
   metrics: PropTypes.object.isRequired,
   handleRefresh: PropTypes.func.isRequired,
   handlePause: PropTypes.func.isRequired,
-  handlePattern: PropTypes.func.isRequired,
+  handlePatternDialog: PropTypes.func.isRequired,
   handleClear: PropTypes.func.isRequired,
-  handleGrid: PropTypes.func.isRequired
+  handleGrid: PropTypes.func.isRequired,
+  handleInfoDialog: PropTypes.func.isRequired
 };
 
 ControlBottom.propTypes = {

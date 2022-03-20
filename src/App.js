@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { ControlTop, ControlBottom } from "./components/Controls";
 import PatternsDialog from "./components/PatternsDialog";
+import InfoDialog from "./components/InfoDialog";
 import {
   getLiveCells,
   getPattern,
   getIndexFromCoordinates,
-  getCoordinatesFromIndex
+  getCoordinatesFromIndex,
+  buildInformation
 } from "./utils/utils";
 import "./App.css";
 
@@ -30,7 +32,8 @@ class App extends Component {
         refresh: false,
         generations: 0,
         patternName: "none",
-        showPatternDialog: false
+        showPatternDialog: false,
+        generationsPerSecond: 0
       },
       this.handlePattern
     );
@@ -237,7 +240,8 @@ class App extends Component {
       patternName,
       isMaxElemets,
       generationsPerSecond,
-      refreshVal
+      refreshVal,
+      showInfoDialog
     } = this.state;
     return (
       <>
@@ -259,9 +263,10 @@ class App extends Component {
               )
             }
             handlePause={() => this.setState({ refresh: false })}
-            handlePattern={() => this.setState({ showPatternDialog: true })}
+            handlePatternDialog={() => this.setState({ showPatternDialog: true })}
             handleClear={this.handleClear}
             handleGrid={() => this.setState({ showGrid: !showGrid }, this.updateCells)}
+            handleInfoDialog={() => this.setState({ showInfoDialog: !showInfoDialog })}
           />
 
           <ControlBottom
@@ -295,6 +300,11 @@ class App extends Component {
           handlePatternChange={({ target: { value } }) => this.setState({ patternName: value })}
           radioGroupRef={this.radioGroupRef}
           handleEntering={this.handleEntering}
+        />
+        <InfoDialog
+          open={showInfoDialog}
+          values={buildInformation({ ...this.state })}
+          handleOk={() => this.setState({ showInfoDialog: false })}
         />
       </>
     );
