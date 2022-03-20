@@ -79,7 +79,7 @@ export const ControlTop = ({
           checkedIcon={<Grid4x4Icon />}
         />
         <IconButton aria-label="clear" onClick={handleInfoDialog}>
-          <InfoIcon style={{ fontSize: "1.5rem" }} color={isRefreshing ? "error" : "info"} />
+          <InfoIcon style={{ fontSize: "2rem" }} color={isRefreshing ? "error" : "info"} />
         </IconButton>
       </div>
       <div>

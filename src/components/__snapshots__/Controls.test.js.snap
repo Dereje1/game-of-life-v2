@@ -208,7 +208,7 @@ exports[`will render the top control 1`] = `
           color="error"
           style={
             Object {
-              "fontSize": "1.5rem",
+              "fontSize": "2rem",
             }
           }
         />

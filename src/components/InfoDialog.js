@@ -1,15 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Button from "@mui/material/Button";
+import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import HelpIcon from "@mui/icons-material/Help";
-import Avatar from "@mui/material/Avatar";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import Stack from "@mui/material/Stack";
 
 const InfoDialog = ({ open, values, handleOk }) => (
   <Dialog
@@ -18,6 +18,12 @@ const InfoDialog = ({ open, values, handleOk }) => (
     open={open}
     onClose={handleOk}
   >
+    <DialogTitle sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      Board Info
+      <IconButton aria-label="reset" onClick={handleOk}>
+        <CloseIcon style={{ fontSize: "1.5rem" }} />
+      </IconButton>
+    </DialogTitle>
     <DialogContent dividers>
       {values.map((v) => (
         <ListItem key={v.title}>
@@ -25,31 +31,28 @@ const InfoDialog = ({ open, values, handleOk }) => (
         </ListItem>
       ))}
     </DialogContent>
-    <DialogActions>
+    <DialogActions sx={{ display: "flex", flexDirection: "row", justifyContent: "space-around" }}>
       <Links />
-      <Button onClick={handleOk} sx={{ marginLeft: 10 }}>
-        Ok
-      </Button>
     </DialogActions>
   </Dialog>
 );
 
 export const Links = () => (
-  <Stack direction="row" spacing={10}>
-    <Avatar
-      sx={{ width: 26, height: 26, bgcolor: "#737272", cursor: "pointer" }}
+  <>
+    <IconButton
+      //sx={{ width: 26, height: 26, bgcolor: "#737272", cursor: "pointer" }}
       onClick={() => window.open("https://pi.math.cornell.edu/~lipa/mec/lesson6.html")}
     >
-      <HelpIcon />
-    </Avatar>
+      <HelpIcon style={{ fontSize: "2rem" }} color="info" />
+    </IconButton>
 
-    <Avatar
-      sx={{ width: 26, height: 26, bgcolor: "#bd2c00", cursor: "pointer" }}
+    <IconButton
+      // sx={{ width: 26, height: 26, bgcolor: "#bd2c00", cursor: "pointer" }}
       onClick={() => window.open("https://github.com/Dereje1/game-of-life-v2")}
     >
-      <GitHubIcon />
-    </Avatar>
-  </Stack>
+      <GitHubIcon style={{ fontSize: "2rem" }} color="success" />
+    </IconButton>
+  </>
 );
 
 export default InfoDialog;

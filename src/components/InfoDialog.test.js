@@ -36,14 +36,14 @@ test("will render links", () => {
 
 test("will render link to open the information page", () => {
   const wrapper = shallow(<Links />);
-  const info = wrapper.find("ForwardRef(Avatar)").at(0);
+  const info = wrapper.find("ForwardRef(IconButton)").at(0);
   info.props().onClick();
   expect(open).toHaveBeenCalledWith("https://pi.math.cornell.edu/~lipa/mec/lesson6.html");
 });
 
 test("will render link to open the github source page", () => {
   const wrapper = shallow(<Links />);
-  const github = wrapper.find("ForwardRef(Avatar)").at(1);
+  const github = wrapper.find("ForwardRef(IconButton)").at(1);
   github.props().onClick();
   expect(open).toHaveBeenCalledWith("https://github.com/Dereje1/game-of-life-v2");
 });

@@ -14,9 +14,9 @@ const props = {
   patternName: "random", // Name of the last pattern selected
   metricCounter: 0, // generation counter for metrics/perf display
   refreshVal: 3, // mui slider refresh rate val before scaling
-  showInfoDialog: false,
-  cells: [],
-  generationsPerSecond: 0
+  showInfoDialog: false, // True when user selects additional information
+  cells: [], // Arr containing the indices of all live cells
+  generationsPerSecond: 0 // used for perf/metrics calculations
 };
 
 ReactDOM.render(

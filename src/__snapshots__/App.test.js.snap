@@ -80,7 +80,7 @@ exports[`renders 1`] = `
           "value": 36,
         },
         Object {
-          "title": "Actual generations per second",
+          "title": "Generations / second (actual)",
           "value": "0.00",
         },
       ]

@@ -318,6 +318,6 @@ export const buildInformation = ({ ...state }) => {
     { title: "Total Cells", value: totalElements },
     { title: "Live Cells", value: cells.length },
     { title: "Dead Cells", value: totalElements - cells.length },
-    { title: "Actual generations per second", value: generationsPerSecond.toFixed(2) }
+    { title: "Generations / second (actual)", value: generationsPerSecond.toFixed(2) }
   ];
 };
