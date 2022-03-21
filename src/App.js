@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { ControlTop, ControlBottom } from "./components/Controls";
 import PatternsDialog from "./components/PatternsDialog";
-import InfoDialog from "./components/InfoDialog";
+import SettingsDialog from "./components/SettingsDialog";
 import {
   getLiveCells,
   getPattern,
@@ -241,7 +241,7 @@ class App extends Component {
       isMaxElemets,
       generationsPerSecond,
       refreshVal,
-      showInfoDialog
+      showSettingsDialog
     } = this.state;
     return (
       <>
@@ -250,7 +250,6 @@ class App extends Component {
             height={window.innerHeight * 0.1}
             isRefreshing={refresh}
             generations={generations}
-            showGrid={showGrid}
             generationsPerSecond={generationsPerSecond}
             metrics={{
               generationsPerSecond,
@@ -265,8 +264,7 @@ class App extends Component {
             handlePause={() => this.setState({ refresh: false })}
             handlePatternDialog={() => this.setState({ showPatternDialog: true })}
             handleClear={this.handleClear}
-            handleGrid={() => this.setState({ showGrid: !showGrid }, this.updateCells)}
-            handleInfoDialog={() => this.setState({ showInfoDialog: !showInfoDialog })}
+            handleSettingsDialog={() => this.setState({ showSettingsDialog: !showSettingsDialog })}
           />
 
           <ControlBottom
@@ -301,10 +299,12 @@ class App extends Component {
           radioGroupRef={this.radioGroupRef}
           handleEntering={this.handleEntering}
         />
-        <InfoDialog
-          open={showInfoDialog}
+        <SettingsDialog
+          open={showSettingsDialog}
+          showGrid={showGrid}
           values={buildInformation({ ...this.state })}
-          handleOk={() => this.setState({ showInfoDialog: false })}
+          handleOk={() => this.setState({ showSettingsDialog: false })}
+          handleGrid={() => this.setState({ showGrid: !showGrid }, this.updateCells)}
         />
       </>
     );

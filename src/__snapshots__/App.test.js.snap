@@ -6,11 +6,10 @@ exports[`renders 1`] = `
     generations={0}
     generationsPerSecond={0}
     handleClear={[Function]}
-    handleGrid={[Function]}
-    handleInfoDialog={[Function]}
     handlePatternDialog={[Function]}
     handlePause={[Function]}
     handleRefresh={[Function]}
+    handleSettingsDialog={[Function]}
     height={12}
     isRefreshing={false}
     metrics={
@@ -19,7 +18,6 @@ exports[`renders 1`] = `
         "refreshVal": 3,
       }
     }
-    showGrid={true}
   />
   <ControlBottom
     cellSize={15}
@@ -62,9 +60,11 @@ exports[`renders 1`] = `
     }
     value="none"
   />
-  <InfoDialog
+  <SettingsDialog
+    handleGrid={[Function]}
     handleOk={[Function]}
     open={false}
+    showGrid={true}
     values={
       Array [
         Object {

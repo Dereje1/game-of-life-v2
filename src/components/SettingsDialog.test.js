@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import toJson from "enzyme-to-json";
-import InfoDialog, { Links } from "./InfoDialog";
+import SettingsDialog, { Links } from "./SettingsDialog";
 
 let props;
 let windowSpy;
@@ -13,7 +13,9 @@ beforeEach(() => {
       { title: "Info 1", value: "Info 1 value" },
       { title: "Info 2", value: "Info 2 value" }
     ],
-    handleOk: jest.fn()
+    handleOk: jest.fn(),
+    showGrid: true,
+    handleGrid: jest.fn()
   };
   windowSpy = jest.spyOn(global, "window", "get");
   windowSpy.mockImplementation(() => ({ open }));
@@ -25,7 +27,7 @@ afterEach(() => {
 });
 
 test("will render the information dialog", () => {
-  const wrapper = shallow(<InfoDialog {...props} />);
+  const wrapper = shallow(<SettingsDialog {...props} />);
   expect(toJson(wrapper)).toMatchSnapshot();
 });
 

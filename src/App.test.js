@@ -14,7 +14,7 @@ const initialProps = {
   showPatternDialog: false,
   patternName: "none",
   refreshVal: 3,
-  showInfoDialog: false,
+  showSettingsDialog: false,
   cells: [],
   generationsPerSecond: 0
 };
@@ -191,7 +191,7 @@ test("will handle adjusting the refresh rate", () => {
 test("will toggle the grid", () => {
   const wrapper = shallow(<App {...initialProps} />);
   expect(wrapper.state().showGrid).toBe(true);
-  const controlTop = wrapper.find("ControlTop");
+  const controlTop = wrapper.find("SettingsDialog");
   controlTop.props().handleGrid();
   expect(wrapper.state().showGrid).toBe(false);
 });

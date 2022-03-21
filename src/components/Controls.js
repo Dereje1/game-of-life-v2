@@ -7,13 +7,10 @@ import PatternIcon from "@mui/icons-material/Pattern";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import Slider from "@mui/material/Slider";
 import Chip from "@mui/material/Chip";
-import Checkbox from "@mui/material/Checkbox";
-import Grid3x3Icon from "@mui/icons-material/Grid3x3";
-import Grid4x4Icon from "@mui/icons-material/Grid4x4";
 import LinearProgress from "@mui/material/LinearProgress";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
-import InfoIcon from "@mui/icons-material/Info";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 const getLinearProgressValue = (generationsPerSecond, refreshVal) => {
   // aim for 50 gens/sec for max refreshrate (1ms)
@@ -34,14 +31,12 @@ export const ControlTop = ({
   height,
   isRefreshing,
   generations,
-  showGrid,
   handleRefresh,
   handlePause,
   handlePatternDialog,
   handleClear,
-  handleGrid,
   metrics: { generationsPerSecond, refreshVal },
-  handleInfoDialog
+  handleSettingsDialog
 }) => (
   <div
     style={{
@@ -72,14 +67,8 @@ export const ControlTop = ({
         <IconButton aria-label="clear" onClick={handleClear}>
           <HighlightOffOutlinedIcon style={{ fontSize: "2.5rem" }} />
         </IconButton>
-        <Checkbox
-          onChange={handleGrid}
-          checked={showGrid}
-          icon={<Grid3x3Icon />}
-          checkedIcon={<Grid4x4Icon />}
-        />
-        <IconButton aria-label="clear" onClick={handleInfoDialog}>
-          <InfoIcon style={{ fontSize: "2rem" }} color={isRefreshing ? "error" : "info"} />
+        <IconButton aria-label="clear" onClick={handleSettingsDialog}>
+          <SettingsIcon style={{ fontSize: "2rem" }} color={isRefreshing ? "error" : ""} />
         </IconButton>
       </div>
       <div>
@@ -207,14 +196,12 @@ ControlTop.propTypes = {
   height: PropTypes.number.isRequired,
   isRefreshing: PropTypes.bool.isRequired,
   generations: PropTypes.number.isRequired,
-  showGrid: PropTypes.bool.isRequired,
   metrics: PropTypes.object.isRequired,
   handleRefresh: PropTypes.func.isRequired,
   handlePause: PropTypes.func.isRequired,
   handlePatternDialog: PropTypes.func.isRequired,
   handleClear: PropTypes.func.isRequired,
-  handleGrid: PropTypes.func.isRequired,
-  handleInfoDialog: PropTypes.func.isRequired
+  handleSettingsDialog: PropTypes.func.isRequired
 };
 
 ControlBottom.propTypes = {

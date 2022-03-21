@@ -19,7 +19,7 @@ const controlTopProps = {
     generationsPerSecond: 7,
     refreshVal: 3
   },
-  handleInfoDialog: jest.fn()
+  handleSettingsDialog: jest.fn()
 };
 
 const controlBottomProps = {

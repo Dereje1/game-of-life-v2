@@ -48,11 +48,11 @@ exports[`will render the information dialog 1`] = `
       Object {
         "alignItems": "center",
         "display": "flex",
-        "justifyContent": "space-between",
+        "justifyContent": "flex-end",
       }
     }
   >
-    Board Info
+      
     <ForwardRef(IconButton)
       aria-label="reset"
       onClick={[MockFunction]}
@@ -69,21 +69,58 @@ exports[`will render the information dialog 1`] = `
   <ForwardRef(DialogContent)
     dividers={true}
   >
+    <ForwardRef(ListItem)>
+      <ForwardRef(ListItemIcon)>
+        <Memo(ForwardRef(Grid4x4Icon))
+          color="info"
+        />
+      </ForwardRef(ListItemIcon)>
+      <ForwardRef(ListItemText)
+        id="switch-list-label-grid"
+        primary="Grid"
+      />
+      <ForwardRef(Switch)
+        checked={true}
+        edge="end"
+        inputProps={
+          Object {
+            "aria-labelledby": "switch-list-label-grid",
+          }
+        }
+        onChange={[MockFunction]}
+      />
+    </ForwardRef(ListItem)>
     <ForwardRef(ListItem)
       key="Info 1"
     >
+      <ForwardRef(ListItemIcon)>
+        <Memo(ForwardRef(InfoIcon)) />
+      </ForwardRef(ListItemIcon)>
       <ForwardRef(ListItemText)
+        id="Info 1-label"
         primary="Info 1"
-        secondary="Info 1 value"
       />
+      <ForwardRef(Typography)
+        variant="subtitle1"
+      >
+        Info 1 value
+      </ForwardRef(Typography)>
     </ForwardRef(ListItem)>
     <ForwardRef(ListItem)
       key="Info 2"
     >
+      <ForwardRef(ListItemIcon)>
+        <Memo(ForwardRef(InfoIcon)) />
+      </ForwardRef(ListItemIcon)>
       <ForwardRef(ListItemText)
+        id="Info 2-label"
         primary="Info 2"
-        secondary="Info 2 value"
       />
+      <ForwardRef(Typography)
+        variant="subtitle1"
+      >
+        Info 2 value
+      </ForwardRef(Typography)>
     </ForwardRef(ListItem)>
   </ForwardRef(DialogContent)>
   <ForwardRef(DialogActions)

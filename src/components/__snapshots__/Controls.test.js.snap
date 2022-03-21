@@ -194,17 +194,11 @@ exports[`will render the top control 1`] = `
           }
         />
       </ForwardRef(IconButton)>
-      <ForwardRef(Checkbox)
-        checked={true}
-        checkedIcon={<Memo />}
-        icon={<Memo />}
-        onChange={[MockFunction]}
-      />
       <ForwardRef(IconButton)
         aria-label="clear"
         onClick={[MockFunction]}
       >
-        <Memo(ForwardRef(InfoIcon))
+        <Memo(ForwardRef(SettingsIcon))
           color="error"
           style={
             Object {

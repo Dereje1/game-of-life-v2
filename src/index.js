@@ -14,9 +14,14 @@ const props = {
   patternName: "random", // Name of the last pattern selected
   metricCounter: 0, // generation counter for metrics/perf display
   refreshVal: 3, // mui slider refresh rate val before scaling
-  showInfoDialog: false, // True when user selects additional information
+  showSettingsDialog: false, // True when user selects settings dialog
   cells: [], // Arr containing the indices of all live cells
-  generationsPerSecond: 0 // used for perf/metrics calculations
+  generationsPerSecond: 0, // used for perf/metrics calculations
+  canvasWidth: 0, // width of the canvas set after CDM
+  canvasHeight: 0, // height of the canvas set after CDM
+  canvasLeft: 0, // left padding of the canvas set after CDM
+  isMaxElemets: false, // true if total cells exceeds allotted
+  metricTimeStamp: Date.now() // timestamp used for metrics/perf display
 };
 
 ReactDOM.render(
