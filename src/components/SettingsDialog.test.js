@@ -15,7 +15,9 @@ beforeEach(() => {
     ],
     handleOk: jest.fn(),
     showGrid: true,
-    handleGrid: jest.fn()
+    handleGrid: jest.fn(),
+    patternName: "random",
+    refreshPattern: jest.fn()
   };
   windowSpy = jest.spyOn(global, "window", "get");
   windowSpy.mockImplementation(() => ({ open }));
@@ -26,8 +28,18 @@ afterEach(() => {
   jest.clearAllMocks();
 });
 
-test("will render the information dialog", () => {
+test("will render the settings dialog", () => {
   const wrapper = shallow(<SettingsDialog {...props} />);
+  expect(toJson(wrapper)).toMatchSnapshot();
+});
+
+test("will render the settings dialog for no pattern or grid", () => {
+  const updatedProps = {
+    ...props,
+    patternName: "none",
+    showGrid: false
+  };
+  const wrapper = shallow(<SettingsDialog {...updatedProps} />);
   expect(toJson(wrapper)).toMatchSnapshot();
 });
 

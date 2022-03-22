@@ -29,7 +29,7 @@ exports[`will render links 1`] = `
 </Fragment>
 `;
 
-exports[`will render the information dialog 1`] = `
+exports[`will render the settings dialog 1`] = `
 <ForwardRef(Dialog)
   maxWidth="xs"
   onClose={[MockFunction]}
@@ -43,32 +43,28 @@ exports[`will render the information dialog 1`] = `
     }
   }
 >
-  <ForwardRef(DialogTitle)
-    sx={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-        "justifyContent": "flex-end",
-      }
-    }
-  >
-      
-    <ForwardRef(IconButton)
-      aria-label="reset"
-      onClick={[MockFunction]}
-    >
-      <Memo(ForwardRef(CloseIcon))
-        style={
-          Object {
-            "fontSize": "1.5rem",
-          }
-        }
-      />
-    </ForwardRef(IconButton)>
-  </ForwardRef(DialogTitle)>
   <ForwardRef(DialogContent)
     dividers={true}
   >
+    <ForwardRef(ListItem)>
+      <ForwardRef(ListItemIcon)>
+        <Memo(ForwardRef(PatternIcon))
+          color="info"
+        />
+      </ForwardRef(ListItemIcon)>
+      <ForwardRef(ListItemText)
+        id="switch-list-label-grid"
+        primary="Random"
+      />
+      <ForwardRef(IconButton)
+        disabled={false}
+        onClick={[MockFunction]}
+      >
+        <Memo(ForwardRef(RefreshIcon))
+          color="success"
+        />
+      </ForwardRef(IconButton)>
+    </ForwardRef(ListItem)>
     <ForwardRef(ListItem)>
       <ForwardRef(ListItemIcon)>
         <Memo(ForwardRef(Grid4x4Icon))
@@ -133,6 +129,134 @@ exports[`will render the information dialog 1`] = `
     }
   >
     <Links />
+    <ForwardRef(IconButton)
+      aria-label="reset"
+      onClick={[MockFunction]}
+    >
+      <Memo(ForwardRef(CancelOutlinedIcon))
+        style={
+          Object {
+            "fontSize": "2rem",
+          }
+        }
+      />
+    </ForwardRef(IconButton)>
+  </ForwardRef(DialogActions)>
+</ForwardRef(Dialog)>
+`;
+
+exports[`will render the settings dialog for no pattern or grid 1`] = `
+<ForwardRef(Dialog)
+  maxWidth="xs"
+  onClose={[MockFunction]}
+  open={true}
+  sx={
+    Object {
+      "& .MuiDialog-paper": Object {
+        "maxHeight": 530,
+        "width": "80%",
+      },
+    }
+  }
+>
+  <ForwardRef(DialogContent)
+    dividers={true}
+  >
+    <ForwardRef(ListItem)>
+      <ForwardRef(ListItemIcon)>
+        <Memo(ForwardRef(PatternIcon))
+          color=""
+        />
+      </ForwardRef(ListItemIcon)>
+      <ForwardRef(ListItemText)
+        id="switch-list-label-grid"
+        primary="None"
+      />
+      <ForwardRef(IconButton)
+        disabled={true}
+        onClick={[MockFunction]}
+      >
+        <Memo(ForwardRef(RefreshIcon))
+          color=""
+        />
+      </ForwardRef(IconButton)>
+    </ForwardRef(ListItem)>
+    <ForwardRef(ListItem)>
+      <ForwardRef(ListItemIcon)>
+        <Memo(ForwardRef(Grid4x4Icon))
+          color=""
+        />
+      </ForwardRef(ListItemIcon)>
+      <ForwardRef(ListItemText)
+        id="switch-list-label-grid"
+        primary="Grid"
+      />
+      <ForwardRef(Switch)
+        checked={false}
+        edge="end"
+        inputProps={
+          Object {
+            "aria-labelledby": "switch-list-label-grid",
+          }
+        }
+        onChange={[MockFunction]}
+      />
+    </ForwardRef(ListItem)>
+    <ForwardRef(ListItem)
+      key="Info 1"
+    >
+      <ForwardRef(ListItemIcon)>
+        <Memo(ForwardRef(InfoIcon)) />
+      </ForwardRef(ListItemIcon)>
+      <ForwardRef(ListItemText)
+        id="Info 1-label"
+        primary="Info 1"
+      />
+      <ForwardRef(Typography)
+        variant="subtitle1"
+      >
+        Info 1 value
+      </ForwardRef(Typography)>
+    </ForwardRef(ListItem)>
+    <ForwardRef(ListItem)
+      key="Info 2"
+    >
+      <ForwardRef(ListItemIcon)>
+        <Memo(ForwardRef(InfoIcon)) />
+      </ForwardRef(ListItemIcon)>
+      <ForwardRef(ListItemText)
+        id="Info 2-label"
+        primary="Info 2"
+      />
+      <ForwardRef(Typography)
+        variant="subtitle1"
+      >
+        Info 2 value
+      </ForwardRef(Typography)>
+    </ForwardRef(ListItem)>
+  </ForwardRef(DialogContent)>
+  <ForwardRef(DialogActions)
+    sx={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "justifyContent": "space-around",
+      }
+    }
+  >
+    <Links />
+    <ForwardRef(IconButton)
+      aria-label="reset"
+      onClick={[MockFunction]}
+    >
+      <Memo(ForwardRef(CancelOutlinedIcon))
+        style={
+          Object {
+            "fontSize": "2rem",
+          }
+        }
+      />
+    </ForwardRef(IconButton)>
   </ForwardRef(DialogActions)>
 </ForwardRef(Dialog)>
 `;

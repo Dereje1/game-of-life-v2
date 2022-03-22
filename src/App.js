@@ -302,9 +302,11 @@ class App extends Component {
         <SettingsDialog
           open={showSettingsDialog}
           showGrid={showGrid}
+          patternName={patternName}
           values={buildInformation({ ...this.state })}
           handleOk={() => this.setState({ showSettingsDialog: false })}
           handleGrid={() => this.setState({ showGrid: !showGrid }, this.updateCells)}
+          refreshPattern={this.handlePattern}
         />
       </>
     );
