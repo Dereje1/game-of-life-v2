@@ -53,7 +53,7 @@ exports[`will render the settings dialog 1`] = `
         />
       </ForwardRef(ListItemIcon)>
       <ForwardRef(ListItemText)
-        id="switch-list-label-grid"
+        id="pattern-list-label"
         primary="Random"
       />
       <ForwardRef(IconButton)
@@ -93,7 +93,7 @@ exports[`will render the settings dialog 1`] = `
         />
       </ForwardRef(ListItemIcon)>
       <ForwardRef(ListItemText)
-        id="switch-list-label-grid"
+        id="color-list-label"
         primary="Colors"
       />
       <ForwardRef(IconButton)
@@ -185,7 +185,7 @@ exports[`will render the settings dialog for no pattern or grid 1`] = `
         />
       </ForwardRef(ListItemIcon)>
       <ForwardRef(ListItemText)
-        id="switch-list-label-grid"
+        id="pattern-list-label"
         primary="None"
       />
       <ForwardRef(IconButton)
@@ -225,7 +225,7 @@ exports[`will render the settings dialog for no pattern or grid 1`] = `
         />
       </ForwardRef(ListItemIcon)>
       <ForwardRef(ListItemText)
-        id="switch-list-label-grid"
+        id="color-list-label"
         primary="Colors"
       />
       <ForwardRef(IconButton)

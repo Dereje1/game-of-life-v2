@@ -46,7 +46,7 @@ const SettingsDialog = ({
         <ListItemIcon>
           <PatternIcon color={patternName === "none" ? "" : "info"} />
         </ListItemIcon>
-        <ListItemText id="switch-list-label-grid" primary={getPatternLabel(patternName)} />
+        <ListItemText id="pattern-list-label" primary={getPatternLabel(patternName)} />
         <IconButton disabled={patternName === "none"} onClick={refreshPattern}>
           <RefreshIcon color={patternName === "none" ? "" : "success"} />
         </IconButton>
@@ -69,7 +69,7 @@ const SettingsDialog = ({
         <ListItemIcon>
           <FormatColorFillIcon color="info" />
         </ListItemIcon>
-        <ListItemText id="switch-list-label-grid" primary="Colors" />
+        <ListItemText id="color-list-label" primary="Colors" />
         <IconButton onClick={handleColorPicker}>
           <ColorLensIcon />
         </IconButton>
