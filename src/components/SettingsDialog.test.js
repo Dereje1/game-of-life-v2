@@ -13,12 +13,13 @@ beforeEach(() => {
       { title: "Info 1", value: "Info 1 value" },
       { title: "Info 2", value: "Info 2 value" }
     ],
-    handleOk: jest.fn(),
+    handleClose: jest.fn(),
     showGrid: true,
     handleGrid: jest.fn(),
     patternName: "random",
     refreshPattern: jest.fn(),
     handleColorPicker: jest.fn(),
+    handlePatternDialog: jest.fn(),
     showColorPicker: false
   };
   windowSpy = jest.spyOn(global, "window", "get");

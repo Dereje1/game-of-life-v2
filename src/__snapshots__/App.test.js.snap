@@ -6,7 +6,6 @@ exports[`renders 1`] = `
     generations={0}
     generationsPerSecond={0}
     handleClear={[Function]}
-    handlePatternDialog={[Function]}
     handlePause={[Function]}
     handleRefresh={[Function]}
     handleSettingsDialog={[Function]}
@@ -42,32 +41,14 @@ exports[`renders 1`] = `
       width={90}
     />
   </div>
-  <PatternsDialog
-    handleCancel={[Function]}
-    handleEntering={[Function]}
-    handleOk={[Function]}
-    handlePatternChange={[Function]}
-    open={false}
-    radioGroupRef={
-      Object {
-        "current": Object {
-          "focus": [MockFunction],
-          "getBoundingClientRect": [Function],
-          "getContext": [Function],
-          "style": Object {},
-        },
-      }
-    }
-    value="none"
-  />
   <SettingsDialog
+    handleClose={[Function]}
     handleColorPicker={[Function]}
     handleGrid={[Function]}
-    handleOk={[Function]}
+    handlePatternDialog={[Function]}
     open={false}
     patternName="none"
     refreshPattern={[Function]}
-    showColorPicker={false}
     showGrid={true}
     values={
       Array [
@@ -89,6 +70,24 @@ exports[`renders 1`] = `
         },
       ]
     }
+  />
+  <PatternsDialog
+    handleCancel={[Function]}
+    handleEntering={[Function]}
+    handleOk={[Function]}
+    handlePatternChange={[Function]}
+    open={false}
+    radioGroupRef={
+      Object {
+        "current": Object {
+          "focus": [MockFunction],
+          "getBoundingClientRect": [Function],
+          "getContext": [Function],
+          "style": Object {},
+        },
+      }
+    }
+    value="none"
   />
   <ColorsDialog
     closeColorPicker={[Function]}

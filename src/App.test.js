@@ -169,7 +169,7 @@ test("will handle stopping cell refresh on pause", () => {
 
 test("will handle showing the pattern dialog", () => {
   const wrapper = shallow(<App {...initialProps} />);
-  const controlTop = wrapper.find("ControlTop");
+  const controlTop = wrapper.find("SettingsDialog");
   controlTop.props().handlePatternDialog();
   expect(wrapper.state().showPatternDialog).toBe(true);
 });
@@ -210,7 +210,7 @@ test("will toggle the grid", () => {
 
 test("will cancel the pattern dialog", () => {
   const wrapper = shallow(<App {...initialProps} />);
-  const controlTop = wrapper.find("ControlTop");
+  const controlTop = wrapper.find("SettingsDialog");
   controlTop.props().handlePatternDialog();
   expect(wrapper.state().showPatternDialog).toBe(true);
   const patternsDialog = wrapper.find("PatternsDialog");
@@ -226,6 +226,14 @@ test("will update the selected pattern", () => {
   expect(wrapper.state().patternName).toBe("new pattern");
 });
 
+test("will hide the settings dialog when a new pattern is selected", () => {
+  const wrapper = shallow(<App {...initialProps} />);
+  wrapper.setState({ showSettingsDialog: true });
+  const patternsDialog = wrapper.find("PatternsDialog");
+  patternsDialog.props().handleOk();
+  expect(wrapper.state().showSettingsDialog).toBe(false);
+});
+
 test("will handle focus on entering of the pattern dialog", () => {
   const wrapper = shallow(<App {...initialProps} />);
   const patternsDialog = wrapper.find("PatternsDialog");
@@ -237,7 +245,7 @@ test("will handle not showing the settings dialog", () => {
   const wrapper = shallow(<App {...initialProps} />);
   wrapper.setState({ showSettingsDialog: true });
   const settingsDialog = wrapper.find("SettingsDialog");
-  settingsDialog.props().handleOk();
+  settingsDialog.props().handleClose();
   expect(wrapper.state().showSettingsDialog).toBe(false);
 });
 

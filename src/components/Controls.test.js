@@ -14,7 +14,6 @@ const controlTopProps = {
   generations: 6,
   showGrid: true,
   handleGrid: jest.fn(),
-  handlePatternDialog: jest.fn(),
   metrics: {
     generationsPerSecond: 7,
     refreshVal: 3

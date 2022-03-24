@@ -64,6 +64,13 @@ exports[`will render the settings dialog 1`] = `
           color="success"
         />
       </ForwardRef(IconButton)>
+      <ForwardRef(IconButton)
+        onClick={[MockFunction]}
+      >
+        <Memo(ForwardRef(ManageAccountsIcon))
+          color="error"
+        />
+      </ForwardRef(IconButton)>
     </ForwardRef(ListItem)>
     <ForwardRef(ListItem)>
       <ForwardRef(ListItemIcon)>
@@ -99,14 +106,18 @@ exports[`will render the settings dialog 1`] = `
       <ForwardRef(IconButton)
         onClick={[MockFunction]}
       >
-        <Memo(ForwardRef(ColorLensIcon)) />
+        <Memo(ForwardRef(ColorLensIcon))
+          color="success"
+        />
       </ForwardRef(IconButton)>
     </ForwardRef(ListItem)>
     <ForwardRef(ListItem)
       key="Info 1"
     >
       <ForwardRef(ListItemIcon)>
-        <Memo(ForwardRef(InfoIcon)) />
+        <Memo(ForwardRef(InfoIcon))
+          color="warning"
+        />
       </ForwardRef(ListItemIcon)>
       <ForwardRef(ListItemText)
         id="Info 1-label"
@@ -122,7 +133,9 @@ exports[`will render the settings dialog 1`] = `
       key="Info 2"
     >
       <ForwardRef(ListItemIcon)>
-        <Memo(ForwardRef(InfoIcon)) />
+        <Memo(ForwardRef(InfoIcon))
+          color="warning"
+        />
       </ForwardRef(ListItemIcon)>
       <ForwardRef(ListItemText)
         id="Info 2-label"
@@ -196,6 +209,13 @@ exports[`will render the settings dialog for no pattern or grid 1`] = `
           color=""
         />
       </ForwardRef(IconButton)>
+      <ForwardRef(IconButton)
+        onClick={[MockFunction]}
+      >
+        <Memo(ForwardRef(ManageAccountsIcon))
+          color="error"
+        />
+      </ForwardRef(IconButton)>
     </ForwardRef(ListItem)>
     <ForwardRef(ListItem)>
       <ForwardRef(ListItemIcon)>
@@ -231,14 +251,18 @@ exports[`will render the settings dialog for no pattern or grid 1`] = `
       <ForwardRef(IconButton)
         onClick={[MockFunction]}
       >
-        <Memo(ForwardRef(ColorLensIcon)) />
+        <Memo(ForwardRef(ColorLensIcon))
+          color="success"
+        />
       </ForwardRef(IconButton)>
     </ForwardRef(ListItem)>
     <ForwardRef(ListItem)
       key="Info 1"
     >
       <ForwardRef(ListItemIcon)>
-        <Memo(ForwardRef(InfoIcon)) />
+        <Memo(ForwardRef(InfoIcon))
+          color="warning"
+        />
       </ForwardRef(ListItemIcon)>
       <ForwardRef(ListItemText)
         id="Info 1-label"
@@ -254,7 +278,9 @@ exports[`will render the settings dialog for no pattern or grid 1`] = `
       key="Info 2"
     >
       <ForwardRef(ListItemIcon)>
-        <Memo(ForwardRef(InfoIcon)) />
+        <Memo(ForwardRef(InfoIcon))
+          color="warning"
+        />
       </ForwardRef(ListItemIcon)>
       <ForwardRef(ListItemText)
         id="Info 2-label"

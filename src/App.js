@@ -297,7 +297,6 @@ class App extends Component {
               )
             }
             handlePause={() => this.setState({ refresh: false })}
-            handlePatternDialog={() => this.setState({ showPatternDialog: true })}
             handleClear={this.handleClear}
             handleSettingsDialog={() => this.setState({ showSettingsDialog: !showSettingsDialog })}
           />
@@ -325,27 +324,27 @@ class App extends Component {
             onClick={this.handleCanvasClick}
           />
         </div>
-        <PatternsDialog
-          open={showPatternDialog}
-          value={patternName}
-          handleCancel={() => this.setState({ showPatternDialog: false })}
-          handleOk={this.handlePattern}
-          handlePatternChange={({ target: { value } }) => this.setState({ patternName: value })}
-          radioGroupRef={this.radioGroupRef}
-          handleEntering={this.handleEntering}
-        />
         <SettingsDialog
           open={showSettingsDialog}
           showGrid={showGrid}
           patternName={patternName}
           values={buildInformation({ ...this.state })}
-          handleOk={() => this.setState({ showSettingsDialog: false })}
+          handleClose={() => this.setState({ showSettingsDialog: false })}
           handleGrid={() => this.setState({ showGrid: !showGrid }, this.updateCells)}
           refreshPattern={this.handlePattern}
           handleColorPicker={() =>
             this.setState({ showColorPicker: true, showSettingsDialog: false })
           }
-          showColorPicker={showColorPicker}
+          handlePatternDialog={() => this.setState({ showPatternDialog: true })}
+        />
+        <PatternsDialog
+          open={showPatternDialog}
+          value={patternName}
+          handleCancel={() => this.setState({ showPatternDialog: false })}
+          handleOk={() => this.setState({ showSettingsDialog: false }, this.handlePattern)}
+          handlePatternChange={({ target: { value } }) => this.setState({ patternName: value })}
+          radioGroupRef={this.radioGroupRef}
+          handleEntering={this.handleEntering}
         />
         <ColorsDialog
           open={showColorPicker}
@@ -353,7 +352,9 @@ class App extends Component {
           selectedColorType={selectedColorType}
           showGrid={showGrid}
           handleColorChange={this.handleColorChange}
-          closeColorPicker={() => this.setState({ showColorPicker: false })}
+          closeColorPicker={() =>
+            this.setState({ showColorPicker: false, showSettingsDialog: true })
+          }
           updateColorChangeType={(type) => this.setState({ selectedColorType: type })}
         />
       </>

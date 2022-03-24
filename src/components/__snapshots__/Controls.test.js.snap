@@ -171,18 +171,6 @@ exports[`will render the top control 1`] = `
         />
       </ForwardRef(IconButton)>
       <ForwardRef(IconButton)
-        aria-label="reset"
-        onClick={[MockFunction]}
-      >
-        <Memo(ForwardRef(PatternIcon))
-          style={
-            Object {
-              "fontSize": "2.5rem",
-            }
-          }
-        />
-      </ForwardRef(IconButton)>
-      <ForwardRef(IconButton)
         aria-label="clear"
         onClick={[MockFunction]}
       >

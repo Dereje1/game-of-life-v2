@@ -18,6 +18,7 @@ import PatternIcon from "@mui/icons-material/Pattern";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import FormatColorFillIcon from "@mui/icons-material/FormatColorFill";
 import ColorLensIcon from "@mui/icons-material/ColorLens";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import patterns from "../utils/patterns";
 
 const getPatternLabel = (patternName) => {
@@ -28,18 +29,19 @@ const getPatternLabel = (patternName) => {
 const SettingsDialog = ({
   open,
   values,
-  handleOk,
+  handleClose,
   showGrid,
   handleGrid,
   patternName,
   refreshPattern,
-  handleColorPicker
+  handleColorPicker,
+  handlePatternDialog
 }) => (
   <Dialog
     sx={{ "& .MuiDialog-paper": { width: "80%", maxHeight: 530 } }}
     maxWidth="xs"
     open={open}
-    onClose={handleOk}
+    onClose={handleClose}
   >
     <DialogContent dividers>
       <ListItem>
@@ -49,6 +51,9 @@ const SettingsDialog = ({
         <ListItemText id="pattern-list-label" primary={getPatternLabel(patternName)} />
         <IconButton disabled={patternName === "none"} onClick={refreshPattern}>
           <RefreshIcon color={patternName === "none" ? "" : "success"} />
+        </IconButton>
+        <IconButton onClick={handlePatternDialog}>
+          <ManageAccountsIcon color="error" />
         </IconButton>
       </ListItem>
       <ListItem>
@@ -71,13 +76,13 @@ const SettingsDialog = ({
         </ListItemIcon>
         <ListItemText id="color-list-label" primary="Colors" />
         <IconButton onClick={handleColorPicker}>
-          <ColorLensIcon />
+          <ColorLensIcon color="success" />
         </IconButton>
       </ListItem>
       {values.map((value) => (
         <ListItem key={value.title}>
           <ListItemIcon>
-            <InfoIcon />
+            <InfoIcon color="warning" />
           </ListItemIcon>
           <ListItemText id={`${value.title}-label`} primary={value.title} />
           <Typography variant="subtitle1">{value.value}</Typography>
@@ -86,7 +91,7 @@ const SettingsDialog = ({
     </DialogContent>
     <DialogActions sx={{ display: "flex", flexDirection: "row", justifyContent: "space-around" }}>
       <Links />
-      <IconButton aria-label="reset" onClick={handleOk}>
+      <IconButton aria-label="reset" onClick={handleClose}>
         <CancelOutlinedIcon style={{ fontSize: "2rem" }} />
       </IconButton>
     </DialogActions>
@@ -112,9 +117,9 @@ SettingsDialog.propTypes = {
   showGrid: PropTypes.bool.isRequired,
   values: PropTypes.array.isRequired,
   patternName: PropTypes.string.isRequired,
-  handleOk: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
   handleGrid: PropTypes.func.isRequired,
   refreshPattern: PropTypes.func.isRequired,
   handleColorPicker: PropTypes.func.isRequired,
-  showColorPicker: PropTypes.bool.isRequired
+  handlePatternDialog: PropTypes.func.isRequired
 };

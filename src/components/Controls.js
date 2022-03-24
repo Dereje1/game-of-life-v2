@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import IconButton from "@mui/material/IconButton";
 import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
 import PauseIcon from "@mui/icons-material/Pause";
-import PatternIcon from "@mui/icons-material/Pattern";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import Slider from "@mui/material/Slider";
 import Chip from "@mui/material/Chip";
@@ -33,7 +32,6 @@ export const ControlTop = ({
   generations,
   handleRefresh,
   handlePause,
-  handlePatternDialog,
   handleClear,
   metrics: { generationsPerSecond, refreshVal },
   handleSettingsDialog
@@ -60,9 +58,6 @@ export const ControlTop = ({
       <div>
         <IconButton aria-label="play_pause" onClick={isRefreshing ? handlePause : handleRefresh}>
           <Action isRefreshing={isRefreshing} />
-        </IconButton>
-        <IconButton aria-label="reset" onClick={handlePatternDialog}>
-          <PatternIcon style={{ fontSize: "2.5rem" }} />
         </IconButton>
         <IconButton aria-label="clear" onClick={handleClear}>
           <HighlightOffOutlinedIcon style={{ fontSize: "2.5rem" }} />
@@ -199,7 +194,6 @@ ControlTop.propTypes = {
   metrics: PropTypes.object.isRequired,
   handleRefresh: PropTypes.func.isRequired,
   handlePause: PropTypes.func.isRequired,
-  handlePatternDialog: PropTypes.func.isRequired,
   handleClear: PropTypes.func.isRequired,
   handleSettingsDialog: PropTypes.func.isRequired
 };
