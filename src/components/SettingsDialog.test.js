@@ -55,7 +55,7 @@ test("will render link to open the information page", () => {
   const wrapper = shallow(<Links />);
   const info = wrapper.find("ForwardRef(IconButton)").at(0);
   info.props().onClick();
-  expect(open).toHaveBeenCalledWith("https://pi.math.cornell.edu/~lipa/mec/lesson6.html");
+  expect(open).toHaveBeenCalledWith("https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life");
 });
 
 test("will render link to open the github source page", () => {

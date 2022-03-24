@@ -100,7 +100,9 @@ const SettingsDialog = ({
 
 export const Links = () => (
   <>
-    <IconButton onClick={() => window.open("https://pi.math.cornell.edu/~lipa/mec/lesson6.html")}>
+    <IconButton
+      onClick={() => window.open("https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life")}
+    >
       <HelpIcon style={{ fontSize: "2rem" }} color="info" />
     </IconButton>
 
