@@ -18,7 +18,7 @@ exports[`will render the settings dialog 1`] = `
     sx={
       Object {
         "display": "flex",
-        "justifyContent": "space-between",
+        "justifyContent": "center",
       }
     }
   >
@@ -39,7 +39,7 @@ exports[`will render the settings dialog 1`] = `
   >
     <ColorPicker
       color="blue"
-      disableAlpha={false}
+      disableAlpha={true}
       onChange={[MockFunction]}
       presetColors={
         Array [
