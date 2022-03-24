@@ -16,6 +16,8 @@ import Typography from "@mui/material/Typography";
 import InfoIcon from "@mui/icons-material/Info";
 import PatternIcon from "@mui/icons-material/Pattern";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import FormatColorFillIcon from "@mui/icons-material/FormatColorFill";
+import ColorLensIcon from "@mui/icons-material/ColorLens";
 import patterns from "../utils/patterns";
 
 const getPatternLabel = (patternName) => {
@@ -30,7 +32,8 @@ const SettingsDialog = ({
   showGrid,
   handleGrid,
   patternName,
-  refreshPattern
+  refreshPattern,
+  handleColorPicker
 }) => (
   <Dialog
     sx={{ "& .MuiDialog-paper": { width: "80%", maxHeight: 530 } }}
@@ -61,6 +64,15 @@ const SettingsDialog = ({
             "aria-labelledby": "switch-list-label-grid"
           }}
         />
+      </ListItem>
+      <ListItem>
+        <ListItemIcon>
+          <FormatColorFillIcon color="info" />
+        </ListItemIcon>
+        <ListItemText id="switch-list-label-grid" primary="Colors" />
+        <IconButton onClick={handleColorPicker}>
+          <ColorLensIcon />
+        </IconButton>
       </ListItem>
       {values.map((value) => (
         <ListItem key={value.title}>
@@ -102,5 +114,7 @@ SettingsDialog.propTypes = {
   patternName: PropTypes.string.isRequired,
   handleOk: PropTypes.func.isRequired,
   handleGrid: PropTypes.func.isRequired,
-  refreshPattern: PropTypes.func.isRequired
+  refreshPattern: PropTypes.func.isRequired,
+  handleColorPicker: PropTypes.func.isRequired,
+  showColorPicker: PropTypes.bool.isRequired
 };

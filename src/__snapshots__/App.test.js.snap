@@ -61,11 +61,13 @@ exports[`renders 1`] = `
     value="none"
   />
   <SettingsDialog
+    handleColorPicker={[Function]}
     handleGrid={[Function]}
     handleOk={[Function]}
     open={false}
     patternName="none"
     refreshPattern={[Function]}
+    showColorPicker={false}
     showGrid={true}
     values={
       Array [
@@ -87,6 +89,15 @@ exports[`renders 1`] = `
         },
       ]
     }
+  />
+  <ColorsDialog
+    closeColorPicker={[Function]}
+    color="black"
+    handleColorChange={[Function]}
+    open={false}
+    selectedColorType="canvasBackGround"
+    showGrid={true}
+    updateColorChangeType={[Function]}
   />
 </Fragment>
 `;

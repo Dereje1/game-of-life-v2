@@ -86,6 +86,22 @@ exports[`will render the settings dialog 1`] = `
         onChange={[MockFunction]}
       />
     </ForwardRef(ListItem)>
+    <ForwardRef(ListItem)>
+      <ForwardRef(ListItemIcon)>
+        <Memo(ForwardRef(FormatColorFillIcon))
+          color="info"
+        />
+      </ForwardRef(ListItemIcon)>
+      <ForwardRef(ListItemText)
+        id="switch-list-label-grid"
+        primary="Colors"
+      />
+      <ForwardRef(IconButton)
+        onClick={[MockFunction]}
+      >
+        <Memo(ForwardRef(ColorLensIcon)) />
+      </ForwardRef(IconButton)>
+    </ForwardRef(ListItem)>
     <ForwardRef(ListItem)
       key="Info 1"
     >
@@ -201,6 +217,22 @@ exports[`will render the settings dialog for no pattern or grid 1`] = `
         }
         onChange={[MockFunction]}
       />
+    </ForwardRef(ListItem)>
+    <ForwardRef(ListItem)>
+      <ForwardRef(ListItemIcon)>
+        <Memo(ForwardRef(FormatColorFillIcon))
+          color="info"
+        />
+      </ForwardRef(ListItemIcon)>
+      <ForwardRef(ListItemText)
+        id="switch-list-label-grid"
+        primary="Colors"
+      />
+      <ForwardRef(IconButton)
+        onClick={[MockFunction]}
+      >
+        <Memo(ForwardRef(ColorLensIcon)) />
+      </ForwardRef(IconButton)>
     </ForwardRef(ListItem)>
     <ForwardRef(ListItem)
       key="Info 1"

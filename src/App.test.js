@@ -16,7 +16,19 @@ const initialProps = {
   refreshVal: 3,
   showSettingsDialog: false,
   cells: [],
-  generationsPerSecond: 0
+  generationsPerSecond: 0,
+  canvasWidth: 0, // width of the canvas set after CDM
+  canvasHeight: 0, // height of the canvas set after CDM
+  canvasLeft: 0, // left padding of the canvas set after CDM
+  isMaxElemets: false, // true if total cells exceeds allotted
+  metricTimeStamp: Date.now(), // timestamp used for metrics/perf display
+  colors: {
+    canvasBackGround: "black",
+    liveCell: "yellow",
+    grid: "#3b3b3b"
+  },
+  showColorPicker: false,
+  selectedColorType: "canvasBackGround"
 };
 
 let useRefSpy;
@@ -219,4 +231,44 @@ test("will handle focus on entering of the pattern dialog", () => {
   const patternsDialog = wrapper.find("PatternsDialog");
   patternsDialog.props().handleEntering();
   expect(focus).toHaveBeenCalledTimes(1);
+});
+
+test("will handle not showing the settings dialog", () => {
+  const wrapper = shallow(<App {...initialProps} />);
+  wrapper.setState({ showSettingsDialog: true });
+  const settingsDialog = wrapper.find("SettingsDialog");
+  settingsDialog.props().handleOk();
+  expect(wrapper.state().showSettingsDialog).toBe(false);
+});
+
+test("will handle showing the color picker and hiding the settings dialog", () => {
+  const wrapper = shallow(<App {...initialProps} />);
+  wrapper.setState({ showSettingsDialog: true });
+  const settingsDialog = wrapper.find("SettingsDialog");
+  settingsDialog.props().handleColorPicker();
+  expect(wrapper.state().showColorPicker).toBe(true);
+  expect(wrapper.state().showSettingsDialog).toBe(false);
+});
+
+test("will handle not showing the colors dialog", () => {
+  const wrapper = shallow(<App {...initialProps} />);
+  wrapper.setState({ showColorPicker: true });
+  const colorsDialog = wrapper.find("ColorsDialog");
+  colorsDialog.props().closeColorPicker();
+  expect(wrapper.state().showColorPicker).toBe(false);
+});
+
+test("will handle setting the change color type from the colors dialog", () => {
+  const wrapper = shallow(<App {...initialProps} />);
+  const colorsDialog = wrapper.find("ColorsDialog");
+  colorsDialog.props().updateColorChangeType("liveCell");
+  expect(wrapper.state().selectedColorType).toBe("liveCell");
+});
+
+test("will handle setting the selected color from the color picker", () => {
+  const wrapper = shallow(<App {...initialProps} />);
+  expect(wrapper.state().colors.canvasBackGround).toBe("black");
+  const colorsDialog = wrapper.find("ColorsDialog");
+  colorsDialog.props().handleColorChange({ hex: "FFFFFF" });
+  expect(wrapper.state().colors.canvasBackGround).toBe("FFFFFF");
 });

@@ -17,7 +17,9 @@ beforeEach(() => {
     showGrid: true,
     handleGrid: jest.fn(),
     patternName: "random",
-    refreshPattern: jest.fn()
+    refreshPattern: jest.fn(),
+    handleColorPicker: jest.fn(),
+    showColorPicker: false
   };
   windowSpy = jest.spyOn(global, "window", "get");
   windowSpy.mockImplementation(() => ({ open }));

@@ -21,7 +21,14 @@ const props = {
   canvasHeight: 0, // height of the canvas set after CDM
   canvasLeft: 0, // left padding of the canvas set after CDM
   isMaxElemets: false, // true if total cells exceeds allotted
-  metricTimeStamp: Date.now() // timestamp used for metrics/perf display
+  metricTimeStamp: Date.now(), // timestamp used for metrics/perf display
+  colors: {
+    canvasBackGround: "black",
+    liveCell: "yellow",
+    grid: "#3b3b3b"
+  },
+  showColorPicker: false,
+  selectedColorType: "canvasBackGround"
 };
 
 ReactDOM.render(

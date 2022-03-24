@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`will render the settings dialog 1`] = `
+<ForwardRef(Dialog)
+  maxWidth="xs"
+  onClose={[MockFunction]}
+  open={true}
+  sx={
+    Object {
+      "& .MuiDialog-paper": Object {
+        "maxHeight": 530,
+        "width": "auto",
+      },
+    }
+  }
+>
+  <ForwardRef(DialogTitle)
+    sx={
+      Object {
+        "display": "flex",
+        "justifyContent": "space-between",
+      }
+    }
+  >
+    <ForwardRef(Typography)
+      variant="subtitle"
+    >
+      Choose canvas color
+    </ForwardRef(Typography)>
+  </ForwardRef(DialogTitle)>
+  <ForwardRef(DialogContent)
+    dividers={true}
+    sx={
+      Object {
+        "display": "flex",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <ColorPicker
+      color="blue"
+      disableAlpha={false}
+      onChange={[MockFunction]}
+      presetColors={
+        Array [
+          "#D0021B",
+          "#F5A623",
+          "#F8E71C",
+          "#8B572A",
+          "#7ED321",
+          "#417505",
+          "#BD10E0",
+          "#9013FE",
+          "#4A90E2",
+          "#50E3C2",
+          "#B8E986",
+          "#000000",
+          "#4A4A4A",
+          "#9B9B9B",
+          "#FFFFFF",
+        ]
+      }
+      styles={Object {}}
+      width={200}
+    />
+  </ForwardRef(DialogContent)>
+  <ForwardRef(DialogActions)
+    sx={
+      Object {
+        "justifyContent": "center",
+      }
+    }
+  >
+    <ForwardRef(ButtonGroup)
+      aria-label="outlined primary button group"
+      fullWidth={true}
+      variant="text"
+    >
+      <ForwardRef(Button)
+        color="primary"
+        disabled={false}
+        id="canvas-color-change"
+        key="canvasBackGround"
+        onClick={[Function]}
+      >
+        canvas
+      </ForwardRef(Button)>
+      <ForwardRef(Button)
+        color="inherit"
+        disabled={false}
+        id="cell-color-change"
+        key="liveCell"
+        onClick={[Function]}
+      >
+        cell
+      </ForwardRef(Button)>
+      <ForwardRef(Button)
+        color="inherit"
+        disabled={false}
+        id="grid-color-change"
+        key="grid"
+        onClick={[Function]}
+      >
+        grid
+      </ForwardRef(Button)>
+      <ForwardRef(IconButton)
+        aria-label="reset"
+        onClick={[MockFunction]}
+      >
+        <Memo(ForwardRef(CancelOutlinedIcon))
+          style={
+            Object {
+              "fontSize": "2rem",
+            }
+          }
+        />
+      </ForwardRef(IconButton)>
+    </ForwardRef(ButtonGroup)>
+  </ForwardRef(DialogActions)>
+</ForwardRef(Dialog)>
+`;

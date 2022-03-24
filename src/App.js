@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { ControlTop, ControlBottom } from "./components/Controls";
 import PatternsDialog from "./components/PatternsDialog";
 import SettingsDialog from "./components/SettingsDialog";
+import ColorsDialog from "./components/ColorsDialog";
 import {
   getLiveCells,
   getPattern,
@@ -121,6 +122,19 @@ class App extends Component {
     this.setState({ cells: newCells }, this.updateCells);
   };
 
+  handleColorChange = ({ hex }) => {
+    const { selectedColorType } = this.state;
+    this.setState(
+      {
+        colors: {
+          ...this.state.colors,
+          [selectedColorType]: hex
+        }
+      },
+      this.loadCanvas
+    );
+  };
+
   refreshCells = () => {
     const {
       cells: oldCells,
@@ -157,7 +171,15 @@ class App extends Component {
   };
 
   updateCells = () => {
-    const { cells, canvasWidth, canvasHeight, refresh, cellSize, refreshRate } = this.state;
+    const {
+      cells,
+      canvasWidth,
+      canvasHeight,
+      refresh,
+      cellSize,
+      refreshRate,
+      colors: { liveCell }
+    } = this.state;
     const context = this.canvasContext;
     context.clearRect(0, 0, canvasWidth, canvasHeight);
     cells.forEach((cell) => {
@@ -166,7 +188,7 @@ class App extends Component {
         width: canvasWidth,
         cellSize
       });
-      context.fillStyle = "yellow";
+      context.fillStyle = liveCell;
       context.fillRect(x, y, cellSize, cellSize);
     });
     this.refreshGrid();
@@ -177,28 +199,37 @@ class App extends Component {
   };
 
   refreshGrid = () => {
-    const { canvasWidth, canvasHeight, cellSize, showGrid } = this.state;
+    const {
+      canvasWidth,
+      canvasHeight,
+      cellSize,
+      showGrid,
+      colors: { grid }
+    } = this.state;
     if (!showGrid) return null;
     const context = this.canvasContext;
     for (let x = 0; x <= canvasWidth; x += cellSize) {
       context.beginPath();
       context.moveTo(x, 0);
       context.lineTo(x, canvasHeight);
-      context.strokeStyle = "#3b3b3b";
+      context.strokeStyle = grid;
       context.stroke();
     }
     for (let y = 0; y <= canvasHeight; y += cellSize) {
       context.beginPath();
       context.moveTo(0, y);
       context.lineTo(canvasWidth, y);
-      context.strokeStyle = "#3b3b3b";
+      context.strokeStyle = grid;
       context.stroke();
     }
   };
 
   loadCanvas = () => {
     const { innerWidth, innerHeight } = window;
-    let { cellSize } = this.state;
+    let {
+      cellSize,
+      colors: { canvasBackGround }
+    } = this.state;
     const totalCellsX = Math.floor(innerWidth / cellSize);
     const totalCellsY = Math.floor((innerHeight * 0.8) / cellSize);
     const totalElements = totalCellsX * totalCellsY;
@@ -212,7 +243,7 @@ class App extends Component {
     }
 
     const canvas = this.Canvas.current;
-    canvas.style.backgroundColor = "black";
+    canvas.style.backgroundColor = canvasBackGround;
     this.canvasContext = canvas.getContext("2d");
 
     this.setState(
@@ -241,7 +272,11 @@ class App extends Component {
       isMaxElemets,
       generationsPerSecond,
       refreshVal,
-      showSettingsDialog
+      showSettingsDialog,
+      showColorPicker,
+      colors,
+      selectedColorType,
+      colors: { canvasBackGround }
     } = this.state;
     return (
       <>
@@ -278,7 +313,7 @@ class App extends Component {
         <div
           style={{
             paddingLeft: canvasLeft,
-            background: isMaxElemets ? "white" : "black",
+            background: isMaxElemets ? "white" : canvasBackGround,
             height: window.innerHeight * 0.8
           }}
         >
@@ -307,6 +342,19 @@ class App extends Component {
           handleOk={() => this.setState({ showSettingsDialog: false })}
           handleGrid={() => this.setState({ showGrid: !showGrid }, this.updateCells)}
           refreshPattern={this.handlePattern}
+          handleColorPicker={() =>
+            this.setState({ showColorPicker: true, showSettingsDialog: false })
+          }
+          showColorPicker={showColorPicker}
+        />
+        <ColorsDialog
+          open={showColorPicker}
+          color={colors[selectedColorType]}
+          selectedColorType={selectedColorType}
+          showGrid={showGrid}
+          handleColorChange={this.handleColorChange}
+          closeColorPicker={() => this.setState({ showColorPicker: false })}
+          updateColorChangeType={(type) => this.setState({ selectedColorType: type })}
         />
       </>
     );
