@@ -48,7 +48,11 @@ const SettingsDialog = ({
         <ListItemIcon>
           <PatternIcon color={patternName === "none" ? "" : "info"} />
         </ListItemIcon>
-        <ListItemText id="pattern-list-label" primary={getPatternLabel(patternName)} />
+        <ListItemText
+          id="pattern-list-label"
+          primary="Pattern"
+          secondary={getPatternLabel(patternName)}
+        />
         <IconButton disabled={patternName === "none"} onClick={refreshPattern}>
           <RefreshIcon color={patternName === "none" ? "" : "success"} />
         </IconButton>

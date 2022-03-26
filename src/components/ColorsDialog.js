@@ -33,7 +33,7 @@ const ColorsDialog = ({
     onClose={closeColorPicker}
   >
     <DialogTitle sx={{ display: "flex", justifyContent: "center" }}>
-      <Typography variant="subtitle">{`Choose ${colorTypeMap[selectedColorType]} color`}</Typography>
+      <Typography>{`Choose ${colorTypeMap[selectedColorType]} color`}</Typography>
     </DialogTitle>
     <DialogContent dividers sx={{ display: "flex", justifyContent: "center" }}>
       <SketchPicker color={color} onChange={handleColorChange} disableAlpha />

@@ -1,5 +1,6 @@
 const addCellAscending = (cells, cell) => {
   // add cell by keeping sort order
+  if (!cells.length || cell > cells[cells.length - 1]) return [...cells, cell];
   for (let i = 0; i < cells.length; i++) {
     if (cell < cells[i]) {
       /*
@@ -10,7 +11,6 @@ const addCellAscending = (cells, cell) => {
       return cells;
     }
   }
-  return [...cells, cell];
 };
 // checks for dead cells
 const canResurrectCell = ({ liveCells, ...args }) => {
@@ -126,12 +126,12 @@ const processCell = ({ resurrectedCells, ...args }) => {
       });
       if (!resurrectedCellExists) {
         // check if dead neighbor can be resurrected and update list if so
-        const isResurrected = canResurrectCell({
+        const isResurrectable = canResurrectCell({
           ...args,
           cell: neighbour,
           liveCells: oldCells
         });
-        if (isResurrected) {
+        if (isResurrectable) {
           updatedResurrectedCells = addCellAscending(updatedResurrectedCells, neighbour);
         }
       }
@@ -171,12 +171,12 @@ export const getLiveCells = (args) => {
 };
 
 export const getPattern = ({ patternName, cellSize, width, height }) => {
-  const trueX = Math.floor(width / 2);
-  const trueY = Math.floor(height / 2);
+  const middleX = Math.floor(width / 2);
+  const middleY = Math.floor(height / 2);
   const cellsPerRow = width / cellSize;
   const centerIndex = getIndexFromCoordinates({
-    x: trueX,
-    y: trueY,
+    x: middleX,
+    y: middleY,
     width,
     cellSize
   });

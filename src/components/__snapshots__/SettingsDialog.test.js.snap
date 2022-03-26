@@ -54,7 +54,8 @@ exports[`will render the settings dialog 1`] = `
       </ForwardRef(ListItemIcon)>
       <ForwardRef(ListItemText)
         id="pattern-list-label"
-        primary="Random"
+        primary="Pattern"
+        secondary="Random"
       />
       <ForwardRef(IconButton)
         disabled={false}
@@ -199,7 +200,8 @@ exports[`will render the settings dialog for no pattern or grid 1`] = `
       </ForwardRef(ListItemIcon)>
       <ForwardRef(ListItemText)
         id="pattern-list-label"
-        primary="None"
+        primary="Pattern"
+        secondary="None"
       />
       <ForwardRef(IconButton)
         disabled={true}

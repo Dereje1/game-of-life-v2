@@ -331,7 +331,7 @@ class App extends Component {
           values={buildInformation({ ...this.state })}
           handleClose={() => this.setState({ showSettingsDialog: false })}
           handleGrid={() => this.setState({ showGrid: !showGrid }, this.updateCells)}
-          refreshPattern={this.handlePattern}
+          refreshPattern={() => this.setState({ showSettingsDialog: false }, this.handlePattern)}
           handleColorPicker={() =>
             this.setState({ showColorPicker: true, showSettingsDialog: false })
           }

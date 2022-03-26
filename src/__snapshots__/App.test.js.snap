@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders 1`] = `
+exports[`The app component renders 1`] = `
 <Fragment>
   <ControlTop
     generations={0}
