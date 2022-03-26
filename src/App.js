@@ -97,9 +97,7 @@ class App extends Component {
     }
   };
 
-  handleCanvasClick = (e) => {
-    const { clientX, clientY } = e;
-    e.preventDefault();
+  handleCanvasClick = ({ clientX, clientY }) => {
     const { cells, cellSize, canvasWidth: width, canvasHeight: height } = this.state;
     const Canvas = this.Canvas.current;
     const { left, top } = Canvas.getBoundingClientRect();
@@ -252,7 +250,7 @@ class App extends Component {
         canvasHeight,
         canvasLeft: (innerWidth - canvasWidth) / 2,
         cellSize,
-        isMaxElemets: totalElements > MAX_ELEMENTS
+        isMaxElements: totalElements > MAX_ELEMENTS
       },
       this.handlePattern
     );
@@ -269,7 +267,7 @@ class App extends Component {
       generations,
       showPatternDialog,
       patternName,
-      isMaxElemets,
+      isMaxElements,
       generationsPerSecond,
       refreshVal,
       showSettingsDialog,
@@ -298,7 +296,7 @@ class App extends Component {
             }
             handlePause={() => this.setState({ refresh: false })}
             handleClear={this.handleClear}
-            handleSettingsDialog={() => this.setState({ showSettingsDialog: !showSettingsDialog })}
+            handleSettingsDialog={() => this.setState({ showSettingsDialog: true })}
           />
 
           <ControlBottom
@@ -312,7 +310,7 @@ class App extends Component {
         <div
           style={{
             paddingLeft: canvasLeft,
-            background: isMaxElemets ? "white" : canvasBackGround,
+            background: isMaxElements ? "white" : canvasBackGround,
             height: window.innerHeight * 0.8
           }}
         >

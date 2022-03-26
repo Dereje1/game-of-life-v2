@@ -20,7 +20,7 @@ const initialProps = {
   canvasWidth: 0, // width of the canvas set after CDM
   canvasHeight: 0, // height of the canvas set after CDM
   canvasLeft: 0, // left padding of the canvas set after CDM
-  isMaxElemets: false, // true if total cells exceeds allotted
+  isMaxElements: false, // true if total cells exceeds allotted
   metricTimeStamp: Date.now(), // timestamp used for metrics/perf display
   colors: {
     canvasBackGround: "black",
@@ -36,6 +36,17 @@ const clearRect = jest.fn();
 const fillRect = jest.fn();
 const focus = jest.fn();
 
+/*
+a canvas width 90 X 90 and cell size of 15 
+produces: 6 X 6 elements with indices:
+|0 |1 |2 |3 |4 |5 |
+|6 |7 |8 |9 |10|11|
+|12|13|14|15|16|17|
+|18|19|20|21|22|23|
+|24|25|26|27|28|29|
+|30|31|32|33|34|35|
+where index 8 for ex. will have coordiantes (30,15)
+*/
 beforeEach(() => {
   useRefSpy = jest.spyOn(React, "createRef").mockImplementation(() => ({
     current: {
@@ -87,29 +98,27 @@ describe("The app component", () => {
   });
   test("will draw active cells on canvas", () => {
     const wrapper = shallow(<App {...initialProps} />);
-    wrapper.setState({ cells: [7] });
+    wrapper.setState({ cells: [8] });
     wrapper.instance().updateCells();
     //first call for clearRect on CDM, second one on updateCells
     expect(clearRect).toHaveBeenCalledTimes(2);
     expect(clearRect).toHaveBeenCalledWith(0, 0, 90, 90);
     expect(fillRect).toHaveBeenCalledTimes(1);
-    expect(fillRect.mock.lastCall).toEqual([15, 15, 15, 15]);
+    expect(fillRect.mock.lastCall).toEqual([30, 15, 15, 15]);
   });
   test("will refresh active cells", () => {
     const wrapper = shallow(<App {...initialProps} />);
     wrapper.instance().handlePattern();
-    // blinker oscillator
-    const liveCells = [6, 7, 8];
+    // blinker oscillator sample
     wrapper.setState({
-      cells: liveCells,
+      cells: [6, 7, 8],
       refresh: true,
       generations: 4,
       patternName: "xyz"
     });
     wrapper.instance().updateCells();
     jest.advanceTimersByTime(140);
-    const refreshedCells = [7, 1, 13];
-    expect(wrapper.state().cells).toStrictEqual(refreshedCells);
+    expect(wrapper.state().cells).toStrictEqual([7, 1, 13]);
     expect(wrapper.state().refresh).toBe(true);
     expect(wrapper.state().patternName).toBe("xyz");
     expect(wrapper.state().generations).toBe(5);
@@ -135,13 +144,13 @@ describe("The app component", () => {
     const wrapper = shallow(<App {...initialProps} />);
     wrapper.instance().handlePattern();
     expect(wrapper.state().cells.includes(7)).toBe(false);
-    wrapper.instance().handleCanvasClick({ clientX: 18, clientY: 18, preventDefault: jest.fn() });
+    wrapper.instance().handleCanvasClick({ clientX: 18, clientY: 18 });
     expect(wrapper.state().cells.includes(7)).toBe(true);
   });
   test("will make active cells in-active on canvas click", () => {
     const wrapper = shallow(<App {...initialProps} />);
     wrapper.setState({ cells: [7, 8] });
-    wrapper.instance().handleCanvasClick({ clientX: 18, clientY: 18, preventDefault: jest.fn() });
+    wrapper.instance().handleCanvasClick({ clientX: 18, clientY: 18 });
     expect(wrapper.state().cells).toEqual([8]);
   });
 });
@@ -168,6 +177,13 @@ describe("The top control", () => {
     controlTop.props().handleClear();
     expect(wrapper.state().refresh).toBe(false);
     expect(wrapper.state().generations).toBe(0);
+  });
+  test("will handle showing the settings dialog", () => {
+    const wrapper = shallow(<App {...initialProps} />);
+    expect(wrapper.state().showSettingsDialog).toBe(false);
+    const controlTop = wrapper.find("ControlTop");
+    controlTop.props().handleSettingsDialog();
+    expect(wrapper.state().showSettingsDialog).toBe(true);
   });
 });
 

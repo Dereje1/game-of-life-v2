@@ -22,9 +22,7 @@ exports[`will render the settings dialog 1`] = `
       }
     }
   >
-    <ForwardRef(Typography)
-      variant="subtitle1"
-    >
+    <ForwardRef(Typography)>
       Choose canvas color
     </ForwardRef(Typography)>
   </ForwardRef(DialogTitle)>
