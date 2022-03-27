@@ -34,9 +34,10 @@ class App extends Component {
         generations: 0,
         patternName: "none",
         showPatternDialog: false,
-        generationsPerSecond: 0
+        generationsPerSecond: 0,
+        cells: []
       },
-      this.handlePattern
+      this.updateCells
     );
   };
 
@@ -129,8 +130,19 @@ class App extends Component {
           [selectedColorType]: hex
         }
       },
-      this.loadCanvas
+      this.drawColorChange
     );
+  };
+
+  drawColorChange = () => {
+    const { selectedColorType, colors } = this.state;
+    if (selectedColorType === "canvasBackGround") {
+      const canvas = this.Canvas.current;
+      canvas.style.backgroundColor = colors[selectedColorType];
+    } else {
+      this.updateCells();
+    }
+    return;
   };
 
   refreshCells = () => {
@@ -351,7 +363,11 @@ class App extends Component {
           showGrid={showGrid}
           handleColorChange={this.handleColorChange}
           closeColorPicker={() =>
-            this.setState({ showColorPicker: false, showSettingsDialog: true })
+            this.setState({
+              showColorPicker: false,
+              showSettingsDialog: true,
+              selectedColorType: "canvasBackGround"
+            })
           }
           updateColorChangeType={(type) => this.setState({ selectedColorType: type })}
         />

@@ -276,12 +276,30 @@ describe("The colors dialog", () => {
     colorsDialog.props().updateColorChangeType("liveCell");
     expect(wrapper.state().selectedColorType).toBe("liveCell");
   });
-  test("will handle setting the selected color from the color picker", () => {
+  test("will handle setting the canvas background color from the color picker", () => {
     const wrapper = shallow(<App {...initialProps} />);
     expect(wrapper.state().colors.canvasBackGround).toBe("black");
+    expect(useRefSpy.mock.results[0].value.current.style).toEqual({ backgroundColor: "black" });
     const colorsDialog = wrapper.find("ColorsDialog");
     colorsDialog.props().handleColorChange({ hex: "FFFFFF" });
     expect(wrapper.state().colors.canvasBackGround).toBe("FFFFFF");
+    expect(useRefSpy.mock.results[0].value.current.style).toEqual({ backgroundColor: "FFFFFF" });
+  });
+  test("will handle setting the color of livecells from the color picker", () => {
+    const wrapper = shallow(<App {...initialProps} />);
+    wrapper.setState({ selectedColorType: "liveCell", cells: [8] });
+    const colorsDialog = wrapper.find("ColorsDialog");
+    colorsDialog.props().handleColorChange({ hex: "000000" });
+    expect(wrapper.state().colors.liveCell).toBe("000000");
+    expect(fillRect.mock.instances[0].fillStyle).toBe("000000");
+  });
+  test("will handle setting the color of the grid from the color picker", () => {
+    const wrapper = shallow(<App {...initialProps} />);
+    wrapper.setState({ selectedColorType: "grid", cells: [8] });
+    const colorsDialog = wrapper.find("ColorsDialog");
+    colorsDialog.props().handleColorChange({ hex: "000001" });
+    expect(wrapper.state().colors.grid).toBe("000001");
+    expect(fillRect.mock.instances[0].strokeStyle).toBe("000001");
   });
   test("will handle hiding the colors dialog", () => {
     const wrapper = shallow(<App {...initialProps} />);
