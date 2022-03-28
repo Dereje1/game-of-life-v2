@@ -20,7 +20,13 @@ beforeEach(() => {
     refreshPattern: jest.fn(),
     handleColorPicker: jest.fn(),
     handlePatternDialog: jest.fn(),
-    showColorPicker: false
+    showColorPicker: false,
+    currentColors: {
+      canvasBackGround: "#000000",
+      liveCell: "#ffff00",
+      grid: "#3b3b3b"
+    },
+    restoreColors: jest.fn()
   };
   windowSpy = jest.spyOn(global, "window", "get");
   windowSpy.mockImplementation(() => ({ open }));

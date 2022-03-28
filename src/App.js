@@ -139,9 +139,8 @@ class App extends Component {
     if (selectedColorType === "canvasBackGround") {
       const canvas = this.Canvas.current;
       canvas.style.backgroundColor = colors[selectedColorType];
-    } else {
-      this.updateCells();
     }
+    this.updateCells();
     return;
   };
 
@@ -346,6 +345,19 @@ class App extends Component {
             this.setState({ showColorPicker: true, showSettingsDialog: false })
           }
           handlePatternDialog={() => this.setState({ showPatternDialog: true })}
+          restoreColors={() =>
+            this.setState(
+              {
+                colors: {
+                  canvasBackGround: "#000000",
+                  liveCell: "#ffff00",
+                  grid: "#3b3b3b"
+                }
+              },
+              this.drawColorChange
+            )
+          }
+          currentColors={colors}
         />
         <PatternsDialog
           open={showPatternDialog}

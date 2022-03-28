@@ -19,11 +19,20 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import FormatColorFillIcon from "@mui/icons-material/FormatColorFill";
 import ColorLensIcon from "@mui/icons-material/ColorLens";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import RestoreIcon from "@mui/icons-material/Restore";
 import patterns from "../utils/patterns";
 
 const getPatternLabel = (patternName) => {
   const [pattern] = patterns.filter((p) => p.value === patternName);
   return pattern.label;
+};
+
+const disableColorRefresh = (currentColors) => {
+  return (
+    currentColors.canvasBackGround === "#000000" &&
+    currentColors.liveCell === "#ffff00" &&
+    currentColors.grid === "#3b3b3b"
+  );
 };
 
 const SettingsDialog = ({
@@ -35,7 +44,9 @@ const SettingsDialog = ({
   patternName,
   refreshPattern,
   handleColorPicker,
-  handlePatternDialog
+  handlePatternDialog,
+  restoreColors,
+  currentColors
 }) => (
   <Dialog
     sx={{ "& .MuiDialog-paper": { width: "80%", maxHeight: 530 } }}
@@ -54,7 +65,7 @@ const SettingsDialog = ({
           secondary={getPatternLabel(patternName)}
         />
         <IconButton disabled={patternName === "none"} onClick={refreshPattern}>
-          <RefreshIcon color={patternName === "none" ? "" : "success"} />
+          <RefreshIcon color={patternName === "none" ? "" : "info"} />
         </IconButton>
         <IconButton onClick={handlePatternDialog}>
           <ManageAccountsIcon color="error" />
@@ -79,6 +90,9 @@ const SettingsDialog = ({
           <FormatColorFillIcon color="info" />
         </ListItemIcon>
         <ListItemText id="color-list-label" primary="Colors" />
+        <IconButton onClick={restoreColors} disabled={disableColorRefresh(currentColors)}>
+          <RestoreIcon color={disableColorRefresh(currentColors) ? "" : "info"} />
+        </IconButton>
         <IconButton onClick={handleColorPicker}>
           <ColorLensIcon color="success" />
         </IconButton>
@@ -123,9 +137,11 @@ SettingsDialog.propTypes = {
   showGrid: PropTypes.bool.isRequired,
   values: PropTypes.array.isRequired,
   patternName: PropTypes.string.isRequired,
+  currentColors: PropTypes.object.isRequired,
   handleClose: PropTypes.func.isRequired,
   handleGrid: PropTypes.func.isRequired,
   refreshPattern: PropTypes.func.isRequired,
   handleColorPicker: PropTypes.func.isRequired,
-  handlePatternDialog: PropTypes.func.isRequired
+  handlePatternDialog: PropTypes.func.isRequired,
+  restoreColors: PropTypes.func.isRequired
 };

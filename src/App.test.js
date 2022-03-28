@@ -23,8 +23,8 @@ const initialProps = {
   isMaxElements: false, // true if total cells exceeds allotted
   metricTimeStamp: Date.now(), // timestamp used for metrics/perf display
   colors: {
-    canvasBackGround: "black",
-    liveCell: "yellow",
+    canvasBackGround: "#000000",
+    liveCell: "#ffff00",
     grid: "#3b3b3b"
   },
   showColorPicker: false,
@@ -227,6 +227,17 @@ describe("The settings dialog", () => {
     expect(wrapper.state().showColorPicker).toBe(true);
     expect(wrapper.state().showSettingsDialog).toBe(false);
   });
+  test("will handle restoring colors", () => {
+    const wrapper = shallow(<App {...initialProps} />);
+    wrapper.setState({ colors: { canvasBackGround: "any", liveCell: "any", grid: "any" } });
+    const settingsDialog = wrapper.find("SettingsDialog");
+    settingsDialog.props().restoreColors();
+    expect(wrapper.state().colors).toStrictEqual({
+      canvasBackGround: "#000000",
+      liveCell: "#ffff00",
+      grid: "#3b3b3b"
+    });
+  });
   test("will handle hiding the settings dialog", () => {
     const wrapper = shallow(<App {...initialProps} />);
     wrapper.setState({ showSettingsDialog: true });
@@ -278,8 +289,8 @@ describe("The colors dialog", () => {
   });
   test("will handle setting the canvas background color from the color picker", () => {
     const wrapper = shallow(<App {...initialProps} />);
-    expect(wrapper.state().colors.canvasBackGround).toBe("black");
-    expect(useRefSpy.mock.results[0].value.current.style).toEqual({ backgroundColor: "black" });
+    expect(wrapper.state().colors.canvasBackGround).toBe("#000000");
+    expect(useRefSpy.mock.results[0].value.current.style).toEqual({ backgroundColor: "#000000" });
     const colorsDialog = wrapper.find("ColorsDialog");
     colorsDialog.props().handleColorChange({ hex: "FFFFFF" });
     expect(wrapper.state().colors.canvasBackGround).toBe("FFFFFF");

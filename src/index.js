@@ -23,8 +23,8 @@ const props = {
   isMaxElements: false, // true if total cells exceeds allotted
   metricTimeStamp: Date.now(), // timestamp used for metrics/perf display
   colors: {
-    canvasBackGround: "black",
-    liveCell: "yellow",
+    canvasBackGround: "#000000",
+    liveCell: "#ffff00",
     grid: "#3b3b3b"
   },
   showColorPicker: false,

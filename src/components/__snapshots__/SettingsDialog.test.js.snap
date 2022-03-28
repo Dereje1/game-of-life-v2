@@ -62,7 +62,7 @@ exports[`will render the settings dialog 1`] = `
         onClick={[MockFunction]}
       >
         <Memo(ForwardRef(RefreshIcon))
-          color="success"
+          color="info"
         />
       </ForwardRef(IconButton)>
       <ForwardRef(IconButton)
@@ -104,6 +104,14 @@ exports[`will render the settings dialog 1`] = `
         id="color-list-label"
         primary="Colors"
       />
+      <ForwardRef(IconButton)
+        disabled={true}
+        onClick={[MockFunction]}
+      >
+        <Memo(ForwardRef(RestoreIcon))
+          color=""
+        />
+      </ForwardRef(IconButton)>
       <ForwardRef(IconButton)
         onClick={[MockFunction]}
       >
@@ -250,6 +258,14 @@ exports[`will render the settings dialog for no pattern or grid 1`] = `
         id="color-list-label"
         primary="Colors"
       />
+      <ForwardRef(IconButton)
+        disabled={true}
+        onClick={[MockFunction]}
+      >
+        <Memo(ForwardRef(RestoreIcon))
+          color=""
+        />
+      </ForwardRef(IconButton)>
       <ForwardRef(IconButton)
         onClick={[MockFunction]}
       >

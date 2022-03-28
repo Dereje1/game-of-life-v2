@@ -28,7 +28,7 @@ exports[`The app component renders 1`] = `
   <div
     style={
       Object {
-        "background": "black",
+        "background": "#000000",
         "height": 96,
         "paddingLeft": 0,
       }
@@ -42,6 +42,13 @@ exports[`The app component renders 1`] = `
     />
   </div>
   <SettingsDialog
+    currentColors={
+      Object {
+        "canvasBackGround": "#000000",
+        "grid": "#3b3b3b",
+        "liveCell": "#ffff00",
+      }
+    }
     handleClose={[Function]}
     handleColorPicker={[Function]}
     handleGrid={[Function]}
@@ -49,6 +56,7 @@ exports[`The app component renders 1`] = `
     open={false}
     patternName="none"
     refreshPattern={[Function]}
+    restoreColors={[Function]}
     showGrid={true}
     values={
       Array [
@@ -91,7 +99,7 @@ exports[`The app component renders 1`] = `
   />
   <ColorsDialog
     closeColorPicker={[Function]}
-    color="black"
+    color="#000000"
     handleColorChange={[Function]}
     open={false}
     selectedColorType="canvasBackGround"
