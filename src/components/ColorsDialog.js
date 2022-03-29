@@ -31,6 +31,7 @@ const ColorsDialog = ({
     maxWidth="xs"
     open={open}
     onClose={closeColorPicker}
+    BackdropProps={{ style: { background: "rgba(0,0,0,0)" } }}
   >
     <DialogTitle sx={{ display: "flex", justifyContent: "center" }}>
       <Typography>{`Choose ${colorTypeMap[selectedColorType]} color`}</Typography>

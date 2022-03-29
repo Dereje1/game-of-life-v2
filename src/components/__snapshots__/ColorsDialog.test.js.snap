@@ -2,6 +2,13 @@
 
 exports[`will render the settings dialog 1`] = `
 <ForwardRef(Dialog)
+  BackdropProps={
+    Object {
+      "style": Object {
+        "background": "rgba(0,0,0,0)",
+      },
+    }
+  }
   maxWidth="xs"
   onClose={[MockFunction]}
   open={true}
