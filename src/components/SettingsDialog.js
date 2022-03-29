@@ -57,7 +57,7 @@ const SettingsDialog = ({
     <DialogContent dividers>
       <ListItem>
         <ListItemIcon>
-          <PatternIcon color={patternName === "none" ? "" : "info"} />
+          <PatternIcon color={patternName === "none" ? "inherit" : "info"} />
         </ListItemIcon>
         <ListItemText
           id="pattern-list-label"
@@ -65,10 +65,10 @@ const SettingsDialog = ({
           secondary={getPatternLabel(patternName)}
         />
         <IconButton disabled={patternName === "none"} onClick={refreshPattern}>
-          <RefreshIcon color={patternName === "none" ? "" : "info"} />
+          <RefreshIcon color={patternName === "none" ? "inherit" : "warning"} />
         </IconButton>
         <IconButton onClick={handlePatternDialog}>
-          <ManageAccountsIcon color="error" />
+          <ManageAccountsIcon color={patternName === "none" ? "error" : "info"} />
         </IconButton>
       </ListItem>
       <ListItem>
@@ -91,7 +91,7 @@ const SettingsDialog = ({
         </ListItemIcon>
         <ListItemText id="color-list-label" primary="Colors" />
         <IconButton onClick={restoreColors} disabled={disableColorRefresh(currentColors)}>
-          <RestoreIcon color={disableColorRefresh(currentColors) ? "" : "info"} />
+          <RestoreIcon color={disableColorRefresh(currentColors) ? "inherit" : "warning"} />
         </IconButton>
         <IconButton onClick={handleColorPicker}>
           <ColorLensIcon color="success" />
@@ -100,7 +100,7 @@ const SettingsDialog = ({
       {values.map((value) => (
         <ListItem key={value.title}>
           <ListItemIcon>
-            <InfoIcon color="warning" />
+            <InfoIcon color="info" />
           </ListItemIcon>
           <ListItemText id={`${value.title}-label`} primary={value.title} />
           <Typography variant="subtitle1">{value.value}</Typography>
@@ -121,7 +121,7 @@ export const Links = () => (
     <IconButton
       onClick={() => window.open("https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life")}
     >
-      <HelpIcon style={{ fontSize: "2rem" }} color="info" />
+      <HelpIcon style={{ fontSize: "2rem" }} color="warning" />
     </IconButton>
 
     <IconButton onClick={() => window.open("https://github.com/Dereje1/game-of-life-v2")}>
