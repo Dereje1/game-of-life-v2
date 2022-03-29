@@ -108,7 +108,6 @@ describe("The app component", () => {
   });
   test("will refresh active cells", () => {
     const wrapper = shallow(<App {...initialProps} />);
-    wrapper.instance().handlePattern();
     // blinker oscillator sample
     wrapper.setState({
       cells: [6, 7, 8],
@@ -125,7 +124,6 @@ describe("The app component", () => {
   });
   test("will stop refresh of active cells if no live cells found", () => {
     const wrapper = shallow(<App {...initialProps} />);
-    wrapper.instance().handlePattern();
     const liveCells = [7];
     wrapper.setState({
       cells: liveCells,
@@ -142,7 +140,6 @@ describe("The app component", () => {
   });
   test("will make in-active cells active on canvas click", () => {
     const wrapper = shallow(<App {...initialProps} />);
-    wrapper.instance().handlePattern();
     expect(wrapper.state().cells.includes(7)).toBe(false);
     wrapper.instance().handleCanvasClick({ clientX: 18, clientY: 18 });
     expect(wrapper.state().cells.includes(7)).toBe(true);
