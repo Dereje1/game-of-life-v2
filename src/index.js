@@ -22,13 +22,15 @@ const props = {
   canvasLeft: 0, // left padding of the canvas set after CDM
   isMaxElements: false, // true if total cells exceeds allotted
   metricTimeStamp: Date.now(), // timestamp used for metrics/perf display
-  colors: {
-    canvasBackGround: "#000000",
-    liveCell: "#ffff00",
-    grid: "#3b3b3b"
-  },
-  showColorPicker: false,
-  selectedColorType: "canvasBackGround"
+  colors:
+    // set default colors here
+    {
+      canvasBackGround: "#000000",
+      liveCell: "#ffff00",
+      grid: "#3b3b3b"
+    },
+  showColorPicker: false, // true if color picker is showing
+  selectedColorType: "canvasBackGround" // default color change type
 };
 
 ReactDOM.render(

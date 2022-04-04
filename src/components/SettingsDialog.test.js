@@ -21,11 +21,7 @@ beforeEach(() => {
     handleColorPicker: jest.fn(),
     handlePatternDialog: jest.fn(),
     showColorPicker: false,
-    currentColors: {
-      canvasBackGround: "#000000",
-      liveCell: "#ffff00",
-      grid: "#3b3b3b"
-    },
+    disableColorRestore: true,
     restoreColors: jest.fn()
   };
   windowSpy = jest.spyOn(global, "window", "get");

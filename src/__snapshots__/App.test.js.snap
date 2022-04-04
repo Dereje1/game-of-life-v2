@@ -42,13 +42,7 @@ exports[`The app component renders 1`] = `
     />
   </div>
   <SettingsDialog
-    currentColors={
-      Object {
-        "canvasBackGround": "#000000",
-        "grid": "#3b3b3b",
-        "liveCell": "#ffff00",
-      }
-    }
+    disableColorRestore={true}
     handleClose={[Function]}
     handleColorPicker={[Function]}
     handleGrid={[Function]}

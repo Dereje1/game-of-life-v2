@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { ControlTop, ControlBottom } from "./components/Controls";
 import PatternsDialog from "./components/PatternsDialog";
 import SettingsDialog from "./components/SettingsDialog";
@@ -144,6 +145,15 @@ class App extends Component {
     return;
   };
 
+  disableColorRestore = () => {
+    const { colors: currentColors } = this.state;
+    const { colors: defaultColors } = this.props;
+    for (const colorType of Object.keys(currentColors)) {
+      if (currentColors[colorType] !== defaultColors[colorType]) return false;
+    }
+    return true;
+  };
+
   refreshCells = () => {
     const {
       cells: oldCells,
@@ -287,6 +297,7 @@ class App extends Component {
       selectedColorType,
       colors: { canvasBackGround }
     } = this.state;
+    const { colors: defaultColors } = this.props;
     return (
       <>
         <>
@@ -346,18 +357,9 @@ class App extends Component {
           }
           handlePatternDialog={() => this.setState({ showPatternDialog: true })}
           restoreColors={() =>
-            this.setState(
-              {
-                colors: {
-                  canvasBackGround: "#000000",
-                  liveCell: "#ffff00",
-                  grid: "#3b3b3b"
-                }
-              },
-              this.drawColorChange
-            )
+            this.setState({ colors: { ...defaultColors } }, this.drawColorChange)
           }
-          currentColors={colors}
+          disableColorRestore={this.disableColorRestore()}
         />
         <PatternsDialog
           open={showPatternDialog}
@@ -389,3 +391,7 @@ class App extends Component {
 }
 
 export default App;
+
+App.propTypes = {
+  colors: PropTypes.object.isRequired
+};

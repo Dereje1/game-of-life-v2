@@ -69,7 +69,7 @@ exports[`will render the settings dialog 1`] = `
         onClick={[MockFunction]}
       >
         <Memo(ForwardRef(ManageAccountsIcon))
-          color="error"
+          color="info"
         />
       </ForwardRef(IconButton)>
     </ForwardRef(ListItem)>
@@ -203,7 +203,7 @@ exports[`will render the settings dialog for no pattern or grid 1`] = `
     <ForwardRef(ListItem)>
       <ForwardRef(ListItemIcon)>
         <Memo(ForwardRef(PatternIcon))
-          color=""
+          color="inherit"
         />
       </ForwardRef(ListItemIcon)>
       <ForwardRef(ListItemText)

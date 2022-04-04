@@ -27,14 +27,6 @@ const getPatternLabel = (patternName) => {
   return pattern.label;
 };
 
-const disableColorRefresh = (currentColors) => {
-  return (
-    currentColors.canvasBackGround === "#000000" &&
-    currentColors.liveCell === "#ffff00" &&
-    currentColors.grid === "#3b3b3b"
-  );
-};
-
 const SettingsDialog = ({
   open,
   values,
@@ -46,7 +38,7 @@ const SettingsDialog = ({
   handleColorPicker,
   handlePatternDialog,
   restoreColors,
-  currentColors
+  disableColorRestore
 }) => (
   <Dialog
     sx={{ "& .MuiDialog-paper": { width: "80%", maxHeight: 530 } }}
@@ -90,8 +82,8 @@ const SettingsDialog = ({
           <FormatColorFillIcon color="info" />
         </ListItemIcon>
         <ListItemText id="color-list-label" primary="Colors" />
-        <IconButton onClick={restoreColors} disabled={disableColorRefresh(currentColors)}>
-          <RestoreIcon color={disableColorRefresh(currentColors) ? "inherit" : "warning"} />
+        <IconButton onClick={restoreColors} disabled={disableColorRestore}>
+          <RestoreIcon color={disableColorRestore ? "inherit" : "warning"} />
         </IconButton>
         <IconButton onClick={handleColorPicker}>
           <ColorLensIcon color="success" />
@@ -137,7 +129,7 @@ SettingsDialog.propTypes = {
   showGrid: PropTypes.bool.isRequired,
   values: PropTypes.array.isRequired,
   patternName: PropTypes.string.isRequired,
-  currentColors: PropTypes.object.isRequired,
+  disableColorRestore: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   handleGrid: PropTypes.func.isRequired,
   refreshPattern: PropTypes.func.isRequired,
