@@ -1,4 +1,4 @@
-const addCellAscending = (cells, cell) => {
+export const addCellAscending = (cells, cell) => {
   // add cell by keeping sort order
   if (!cells.length || cell > cells[cells.length - 1]) return [...cells, cell];
   for (let i = 0; i < cells.length; i++) {
@@ -104,11 +104,11 @@ const getNeighbours = ({ cell, cellSize, width, height }) => {
   return neighbours;
 };
 
-const processCell = ({ resurrectedCells, ...args }) => {
+const processCell = ({ newLiveCells, ...args }) => {
   const { oldCells } = args;
   const neighbours = getNeighbours({ ...args });
   let liveNeighbors = 0;
-  let updatedResurrectedCells = resurrectedCells;
+  let updatedLiveCells = newLiveCells;
   for (const neighbour of neighbours) {
     const neighbourIsLive = binarySearch({
       arr: oldCells,
@@ -120,9 +120,9 @@ const processCell = ({ resurrectedCells, ...args }) => {
     } else {
       // check if dead neighbor has already been resurrected
       const resurrectedCellExists = binarySearch({
-        arr: resurrectedCells,
+        arr: newLiveCells,
         x: neighbour,
-        end: resurrectedCells.length - 1
+        end: newLiveCells.length - 1
       });
       if (!resurrectedCellExists) {
         // check if dead neighbor can be resurrected and update list if so
@@ -132,42 +132,30 @@ const processCell = ({ resurrectedCells, ...args }) => {
           liveCells: oldCells
         });
         if (isResurrectable) {
-          updatedResurrectedCells = addCellAscending(updatedResurrectedCells, neighbour);
+          updatedLiveCells = addCellAscending(updatedLiveCells, neighbour);
         }
       }
     }
   }
-
+  // condition for keeping cell alive
   if (liveNeighbors === 3 || liveNeighbors === 2) {
-    return {
-      isStillLive: true,
-      updatedResurrectedCells
-    };
+    updatedLiveCells = addCellAscending(updatedLiveCells, args.cell);
   }
-
-  return {
-    isStillLive: false,
-    updatedResurrectedCells
-  };
+  return updatedLiveCells;
 };
 
 export const getLiveCells = (args) => {
   const { oldCells } = args;
-  const stillLive = [];
-  let resurrectedCells = [];
-  oldCells.sort((a, b) => a - b);
+  let newLiveCells = [];
   for (const oldCell of oldCells) {
-    const { isStillLive, updatedResurrectedCells } = processCell({
+    const updatedLiveCells = processCell({
       cell: oldCell,
-      resurrectedCells,
+      newLiveCells,
       ...args
     });
-    resurrectedCells = updatedResurrectedCells;
-    if (isStillLive) {
-      stillLive.push(oldCell);
-    }
+    newLiveCells = updatedLiveCells;
   }
-  return [...stillLive, ...resurrectedCells];
+  return newLiveCells;
 };
 
 export const getPattern = ({ patternName, cellSize, width, height }) => {
@@ -267,6 +255,7 @@ export const getPattern = ({ patternName, cellSize, width, height }) => {
       centerIndex + 4 - 3 * cellsPerRow
     ];
   }
+  cells.sort((a, b) => a - b);
   return { cells };
 };
 

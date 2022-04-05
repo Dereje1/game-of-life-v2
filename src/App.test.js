@@ -117,7 +117,7 @@ describe("The app component", () => {
     });
     wrapper.instance().updateCells();
     jest.advanceTimersByTime(140);
-    expect(wrapper.state().cells).toStrictEqual([7, 1, 13]);
+    expect(wrapper.state().cells).toStrictEqual([1, 7, 13]);
     expect(wrapper.state().refresh).toBe(true);
     expect(wrapper.state().patternName).toBe("xyz");
     expect(wrapper.state().generations).toBe(5);
