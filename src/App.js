@@ -7,7 +7,7 @@ import ColorsDialog from "./components/ColorsDialog";
 import {
   getLiveCells,
   getPattern,
-  addCellAscending,
+  binaryInsert,
   getIndexFromCoordinates,
   getCoordinatesFromIndex,
   buildInformation
@@ -118,7 +118,7 @@ class App extends Component {
     if (cells.includes(index)) {
       newCells = cells.filter((c) => c !== index);
     } else {
-      newCells = addCellAscending(cells, index);
+      newCells = binaryInsert(cells, index);
     }
     this.setState({ cells: newCells }, this.updateCells);
   };

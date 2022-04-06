@@ -1,36 +1,3 @@
-export const addCellAscending = (cells, cell) => {
-  // add cell by keeping sort order
-  if (!cells.length || cell > cells[cells.length - 1]) return [...cells, cell];
-  for (let i = 0; i < cells.length; i++) {
-    if (cell < cells[i]) {
-      /*
-        note: splice seems slightly more performant than the prev slice method:
-        return [...cells.slice(0, i), cell, ...cells.slice(i)];
-      */
-      cells.splice(i, 0, cell);
-      return cells;
-    }
-  }
-};
-// checks for dead cells
-const canResurrectCell = ({ liveCells, ...args }) => {
-  const neighbours = getNeighbours({ ...args });
-  let liveNeighbors = 0;
-  for (let n = 0; n < neighbours.length; n++) {
-    const neighbourIsLive = binarySearch({
-      arr: liveCells,
-      x: neighbours[n],
-      end: liveCells.length - 1
-    });
-    if (neighbourIsLive) {
-      liveNeighbors++;
-    }
-    if (liveNeighbors > 3) break;
-  }
-  if (liveNeighbors === 3) return true;
-  return false;
-};
-
 const binarySearch = function ({ arr, x, start = 0, end }) {
   // Base Condition
   if (start > end) return false;
@@ -47,6 +14,46 @@ const binarySearch = function ({ arr, x, start = 0, end }) {
   // If element at mid is smaller than x,
   // search in the right half of mid
   else return binarySearch({ arr, x, start: mid + 1, end });
+};
+
+export const binaryInsert = (cells, cell) => {
+  if (!cells.length) return [cell];
+  // add cell by keeping sort order
+  let start = 0;
+  let end = cells.length - 1;
+  let mid;
+  // handle boundary cases
+  if (cell < cells[start]) return [cell, ...cells];
+  if (cell > cells[end]) return [...cells, cell];
+  // if not boundary case....
+  while (start <= end) {
+    mid = Math.floor((end + start) / 2);
+    // search in right or left half of mid respectively
+    if (cells[mid] < cell) start = mid + 1;
+    else end = mid - 1;
+  }
+  // Insert depending on which side of the mid cell lies
+  const insertIndex = cells[mid] < cell ? mid + 1 : mid;
+  cells.splice(insertIndex, 0, cell);
+  return cells;
+};
+
+const canResurrectCell = ({ liveCells, ...args }) => {
+  const neighbours = getNeighbours({ ...args });
+  let liveNeighbors = 0;
+  for (let n = 0; n < neighbours.length; n++) {
+    const neighbourIsLive = binarySearch({
+      arr: liveCells,
+      x: neighbours[n],
+      end: liveCells.length - 1
+    });
+    if (neighbourIsLive) {
+      liveNeighbors++;
+    }
+    if (liveNeighbors > 3) break;
+  }
+  if (liveNeighbors === 3) return true;
+  return false;
 };
 
 const getNeighbours = ({ cell, cellSize, width, height }) => {
@@ -119,12 +126,12 @@ const processCell = ({ newLiveCells, ...args }) => {
       liveNeighbors++;
     } else {
       // check if dead neighbor has already been resurrected
-      const resurrectedCellExists = binarySearch({
+      const cellExists = binarySearch({
         arr: newLiveCells,
         x: neighbour,
         end: newLiveCells.length - 1
       });
-      if (!resurrectedCellExists) {
+      if (!cellExists) {
         // check if dead neighbor can be resurrected and update list if so
         const isResurrectable = canResurrectCell({
           ...args,
@@ -132,14 +139,14 @@ const processCell = ({ newLiveCells, ...args }) => {
           liveCells: oldCells
         });
         if (isResurrectable) {
-          updatedLiveCells = addCellAscending(updatedLiveCells, neighbour);
+          updatedLiveCells = binaryInsert(updatedLiveCells, neighbour);
         }
       }
     }
   }
   // condition for keeping cell alive
   if (liveNeighbors === 3 || liveNeighbors === 2) {
-    updatedLiveCells = addCellAscending(updatedLiveCells, args.cell);
+    updatedLiveCells = binaryInsert(updatedLiveCells, args.cell);
   }
   return updatedLiveCells;
 };
