@@ -32,9 +32,8 @@ export const binaryInsert = (cells, cell) => {
     if (cells[mid] < cell) start = mid + 1;
     else end = mid - 1;
   }
-  // Insert depending on which side of the mid cell lies
-  const insertIndex = cells[mid] < cell ? mid + 1 : mid;
-  cells.splice(insertIndex, 0, cell);
+  // Insert cell
+  cells.splice(end + 1, 0, cell);
   return cells;
 };
 
