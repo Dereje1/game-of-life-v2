@@ -164,14 +164,30 @@ exports[`will render the top control 1`] = `
     <div>
       <ForwardRef(IconButton)
         aria-label="play_pause"
+        disabled={false}
         onClick={[MockFunction]}
       >
         <Action
+          disabled={false}
           isRefreshing={true}
         />
       </ForwardRef(IconButton)>
       <ForwardRef(IconButton)
+        aria-label="next_step"
+        disabled={true}
+        onClick={[MockFunction]}
+      >
+        <Memo(ForwardRef(SkipNextIcon))
+          style={
+            Object {
+              "fontSize": "2.5rem",
+            }
+          }
+        />
+      </ForwardRef(IconButton)>
+      <ForwardRef(IconButton)
         aria-label="clear"
+        disabled={false}
         onClick={[MockFunction]}
       >
         <Memo(ForwardRef(HighlightOffOutlinedIcon))

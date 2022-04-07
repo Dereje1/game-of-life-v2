@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import IconButton from "@mui/material/IconButton";
 import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
 import PauseIcon from "@mui/icons-material/Pause";
+import SkipNextIcon from "@mui/icons-material/SkipNext";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import Slider from "@mui/material/Slider";
 import Chip from "@mui/material/Chip";
@@ -18,9 +19,13 @@ const getLinearProgressValue = (generationsPerSecond, refreshVal) => {
   return value < 1 ? Math.floor(value * 100) : 100;
 };
 
-export const Action = ({ isRefreshing }) => {
+export const Action = ({ isRefreshing, disabled }) => {
   if (!isRefreshing) {
-    return <PlayCircleFilledWhiteIcon style={{ fontSize: "2.5rem", color: "#0288d1" }} />;
+    return (
+      <PlayCircleFilledWhiteIcon
+        style={{ fontSize: "2.5rem", color: disabled ? "rgba(0, 0, 0, 0.26)" : "#0288d1" }}
+      />
+    );
   } else {
     return <PauseIcon style={{ fontSize: "2.5rem", color: "#d32f2f" }} />;
   }
@@ -30,11 +35,13 @@ export const ControlTop = ({
   height,
   isRefreshing,
   generations,
+  hasLiveCells,
   handleRefresh,
   handlePause,
   handleClear,
   metrics: { generationsPerSecond, refreshVal },
-  handleSettingsDialog
+  handleSettingsDialog,
+  handleNextStep
 }) => (
   <div
     style={{
@@ -56,10 +63,21 @@ export const ControlTop = ({
       }}
     >
       <div>
-        <IconButton aria-label="play_pause" onClick={isRefreshing ? handlePause : handleRefresh}>
-          <Action isRefreshing={isRefreshing} />
+        <IconButton
+          aria-label="play_pause"
+          onClick={isRefreshing ? handlePause : handleRefresh}
+          disabled={!hasLiveCells}
+        >
+          <Action isRefreshing={isRefreshing} disabled={!hasLiveCells} />
         </IconButton>
-        <IconButton aria-label="clear" onClick={handleClear}>
+        <IconButton
+          aria-label="next_step"
+          onClick={handleNextStep}
+          disabled={isRefreshing || !hasLiveCells}
+        >
+          <SkipNextIcon style={{ fontSize: "2.5rem" }} />
+        </IconButton>
+        <IconButton aria-label="clear" onClick={handleClear} disabled={!hasLiveCells}>
           <HighlightOffOutlinedIcon style={{ fontSize: "2.5rem" }} />
         </IconButton>
         <IconButton aria-label="clear" onClick={handleSettingsDialog}>
@@ -184,7 +202,8 @@ export const ControlBottom = ({
 );
 
 Action.propTypes = {
-  isRefreshing: PropTypes.bool.isRequired
+  isRefreshing: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool.isRequired
 };
 
 ControlTop.propTypes = {
@@ -192,10 +211,12 @@ ControlTop.propTypes = {
   isRefreshing: PropTypes.bool.isRequired,
   generations: PropTypes.number.isRequired,
   metrics: PropTypes.object.isRequired,
+  hasLiveCells: PropTypes.bool.isRequired,
   handleRefresh: PropTypes.func.isRequired,
   handlePause: PropTypes.func.isRequired,
   handleClear: PropTypes.func.isRequired,
-  handleSettingsDialog: PropTypes.func.isRequired
+  handleSettingsDialog: PropTypes.func.isRequired,
+  handleNextStep: PropTypes.func.isRequired
 };
 
 ControlBottom.propTypes = {

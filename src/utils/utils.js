@@ -22,13 +22,12 @@ export const binaryInsert = (cells, cell) => {
   // add cell by keeping sort order
   let start = 0;
   let end = cells.length - 1;
-  let mid;
   // handle boundary cases
   if (cell < cells[start]) return [cell, ...cells];
   if (cell > cells[end]) return [...cells, cell];
   // if not boundary case....
   while (start <= end) {
-    mid = Math.floor((end + start) / 2);
+    const mid = Math.floor((end + start) / 2);
     // search in right or left half of mid respectively
     if (cells[mid] < cell) start = mid + 1;
     else end = mid - 1;

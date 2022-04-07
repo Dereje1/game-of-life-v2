@@ -60,7 +60,7 @@ class App extends Component {
   handleRefreshRate = ({ target: { value } }) => {
     clearTimeout(this.timeoutId);
     // use maximum refresh rate of 1ms for max slider
-    const refreshRate = value === 6 ? 1 : 1000 / Math.pow(2, value);
+    const refreshRate = value === 6 ? 0 : 1000 / Math.pow(2, value);
     this.setState(
       {
         refreshRate,
@@ -291,6 +291,7 @@ class App extends Component {
       canvasWidth,
       canvasHeight,
       canvasLeft,
+      cells,
       cellSize,
       showGrid,
       refresh,
@@ -307,6 +308,7 @@ class App extends Component {
       colors: { canvasBackGround }
     } = this.state;
     const { colors: defaultColors } = this.props;
+    const hasLiveCells = Boolean(cells.length);
     return (
       <>
         <>
@@ -318,6 +320,7 @@ class App extends Component {
               generationsPerSecond,
               refreshVal
             }}
+            hasLiveCells={hasLiveCells}
             handleRefresh={() =>
               this.setState(
                 { refresh: true, metricTimeStamp: Date.now(), metricCounter: 0 },
@@ -327,6 +330,7 @@ class App extends Component {
             handlePause={() => this.setState({ refresh: false })}
             handleClear={this.handleClear}
             handleSettingsDialog={() => this.setState({ showSettingsDialog: true })}
+            handleNextStep={this.refreshCells}
           />
 
           <ControlBottom

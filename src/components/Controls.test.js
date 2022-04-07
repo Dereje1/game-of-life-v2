@@ -18,7 +18,9 @@ const controlTopProps = {
     generationsPerSecond: 7,
     refreshVal: 3
   },
-  handleSettingsDialog: jest.fn()
+  handleSettingsDialog: jest.fn(),
+  hasLiveCells: true,
+  handleNextStep: jest.fn()
 };
 
 const controlBottomProps = {
@@ -41,12 +43,12 @@ test("will render the bottom control", () => {
 });
 
 test("will render play when not refreshing", () => {
-  const wrapper = shallow(<Action isRefreshing={false} />);
+  const wrapper = shallow(<Action isRefreshing={false} disabled={false} />);
   expect(toJson(wrapper)).toMatchSnapshot();
 });
 
 test("will render pause when refreshing", () => {
-  const wrapper = shallow(<Action isRefreshing={true} />);
+  const wrapper = shallow(<Action isRefreshing={true} disabled={false} />);
   expect(toJson(wrapper)).toMatchSnapshot();
 });
 

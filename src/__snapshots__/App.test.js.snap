@@ -5,9 +5,11 @@ exports[`The app component renders 1`] = `
   <ControlTop
     generations={0}
     handleClear={[Function]}
+    handleNextStep={[Function]}
     handlePause={[Function]}
     handleRefresh={[Function]}
     handleSettingsDialog={[Function]}
+    hasLiveCells={false}
     height={12}
     isRefreshing={false}
     metrics={
