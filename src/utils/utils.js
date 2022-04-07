@@ -1,3 +1,4 @@
+let checkedCells = [];
 const binarySearch = function ({ arr, x, start = 0, end }) {
   // Base Condition
   if (start > end) return false;
@@ -124,13 +125,13 @@ const processCell = ({ newLiveCells, ...args }) => {
     if (neighbourIsLive) {
       liveNeighbors++;
     } else {
-      // check if dead neighbor has already been resurrected
-      const cellExists = binarySearch({
-        arr: newLiveCells,
+      // check if dead neighbor has already been tested
+      const alreadyChecked = binarySearch({
+        arr: checkedCells,
         x: neighbour,
-        end: newLiveCells.length - 1
+        end: checkedCells.length - 1
       });
-      if (!cellExists) {
+      if (!alreadyChecked) {
         // check if dead neighbor can be resurrected and update list if so
         const isResurrectable = canResurrectCell({
           ...args,
@@ -139,6 +140,9 @@ const processCell = ({ newLiveCells, ...args }) => {
         });
         if (isResurrectable) {
           updatedLiveCells = binaryInsert(updatedLiveCells, neighbour);
+          checkedCells = binaryInsert(checkedCells, neighbour);
+        } else {
+          checkedCells = binaryInsert(checkedCells, neighbour);
         }
       }
     }
@@ -153,13 +157,14 @@ const processCell = ({ newLiveCells, ...args }) => {
 export const getLiveCells = (args) => {
   const { oldCells } = args;
   let newLiveCells = [];
+  // reset already checked cells list
+  checkedCells = [];
   for (const oldCell of oldCells) {
-    const updatedLiveCells = processCell({
+    newLiveCells = processCell({
       cell: oldCell,
       newLiveCells,
       ...args
     });
-    newLiveCells = updatedLiveCells;
   }
   return newLiveCells;
 };
