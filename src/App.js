@@ -161,11 +161,12 @@ class App extends Component {
       cellSize,
       canvasWidth: width,
       canvasHeight: height,
-      generations,
+      generations: prevGenerations,
       refresh,
       patternName,
-      metricTimeStamp,
-      metricCounter: prevMetricCounter
+      metricTimeStamp: prevMetricTimeStamp,
+      metricCounter: prevMetricCounter,
+      generationsPerSecond: prevGenerationsPerSecond
     } = this.state;
     const newLiveCells = getLiveCells({
       oldCells,
@@ -174,17 +175,24 @@ class App extends Component {
       height
     });
     const hasLiveCells = Boolean(newLiveCells.length);
-    const metricCounter = hasLiveCells ? prevMetricCounter + 1 : prevMetricCounter;
-    const elapsedTime = Date.now() - metricTimeStamp;
-    const generationsPerSecond = (metricCounter / elapsedTime) * 1000;
+    // resets metrics counter every hundred generations
+    const resetCounter = prevGenerations % 100 === 0;
+
+    const metricCounter = resetCounter ? 0 : prevMetricCounter + 1;
+    const metricTimeStamp = resetCounter ? Date.now() : prevMetricTimeStamp;
+    const generationsPerSecond = resetCounter
+      ? prevGenerationsPerSecond
+      : (metricCounter / (Date.now() - metricTimeStamp)) * 1000;
+
     this.setState(
       {
         cells: newLiveCells,
-        generations: hasLiveCells ? generations + 1 : generations,
+        generations: hasLiveCells ? prevGenerations + 1 : prevGenerations,
         refresh: refresh && hasLiveCells,
         patternName: hasLiveCells ? patternName : "none",
         metricCounter,
-        generationsPerSecond
+        generationsPerSecond,
+        metricTimeStamp
       },
       this.updateCells
     );
@@ -306,7 +314,6 @@ class App extends Component {
             height={window.innerHeight * 0.1}
             isRefreshing={refresh}
             generations={generations}
-            generationsPerSecond={generationsPerSecond}
             metrics={{
               generationsPerSecond,
               refreshVal
