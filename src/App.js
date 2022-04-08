@@ -4,14 +4,8 @@ import { ControlTop, ControlBottom } from "./components/Controls";
 import PatternsDialog from "./components/PatternsDialog";
 import SettingsDialog from "./components/SettingsDialog";
 import ColorsDialog from "./components/ColorsDialog";
-import {
-  getLiveCells,
-  getPattern,
-  binaryInsert,
-  getIndexFromCoordinates,
-  getCoordinatesFromIndex,
-  buildInformation
-} from "./utils/utils";
+import { getLiveCells, getPattern, binaryInsert, buildInformation } from "./utils/utils";
+import { getIndexFromClick, setBackGroundColor, drawLiveCells } from "./utils/canvas";
 import "./App.css";
 
 const MAX_ELEMENTS = 38000;
@@ -102,13 +96,10 @@ class App extends Component {
 
   handleCanvasClick = ({ clientX, clientY }) => {
     const { cells, cellSize, canvasWidth: width, canvasHeight: height } = this.state;
-    const Canvas = this.Canvas.current;
-    const { left, top } = Canvas.getBoundingClientRect();
-    const trueX = clientX - left;
-    const trueY = clientY - top;
-    const index = getIndexFromCoordinates({
-      x: trueX,
-      y: trueY,
+    const index = getIndexFromClick({
+      canvas: this.Canvas.current,
+      clientX,
+      clientY,
       width,
       height,
       cellSize
@@ -139,8 +130,10 @@ class App extends Component {
   drawColorChange = () => {
     const { selectedColorType, colors } = this.state;
     if (selectedColorType === "canvasBackGround") {
-      const canvas = this.Canvas.current;
-      canvas.style.backgroundColor = colors[selectedColorType];
+      setBackGroundColor({
+        canvas: this.Canvas.current,
+        backgroundColor: colors[selectedColorType]
+      });
     }
     this.updateCells();
     return;
@@ -163,7 +156,6 @@ class App extends Component {
       canvasHeight: height,
       generations: prevGenerations,
       refresh,
-      patternName,
       metricTimeStamp: prevMetricTimeStamp,
       metricCounter: prevMetricCounter,
       generationsPerSecond: prevGenerationsPerSecond
@@ -189,7 +181,6 @@ class App extends Component {
         cells: newLiveCells,
         generations: hasLiveCells ? prevGenerations + 1 : prevGenerations,
         refresh: refresh && hasLiveCells,
-        patternName: hasLiveCells ? patternName : "none",
         metricCounter,
         generationsPerSecond,
         metricTimeStamp
@@ -199,56 +190,20 @@ class App extends Component {
   };
 
   updateCells = () => {
-    const {
+    const { cells, canvasWidth, canvasHeight, refresh, cellSize, refreshRate, colors, showGrid } =
+      this.state;
+    drawLiveCells({
+      canvas: this.Canvas.current,
       cells,
       canvasWidth,
       canvasHeight,
-      refresh,
       cellSize,
-      refreshRate,
-      colors: { liveCell }
-    } = this.state;
-    const context = this.canvasContext;
-    context.clearRect(0, 0, canvasWidth, canvasHeight);
-    cells.forEach((cell) => {
-      const [x, y] = getCoordinatesFromIndex({
-        index: cell,
-        width: canvasWidth,
-        cellSize
-      });
-      context.fillStyle = liveCell;
-      context.fillRect(x, y, cellSize, cellSize);
+      colors,
+      showGrid
     });
-    this.refreshGrid();
     if (refresh) {
       clearTimeout(this.timeoutId);
       this.timeoutId = setTimeout(this.refreshCells, refreshRate);
-    }
-  };
-
-  refreshGrid = () => {
-    const {
-      canvasWidth,
-      canvasHeight,
-      cellSize,
-      showGrid,
-      colors: { grid }
-    } = this.state;
-    if (!showGrid) return null;
-    const context = this.canvasContext;
-    for (let x = 0; x <= canvasWidth; x += cellSize) {
-      context.beginPath();
-      context.moveTo(x, 0);
-      context.lineTo(x, canvasHeight);
-      context.strokeStyle = grid;
-      context.stroke();
-    }
-    for (let y = 0; y <= canvasHeight; y += cellSize) {
-      context.beginPath();
-      context.moveTo(0, y);
-      context.lineTo(canvasWidth, y);
-      context.strokeStyle = grid;
-      context.stroke();
     }
   };
 
@@ -270,9 +225,10 @@ class App extends Component {
       cellSize = 5;
     }
 
-    const canvas = this.Canvas.current;
-    canvas.style.backgroundColor = canvasBackGround;
-    this.canvasContext = canvas.getContext("2d");
+    setBackGroundColor({
+      canvas: this.Canvas.current,
+      backgroundColor: canvasBackGround
+    });
 
     this.setState(
       {

@@ -135,7 +135,6 @@ describe("The app component", () => {
     jest.advanceTimersByTime(140);
     expect(wrapper.state().cells).toStrictEqual([]);
     expect(wrapper.state().refresh).toBe(false);
-    expect(wrapper.state().patternName).toBe("none");
     expect(wrapper.state().generations).toBe(4);
   });
   test("will make in-active cells active on canvas click", () => {
