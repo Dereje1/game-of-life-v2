@@ -13,6 +13,7 @@ const initialProps = {
   showGrid: true,
   showPatternDialog: false,
   patternName: "none",
+  selectedPatternName: "none",
   refreshVal: 3,
   showSettingsDialog: false,
   cells: [],
@@ -249,7 +250,8 @@ describe("The patterns dialog", () => {
     expect(wrapper.state().patternName).toBe("none");
     const patternsDialog = wrapper.find("PatternsDialog");
     patternsDialog.props().handlePatternChange({ target: { value: "new pattern" } });
-    expect(wrapper.state().patternName).toBe("new pattern");
+    expect(wrapper.state().selectedPatternName).toBe("new pattern");
+    expect(wrapper.state().patternName).toBe("none");
   });
   test("will cancel the pattern dialog", () => {
     const wrapper = shallow(<App {...initialProps} />);
@@ -257,16 +259,21 @@ describe("The patterns dialog", () => {
     controlTop.props().handlePatternDialog();
     expect(wrapper.state().showPatternDialog).toBe(true);
     const patternsDialog = wrapper.find("PatternsDialog");
+    patternsDialog.props().handlePatternChange({ target: { value: "new pattern" } });
     patternsDialog.props().handleCancel();
     expect(wrapper.state().showPatternDialog).toBe(false);
+    expect(wrapper.state().selectedPatternName).toBe("none");
   });
 
-  test("will hide the settings dialog when a new pattern is selected", () => {
+  test("will hide the settings dialog when a new pattern is selected", async () => {
     const wrapper = shallow(<App {...initialProps} />);
     wrapper.setState({ showSettingsDialog: true });
     const patternsDialog = wrapper.find("PatternsDialog");
+    patternsDialog.props().handlePatternChange({ target: { value: "new pattern" } });
+    expect(wrapper.state().selectedPatternName).toBe("new pattern");
     patternsDialog.props().handleOk();
     expect(wrapper.state().showSettingsDialog).toBe(false);
+    expect(wrapper.state().patternName).toBe("new pattern");
   });
   test("will handle focus on entering of the pattern dialog", () => {
     const wrapper = shallow(<App {...initialProps} />);

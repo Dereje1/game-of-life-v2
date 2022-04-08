@@ -11,7 +11,8 @@ const props = {
   generations: 0, // Total generations run on the board since last clear
   showGrid: true, // False if canvas grid is not shown
   showPatternDialog: false, // True when user reuests to select a pattern
-  patternName: "random", // Name of the last pattern selected
+  selectedPatternName: "random", // Name of the last pattern selected
+  patternName: "random", // Name of the active pattern
   metricCounter: 0, // generation counter for metrics/perf display
   refreshVal: 3, // mui slider refresh rate val before scaling
   showSettingsDialog: false, // True when user selects settings dialog

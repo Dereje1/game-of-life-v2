@@ -29,6 +29,7 @@ class App extends Component {
         refresh: false,
         generations: 0,
         patternName: "none",
+        selectedPatternName: "none",
         showPatternDialog: false,
         generationsPerSecond: 0,
         cells: []
@@ -254,6 +255,7 @@ class App extends Component {
       generations,
       showPatternDialog,
       patternName,
+      selectedPatternName,
       isMaxElements,
       generationsPerSecond,
       refreshVal,
@@ -323,7 +325,9 @@ class App extends Component {
           handleColorPicker={() =>
             this.setState({ showColorPicker: true, showSettingsDialog: false })
           }
-          handlePatternDialog={() => this.setState({ showPatternDialog: true })}
+          handlePatternDialog={() =>
+            this.setState({ showPatternDialog: true, showSettingsDialog: false })
+          }
           restoreColors={() =>
             this.setState({ colors: { ...defaultColors } }, this.drawColorChange)
           }
@@ -331,10 +335,27 @@ class App extends Component {
         />
         <PatternsDialog
           open={showPatternDialog}
-          value={patternName}
-          handleCancel={() => this.setState({ showPatternDialog: false })}
-          handleOk={() => this.setState({ showSettingsDialog: false }, this.handlePattern)}
-          handlePatternChange={({ target: { value } }) => this.setState({ patternName: value })}
+          value={selectedPatternName}
+          handleCancel={() =>
+            this.setState({
+              showPatternDialog: false,
+              showSettingsDialog: true,
+              selectedPatternName: patternName
+            })
+          }
+          handleOk={() => {
+            this.setState(
+              {
+                showPatternDialog: false,
+                patternName: this.state.selectedPatternName, //TODO: UT failing with destructured val
+                showSettingsDialog: false
+              },
+              this.handlePattern
+            );
+          }}
+          handlePatternChange={({ target: { value } }) =>
+            this.setState({ selectedPatternName: value })
+          }
           radioGroupRef={this.radioGroupRef}
           handleEntering={this.handleEntering}
         />
