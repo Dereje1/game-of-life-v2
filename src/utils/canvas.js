@@ -22,16 +22,14 @@ const drawGrid = ({ context, canvasWidth, canvasHeight, cellSize, color }) => {
 export const setBackGroundColor = ({ canvas, backgroundColor }) =>
   (canvas.style.backgroundColor = backgroundColor);
 
-export const getIndexFromClick = ({ canvas, clientX, clientY, width, height, cellSize }) => {
+export const getIndexFromClick = ({ canvas, clientX, clientY, ...args }) => {
   const { left, top } = canvas.getBoundingClientRect();
   const trueX = clientX - left;
   const trueY = clientY - top;
   const index = getIndexFromCoordinates({
     x: trueX,
     y: trueY,
-    width,
-    height,
-    cellSize
+    ...args
   });
   return index;
 };

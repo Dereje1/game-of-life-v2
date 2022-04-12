@@ -18,11 +18,11 @@ const binarySearch = function ({ arr, x, start = 0, end }) {
 };
 
 export const binaryInsert = (cells, cell) => {
-  if (!cells.length) return [cell];
   // add cell by keeping sort order
   let start = 0;
   let end = cells.length - 1;
   // handle boundary cases
+  if (end < 0) return [cell];
   if (cell < cells[start]) return [cell, ...cells];
   if (cell > cells[end]) return [...cells, cell];
   // if not boundary case....
@@ -139,10 +139,8 @@ const processCell = ({ newLiveCells, ...args }) => {
         });
         if (isResurrectable) {
           updatedLiveCells = binaryInsert(updatedLiveCells, neighbour);
-          checkedCells = binaryInsert(checkedCells, neighbour);
-        } else {
-          checkedCells = binaryInsert(checkedCells, neighbour);
         }
+        checkedCells = binaryInsert(checkedCells, neighbour);
       }
     }
   }

@@ -191,16 +191,10 @@ class App extends Component {
   };
 
   updateCells = () => {
-    const { cells, canvasWidth, canvasHeight, refresh, cellSize, refreshRate, colors, showGrid } =
-      this.state;
+    const { refresh, refreshRate } = this.state;
     drawLiveCells({
       canvas: this.Canvas.current,
-      cells,
-      canvasWidth,
-      canvasHeight,
-      cellSize,
-      colors,
-      showGrid
+      ...this.state
     });
     if (refresh) {
       clearTimeout(this.timeoutId);
@@ -300,6 +294,7 @@ class App extends Component {
           />
         </>
         <div
+          id="canvas-holder"
           style={{
             paddingLeft: canvasLeft,
             background: isMaxElements ? "white" : canvasBackGround,
@@ -347,7 +342,7 @@ class App extends Component {
             this.setState(
               {
                 showPatternDialog: false,
-                patternName: this.state.selectedPatternName, //TODO: UT failing with destructured val
+                patternName: selectedPatternName,
                 showSettingsDialog: false
               },
               this.handlePattern

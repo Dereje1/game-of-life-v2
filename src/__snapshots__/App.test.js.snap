@@ -27,6 +27,7 @@ exports[`The app component renders 1`] = `
     refreshVal={3}
   />
   <div
+    id="canvas-holder"
     style={
       Object {
         "background": "#000000",

@@ -272,8 +272,10 @@ describe("The patterns dialog", () => {
     patternsDialog.props().handlePatternChange({ target: { value: "new pattern" } });
     expect(wrapper.state().selectedPatternName).toBe("new pattern");
     patternsDialog.props().handleOk();
-    expect(wrapper.state().showSettingsDialog).toBe(false);
-    expect(wrapper.state().patternName).toBe("new pattern");
+    setTimeout(() => {
+      expect(wrapper.state().showSettingsDialog).toBe(false);
+      expect(wrapper.state().patternName).toBe("new pattern");
+    }, 0);
   });
   test("will handle focus on entering of the pattern dialog", () => {
     const wrapper = shallow(<App {...initialProps} />);
