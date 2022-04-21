@@ -77,7 +77,7 @@ export const ControlTop = ({
         >
           <SkipNextIcon style={{ fontSize: "2.5rem" }} />
         </IconButton>
-        <IconButton aria-label="clear" onClick={handleClear} disabled={!hasLiveCells}>
+        <IconButton aria-label="clear" onClick={handleClear}>
           <HighlightOffOutlinedIcon style={{ fontSize: "2.5rem" }} />
         </IconButton>
         <IconButton aria-label="clear" onClick={handleSettingsDialog}>

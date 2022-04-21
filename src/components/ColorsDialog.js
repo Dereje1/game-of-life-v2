@@ -47,7 +47,7 @@ const ColorsDialog = ({
             color={selectedColorType === type ? "primary" : "inherit"}
             id={`${colorTypeMap[type]}-color-change`}
             key={type}
-            disabled={type === "grid" && !showGrid ? true : false}
+            disabled={type === "grid" && !showGrid}
           >
             {colorTypeMap[type]}
           </Button>

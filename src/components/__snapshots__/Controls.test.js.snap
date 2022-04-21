@@ -187,7 +187,6 @@ exports[`will render the top control 1`] = `
       </ForwardRef(IconButton)>
       <ForwardRef(IconButton)
         aria-label="clear"
-        disabled={false}
         onClick={[MockFunction]}
       >
         <Memo(ForwardRef(HighlightOffOutlinedIcon))
