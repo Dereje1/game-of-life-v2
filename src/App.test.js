@@ -79,7 +79,28 @@ afterEach(() => {
 describe("The app component", () => {
   test("renders", () => {
     const wrapper = shallow(<App {...initialProps} />);
+    expect(wrapper.state().colors).toStrictEqual({
+      canvasBackGround: "#000000",
+      liveCell: "#ffff00",
+      grid: "#3b3b3b"
+    });
     expect(toJson(wrapper)).toMatchSnapshot();
+  });
+  test("will use colors from local storage if present", () => {
+    localStorage.setItem(
+      "colors",
+      JSON.stringify({
+        canvasBackGround: "#stored_background",
+        liveCell: "#stored_cell",
+        grid: "#stored_grid"
+      })
+    );
+    const wrapper = shallow(<App {...initialProps} />);
+    expect(wrapper.state().colors).toStrictEqual({
+      canvasBackGround: "#stored_background",
+      liveCell: "#stored_cell",
+      grid: "#stored_grid"
+    });
   });
   test("will set the size of the canvas and cells", () => {
     const wrapper = shallow(<App {...initialProps} />);

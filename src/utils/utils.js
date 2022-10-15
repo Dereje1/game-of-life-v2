@@ -57,8 +57,6 @@ const canResurrectCell = ({ liveCells, ...args }) => {
 
 const getNeighbours = ({ cell, cellSize, width, height }) => {
   const cellsPerRow = ~~(width / cellSize);
-  const cellsPerColumn = ~~(height / cellSize);
-  const totalElements = cellsPerRow * cellsPerColumn;
   const edges = cellIsOnEdge({ index: cell, width, height, cellSize });
   /* order of neigbbours - clockwise
         0: north
@@ -83,6 +81,8 @@ const getNeighbours = ({ cell, cellSize, width, height }) => {
 
   // to wrap cells around edges
   if (edges) {
+    const cellsPerColumn = ~~(height / cellSize);
+    const totalElements = cellsPerRow * cellsPerColumn;
     edges.forEach((edge) => {
       if (edge === "left") {
         neighbours[5] = neighbours[5] + cellsPerRow;

@@ -19,7 +19,14 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.loadCanvas();
+    const colors = localStorage.getItem("colors");
+    if (colors) {
+      this.setState({ colors: JSON.parse(colors) }, this.loadCanvas);
+    } else {
+      const { colors: defaultColors } = this.props;
+      localStorage.setItem("colors", JSON.stringify(defaultColors));
+      this.loadCanvas();
+    }
   }
 
   handleClear = () => {
@@ -130,6 +137,7 @@ class App extends Component {
 
   drawColorChange = () => {
     const { selectedColorType, colors } = this.state;
+    // background color changes can only be applied on canvas
     if (selectedColorType === "canvasBackGround") {
       setBackGroundColor({
         canvas: this.Canvas.current,
@@ -137,6 +145,7 @@ class App extends Component {
       });
     }
     this.updateCells();
+    localStorage.setItem("colors", JSON.stringify(colors));
     return;
   };
 
