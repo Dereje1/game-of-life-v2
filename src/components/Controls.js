@@ -80,7 +80,7 @@ export const ControlTop = ({
         <IconButton aria-label="clear" onClick={handleClear}>
           <HighlightOffOutlinedIcon style={{ fontSize: "2.5rem" }} />
         </IconButton>
-        <IconButton aria-label="clear" onClick={handleSettingsDialog}>
+        <IconButton aria-label="settings" onClick={handleSettingsDialog}>
           <SettingsIcon style={{ fontSize: "2rem" }} color={isRefreshing ? "error" : ""} />
         </IconButton>
       </div>
