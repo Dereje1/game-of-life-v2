@@ -198,7 +198,7 @@ exports[`will render the top control 1`] = `
         />
       </ForwardRef(IconButton)>
       <ForwardRef(IconButton)
-        aria-label="clear"
+        aria-label="settings"
         onClick={[MockFunction]}
       >
         <Memo(ForwardRef(SettingsIcon))
