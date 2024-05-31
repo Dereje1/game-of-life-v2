@@ -22,8 +22,8 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import RestoreIcon from "@mui/icons-material/Restore";
 import patterns from "../utils/patterns";
 
-const getPatternLabel = (patternName) => {
-  const [pattern] = patterns.filter((p) => p.value === patternName);
+const getPatternLabel = (activePattern) => {
+  const [pattern] = patterns.filter((p) => p.value === activePattern);
   return pattern.label;
 };
 
@@ -33,7 +33,7 @@ const SettingsDialog = ({
   handleClose,
   showGrid,
   handleGrid,
-  patternName,
+  activePattern,
   refreshPattern,
   handleColorPicker,
   handlePatternDialog,
@@ -49,18 +49,18 @@ const SettingsDialog = ({
     <DialogContent dividers>
       <ListItem>
         <ListItemIcon>
-          <PatternIcon color={patternName === "none" ? "inherit" : "info"} />
+          <PatternIcon color={activePattern === "none" ? "inherit" : "info"} />
         </ListItemIcon>
         <ListItemText
           id="pattern-list-label"
           primary="Pattern"
-          secondary={getPatternLabel(patternName)}
+          secondary={getPatternLabel(activePattern)}
         />
-        <IconButton disabled={patternName === "none"} onClick={refreshPattern}>
-          <RefreshIcon color={patternName === "none" ? "inherit" : "warning"} />
+        <IconButton disabled={activePattern === "none"} onClick={refreshPattern}>
+          <RefreshIcon color={activePattern === "none" ? "inherit" : "warning"} />
         </IconButton>
         <IconButton onClick={handlePatternDialog}>
-          <ManageAccountsIcon color={patternName === "none" ? "error" : "info"} />
+          <ManageAccountsIcon color={activePattern === "none" ? "error" : "info"} />
         </IconButton>
       </ListItem>
       <ListItem>
@@ -128,7 +128,7 @@ SettingsDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   showGrid: PropTypes.bool.isRequired,
   values: PropTypes.array.isRequired,
-  patternName: PropTypes.string.isRequired,
+  activePattern: PropTypes.string.isRequired,
   disableColorRestore: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   handleGrid: PropTypes.func.isRequired,

@@ -85,7 +85,7 @@ exports[`will render the settings dialog 1`] = `
         color="primary"
         disabled={false}
         id="canvas-color-change"
-        key="canvasBackGround"
+        key="canvasBackground"
         onClick={[Function]}
       >
         canvas
@@ -94,7 +94,7 @@ exports[`will render the settings dialog 1`] = `
         color="inherit"
         disabled={false}
         id="cell-color-change"
-        key="liveCell"
+        key="liveCellColor"
         onClick={[Function]}
       >
         cell
@@ -103,7 +103,7 @@ exports[`will render the settings dialog 1`] = `
         color="inherit"
         disabled={false}
         id="grid-color-change"
-        key="grid"
+        key="gridColor"
         onClick={[Function]}
       >
         grid

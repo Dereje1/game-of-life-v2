@@ -33,13 +33,13 @@ class App extends Component {
     clearTimeout(this.timeoutId);
     this.setState(
       {
-        refresh: false,
-        generations: 0,
-        patternName: "none",
-        selectedPatternName: "none",
-        showPatternDialog: false,
+        isRefreshing: false,
+        totalGenerations: 0,
+        activePattern: "none",
+        lastSelectedPattern: "none",
+        isPatternDialogVisible: false,
         generationsPerSecond: 0,
-        cells: []
+        liveCells: []
       },
       this.updateCells
     );
@@ -49,11 +49,11 @@ class App extends Component {
     clearTimeout(this.timeoutId);
     this.setState(
       {
-        refresh: false,
+        isRefreshing: false,
         cellSize: value,
-        generations: 0,
+        totalGenerations: 0,
         metricTimeStamp: Date.now(),
-        metricCounter: 0
+        generationCounter: 0
       },
       this.loadCanvas
     );
@@ -61,13 +61,13 @@ class App extends Component {
 
   handleRefreshRate = ({ target: { value } }) => {
     clearTimeout(this.timeoutId);
-    // use maximum refresh rate of 1ms for max slider
+    // use maximum isRefreshing rate of 1ms for max slider
     const refreshRate = value === 6 ? 0 : 1000 / Math.pow(2, value);
     this.setState(
       {
         refreshRate,
         metricTimeStamp: Date.now(),
-        metricCounter: 0,
+        generationCounter: 0,
         refreshVal: value
       },
       this.updateCells
@@ -75,22 +75,22 @@ class App extends Component {
   };
 
   handlePattern = () => {
-    const { patternName, cellSize, canvasWidth: width, canvasHeight: height } = this.state;
+    const { activePattern, cellSize, canvasWidth: width, canvasHeight: height } = this.state;
     clearTimeout(this.timeoutId);
-    const { cells } = getPattern({
-      patternName,
+    const { liveCells } = getPattern({
+      activePattern,
       cellSize,
       width,
       height
     });
     this.setState(
       {
-        refresh: patternName !== "none",
-        generations: 0,
-        showPatternDialog: false,
-        cells,
+        isRefreshing: activePattern !== "none",
+        totalGenerations: 0,
+        isPatternDialogVisible: false,
+        liveCells,
         metricTimeStamp: Date.now(),
-        metricCounter: 0
+        generationCounter: 0
       },
       this.updateCells
     );
@@ -103,7 +103,7 @@ class App extends Component {
   };
 
   handleCanvasClick = ({ clientX, clientY }) => {
-    const { cells, cellSize, canvasWidth: width, canvasHeight: height } = this.state;
+    const { liveCells, cellSize, canvasWidth: width, canvasHeight: height } = this.state;
     const index = getIndexFromClick({
       canvas: this.Canvas.current,
       clientX,
@@ -114,12 +114,12 @@ class App extends Component {
     });
 
     let newCells = [];
-    if (cells.includes(index)) {
-      newCells = cells.filter((c) => c !== index);
+    if (liveCells.includes(index)) {
+      newCells = liveCells.filter((c) => c !== index);
     } else {
-      newCells = binaryInsert(cells, index);
+      newCells = binaryInsert(liveCells, index);
     }
-    this.setState({ cells: newCells }, this.updateCells);
+    this.setState({ liveCells: newCells }, this.updateCells);
   };
 
   handleColorChange = ({ hex }) => {
@@ -138,7 +138,7 @@ class App extends Component {
   drawColorChange = () => {
     const { selectedColorType, colors } = this.state;
     // background color changes can only be applied on canvas
-    if (selectedColorType === "canvasBackGround") {
+    if (selectedColorType === "canvasBackground") {
       setBackGroundColor({
         canvas: this.Canvas.current,
         backgroundColor: colors[selectedColorType]
@@ -160,14 +160,14 @@ class App extends Component {
 
   refreshCells = () => {
     const {
-      cells: oldCells,
+      liveCells: oldCells,
       cellSize,
       canvasWidth: width,
       canvasHeight: height,
-      generations: prevGenerations,
-      refresh,
+      totalGenerations: prevGenerations,
+      isRefreshing,
       metricTimeStamp: prevMetricTimeStamp,
-      metricCounter: prevMetricCounter,
+      generationCounter: prevMetricCounter,
       generationsPerSecond: prevGenerationsPerSecond
     } = this.state;
     const newLiveCells = getLiveCells({
@@ -177,21 +177,21 @@ class App extends Component {
       height
     });
     const hasLiveCells = Boolean(newLiveCells.length);
-    // resets metrics counter every hundred generations
+    // resets metrics counter every hundred totalGenerations
     const resetCounter = prevGenerations % 100 === 0;
 
-    const metricCounter = resetCounter ? 0 : prevMetricCounter + 1;
+    const generationCounter = resetCounter ? 0 : prevMetricCounter + 1;
     const metricTimeStamp = resetCounter ? Date.now() : prevMetricTimeStamp;
     const generationsPerSecond = resetCounter
       ? prevGenerationsPerSecond
-      : (metricCounter / (Date.now() - metricTimeStamp)) * 1000;
+      : (generationCounter / (Date.now() - metricTimeStamp)) * 1000;
 
     this.setState(
       {
-        cells: newLiveCells,
-        generations: hasLiveCells ? prevGenerations + 1 : prevGenerations,
-        refresh: refresh && hasLiveCells,
-        metricCounter,
+        liveCells: newLiveCells,
+        totalGenerations: hasLiveCells ? prevGenerations + 1 : prevGenerations,
+        isRefreshing: isRefreshing && hasLiveCells,
+        generationCounter,
         generationsPerSecond,
         metricTimeStamp
       },
@@ -200,12 +200,12 @@ class App extends Component {
   };
 
   updateCells = () => {
-    const { refresh, refreshRate } = this.state;
+    const { isRefreshing, refreshRate } = this.state;
     drawLiveCells({
       canvas: this.Canvas.current,
       ...this.state
     });
-    if (refresh) {
+    if (isRefreshing) {
       clearTimeout(this.timeoutId);
       this.timeoutId = setTimeout(this.refreshCells, refreshRate);
     }
@@ -215,7 +215,7 @@ class App extends Component {
     const { innerWidth, innerHeight } = window;
     let {
       cellSize,
-      colors: { canvasBackGround }
+      colors: { canvasBackground }
     } = this.state;
     const totalCellsX = Math.floor(innerWidth / cellSize);
     const totalCellsY = Math.floor((innerHeight * 0.8) / cellSize);
@@ -231,16 +231,16 @@ class App extends Component {
 
     setBackGroundColor({
       canvas: this.Canvas.current,
-      backgroundColor: canvasBackGround
+      backgroundColor: canvasBackground
     });
 
     this.setState(
       {
         canvasWidth,
         canvasHeight,
-        canvasLeft: (innerWidth - canvasWidth) / 2,
+        canvasLeftPadding: (innerWidth - canvasWidth) / 2,
         cellSize,
-        isMaxElements: totalElements > MAX_ELEMENTS
+        hasReachedMaxElements: totalElements > MAX_ELEMENTS
       },
       this.handlePattern
     );
@@ -250,33 +250,33 @@ class App extends Component {
     const {
       canvasWidth,
       canvasHeight,
-      canvasLeft,
-      cells,
+      canvasLeftPadding,
+      liveCells,
       cellSize,
       showGrid,
-      refresh,
-      generations,
-      showPatternDialog,
-      patternName,
-      selectedPatternName,
-      isMaxElements,
+      isRefreshing,
+      totalGenerations,
+      isPatternDialogVisible,
+      activePattern,
+      lastSelectedPattern,
+      hasReachedMaxElements,
       generationsPerSecond,
       refreshVal,
-      showSettingsDialog,
-      showColorPicker,
+      isSettingsDialogVisible,
+      isColorPickerVisible,
       colors,
       selectedColorType,
-      colors: { canvasBackGround }
+      colors: { canvasBackground }
     } = this.state;
     const { colors: defaultColors } = this.props;
-    const hasLiveCells = Boolean(cells.length);
+    const hasLiveCells = Boolean(liveCells.length);
     return (
       <>
         <>
           <ControlTop
             height={window.innerHeight * 0.1}
-            isRefreshing={refresh}
-            generations={generations}
+            isRefreshing={isRefreshing}
+            totalGenerations={totalGenerations}
             metrics={{
               generationsPerSecond,
               refreshVal
@@ -284,13 +284,13 @@ class App extends Component {
             hasLiveCells={hasLiveCells}
             handleRefresh={() =>
               this.setState(
-                { refresh: true, metricTimeStamp: Date.now(), metricCounter: 0 },
+                { isRefreshing: true, metricTimeStamp: Date.now(), generationCounter: 0 },
                 this.refreshCells
               )
             }
-            handlePause={() => this.setState({ refresh: false })}
+            handlePause={() => this.setState({ isRefreshing: false })}
             handleClear={this.handleClear}
-            handleSettingsDialog={() => this.setState({ showSettingsDialog: true })}
+            handleSettingsDialog={() => this.setState({ isSettingsDialogVisible: true })}
             handleNextStep={this.refreshCells}
           />
 
@@ -305,8 +305,8 @@ class App extends Component {
         <div
           id="canvas-holder"
           style={{
-            paddingLeft: canvasLeft,
-            background: isMaxElements ? "white" : canvasBackGround,
+            paddingLeft: canvasLeftPadding,
+            background: hasReachedMaxElements ? "white" : canvasBackground,
             height: window.innerHeight * 0.8
           }}
         >
@@ -319,18 +319,25 @@ class App extends Component {
           />
         </div>
         <SettingsDialog
-          open={showSettingsDialog}
+          open={isSettingsDialogVisible}
           showGrid={showGrid}
-          patternName={patternName}
+          activePattern={activePattern}
           values={buildInformation({ ...this.state })}
-          handleClose={() => this.setState({ showSettingsDialog: false })}
+          handleClose={() => this.setState({ isSettingsDialogVisible: false })}
           handleGrid={() => this.setState({ showGrid: !showGrid }, this.updateCells)}
-          refreshPattern={() => this.setState({ showSettingsDialog: false }, this.handlePattern)}
+          refreshPattern={() =>
+            this.setState(
+              {
+                isSettingsDialogVisible: false
+              },
+              this.handlePattern
+            )
+          }
           handleColorPicker={() =>
-            this.setState({ showColorPicker: true, showSettingsDialog: false })
+            this.setState({ isColorPickerVisible: true, isSettingsDialogVisible: false })
           }
           handlePatternDialog={() =>
-            this.setState({ showPatternDialog: true, showSettingsDialog: false })
+            this.setState({ isPatternDialogVisible: true, isSettingsDialogVisible: false })
           }
           restoreColors={() =>
             this.setState({ colors: { ...defaultColors } }, this.drawColorChange)
@@ -338,42 +345,42 @@ class App extends Component {
           disableColorRestore={this.disableColorRestore()}
         />
         <PatternsDialog
-          open={showPatternDialog}
-          value={selectedPatternName}
+          open={isPatternDialogVisible}
+          value={lastSelectedPattern}
           handleCancel={() =>
             this.setState({
-              showPatternDialog: false,
-              showSettingsDialog: true,
-              selectedPatternName: patternName
+              isPatternDialogVisible: false,
+              isSettingsDialogVisible: true,
+              lastSelectedPattern: activePattern
             })
           }
           handleOk={() => {
             this.setState(
               {
-                showPatternDialog: false,
-                patternName: selectedPatternName,
-                showSettingsDialog: false
+                isPatternDialogVisible: false,
+                activePattern: lastSelectedPattern,
+                isSettingsDialogVisible: false
               },
               this.handlePattern
             );
           }}
           handlePatternChange={({ target: { value } }) =>
-            this.setState({ selectedPatternName: value })
+            this.setState({ lastSelectedPattern: value })
           }
           radioGroupRef={this.radioGroupRef}
           handleEntering={this.handleEntering}
         />
         <ColorsDialog
-          open={showColorPicker}
+          open={isColorPickerVisible}
           color={colors[selectedColorType]}
           selectedColorType={selectedColorType}
           showGrid={showGrid}
           handleColorChange={this.handleColorChange}
           closeColorPicker={() =>
             this.setState({
-              showColorPicker: false,
-              showSettingsDialog: true,
-              selectedColorType: "canvasBackGround"
+              isColorPickerVisible: false,
+              isSettingsDialogVisible: true,
+              selectedColorType: "canvasBackground"
             })
           }
           updateColorChangeType={(type) => this.setState({ selectedColorType: type })}

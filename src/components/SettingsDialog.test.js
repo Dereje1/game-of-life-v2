@@ -16,11 +16,11 @@ beforeEach(() => {
     handleClose: jest.fn(),
     showGrid: true,
     handleGrid: jest.fn(),
-    patternName: "random",
+    activePattern: "random",
     refreshPattern: jest.fn(),
     handleColorPicker: jest.fn(),
     handlePatternDialog: jest.fn(),
-    showColorPicker: false,
+    isColorPickerVisible: false,
     disableColorRestore: true,
     restoreColors: jest.fn()
   };
@@ -41,7 +41,7 @@ test("will render the settings dialog", () => {
 test("will render the settings dialog for no pattern or grid", () => {
   const updatedProps = {
     ...props,
-    patternName: "none",
+    activePattern: "none",
     showGrid: false
   };
   const wrapper = shallow(<SettingsDialog {...updatedProps} />);

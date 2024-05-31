@@ -166,7 +166,7 @@ export const getLiveCells = (args) => {
   return newLiveCells;
 };
 
-export const getPattern = ({ patternName, cellSize, width, height }) => {
+export const getPattern = ({ activePattern, cellSize, width, height }) => {
   const middleX = Math.floor(width / 2);
   const middleY = Math.floor(height / 2);
   const cellsPerRow = width / cellSize;
@@ -176,23 +176,23 @@ export const getPattern = ({ patternName, cellSize, width, height }) => {
     width,
     cellSize
   });
-  let cells = [];
-  if (patternName === "random") {
+  let liveCells = [];
+  if (activePattern === "random") {
     let index = 0;
     for (let x = 0; x < width; x += cellSize) {
       for (let y = 0; y < height; y += cellSize) {
         if (Math.random() < 0.5) {
-          cells.push(index);
+          liveCells.push(index);
         }
         index++;
       }
     }
   }
-  if (patternName === "blinker") {
-    cells = [centerIndex, centerIndex - 1, centerIndex + 1];
+  if (activePattern === "blinker") {
+    liveCells = [centerIndex, centerIndex - 1, centerIndex + 1];
   }
-  if (patternName === "glider") {
-    cells = [
+  if (activePattern === "glider") {
+    liveCells = [
       centerIndex,
       centerIndex - 1,
       centerIndex + 1,
@@ -200,8 +200,8 @@ export const getPattern = ({ patternName, cellSize, width, height }) => {
       centerIndex - 2 * cellsPerRow
     ];
   }
-  if (patternName === "toad") {
-    cells = [
+  if (activePattern === "toad") {
+    liveCells = [
       centerIndex,
       centerIndex - 1,
       centerIndex + 1,
@@ -210,8 +210,8 @@ export const getPattern = ({ patternName, cellSize, width, height }) => {
       centerIndex - cellsPerRow + 2
     ];
   }
-  if (patternName === "beacon") {
-    cells = [
+  if (activePattern === "beacon") {
+    liveCells = [
       centerIndex,
       centerIndex - 1,
       centerIndex - 1 - cellsPerRow,
@@ -222,10 +222,10 @@ export const getPattern = ({ patternName, cellSize, width, height }) => {
       centerIndex + 2 + 2 * cellsPerRow
     ];
   }
-  if (patternName === "pulsar") {
+  if (activePattern === "pulsar") {
     const top = centerIndex - cellsPerRow * 3;
     const bottom = centerIndex + cellsPerRow * 3;
-    cells = [
+    liveCells = [
       top,
       top - 1,
       top + 1,
@@ -236,10 +236,10 @@ export const getPattern = ({ patternName, cellSize, width, height }) => {
       bottom - cellsPerRow
     ];
   }
-  if (patternName === "pentaDecathlon") {
+  if (activePattern === "pentaDecathlon") {
     const top = centerIndex - cellsPerRow * 2;
     const bottom = centerIndex + cellsPerRow * 3;
-    cells = [
+    liveCells = [
       top,
       top - 1,
       top + 1,
@@ -250,8 +250,8 @@ export const getPattern = ({ patternName, cellSize, width, height }) => {
       bottom + cellsPerRow
     ];
   }
-  if (patternName === "spaceShip") {
-    cells = [
+  if (activePattern === "spaceShip") {
+    liveCells = [
       centerIndex,
       centerIndex + 1,
       centerIndex + 2,
@@ -263,8 +263,8 @@ export const getPattern = ({ patternName, cellSize, width, height }) => {
       centerIndex + 4 - 3 * cellsPerRow
     ];
   }
-  cells.sort((a, b) => a - b);
-  return { cells };
+  liveCells.sort((a, b) => a - b);
+  return { liveCells };
 };
 
 export const getIndexFromCoordinates = ({ x, y, width, cellSize }) => {
@@ -309,12 +309,12 @@ const cellIsOnEdge = ({ index, width, height, cellSize }) => {
 };
 
 export const buildInformation = ({ ...state }) => {
-  const { cells, generationsPerSecond, canvasWidth, canvasHeight, cellSize } = state;
+  const { liveCells, generationsPerSecond, canvasWidth, canvasHeight, cellSize } = state;
   const totalElements = (canvasWidth / cellSize) * (canvasHeight / cellSize);
   return [
     { title: "Total Cells", value: totalElements },
-    { title: "Live Cells", value: cells.length },
-    { title: "Dead Cells", value: totalElements - cells.length },
+    { title: "Live Cells", value: liveCells.length },
+    { title: "Dead Cells", value: totalElements - liveCells.length },
     { title: "Generations / second (actual)", value: generationsPerSecond.toFixed(2) }
   ];
 };

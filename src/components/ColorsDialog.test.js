@@ -11,7 +11,7 @@ beforeEach(() => {
     closeColorPicker: jest.fn(),
     open: true,
     updateColorChangeType: jest.fn(),
-    selectedColorType: "canvasBackGround",
+    selectedColorType: "canvasBackground",
     showGrid: true
   };
 });
@@ -30,7 +30,7 @@ test("will update the colorType to change for the canvas", () => {
   const wrapper = shallow(<ColorsDialog {...props} />);
   const canvasChange = wrapper.find({ id: "canvas-color-change" });
   canvasChange.props().onClick();
-  expect(props.updateColorChangeType).toHaveBeenCalledWith("canvasBackGround");
+  expect(props.updateColorChangeType).toHaveBeenCalledWith("canvasBackground");
   expect(canvasChange.props().disabled).toBe(false);
 });
 
@@ -38,7 +38,7 @@ test("will update the colorType to change for the live cells", () => {
   const wrapper = shallow(<ColorsDialog {...props} />);
   const cellChange = wrapper.find({ id: "cell-color-change" });
   cellChange.props().onClick();
-  expect(props.updateColorChangeType).toHaveBeenCalledWith("liveCell");
+  expect(props.updateColorChangeType).toHaveBeenCalledWith("liveCellColor");
   expect(cellChange.props().disabled).toBe(false);
 });
 
@@ -46,7 +46,7 @@ test("will update the colorType to change for the grid", () => {
   const wrapper = shallow(<ColorsDialog {...props} />);
   const gridChange = wrapper.find({ id: "grid-color-change" });
   gridChange.props().onClick();
-  expect(props.updateColorChangeType).toHaveBeenCalledWith("grid");
+  expect(props.updateColorChangeType).toHaveBeenCalledWith("gridColor");
   expect(gridChange.props().disabled).toBe(false);
 });
 

@@ -4,33 +4,72 @@ import "./index.css";
 import App from "./App";
 
 const props = {
-  refresh: false, //True if cells are updating
-  cellSize: 15, // Element size in pixels
-  refreshRate: 125, // refresh rate in ms
-  generations: 0, // Total generations run on the board since last clear
-  showGrid: true, // False if canvas grid is not shown
-  showPatternDialog: false, // True when user reuests to select a pattern
-  selectedPatternName: "random", // Name of the last pattern selected
-  patternName: "random", // Name of the active pattern
-  metricCounter: 0, // generation counter for metrics/perf display
-  refreshVal: 3, // mui slider refresh rate val before scaling
-  showSettingsDialog: false, // True when user selects settings dialog
-  cells: [], // Arr containing the indices of all live cells
-  generationsPerSecond: 0, // used for perf/metrics calculations
-  canvasWidth: 0, // width of the canvas set after CDM
-  canvasHeight: 0, // height of the canvas set after CDM
-  canvasLeft: 0, // left padding of the canvas set after CDM
-  isMaxElements: false, // true if total cells exceeds allotted
-  metricTimeStamp: Date.now(), // timestamp used for metrics/perf display
-  colors:
-    // set default colors here
-    {
-      canvasBackGround: "#000000",
-      liveCell: "#ffff00",
-      grid: "#3b3b3b"
-    },
-  showColorPicker: false, // true if color picker is showing
-  selectedColorType: "canvasBackGround" // default color change type
+  // Indicates whether cells are currently being updated
+  isRefreshing: false,
+
+  // Size of each cell element in pixels
+  cellSize: 15,
+
+  // Refresh rate for updating the board (in milliseconds)
+  refreshRate: 125,
+
+  // Total generations run on the board since the last clear
+  totalGenerations: 0,
+
+  // Determines whether the canvas grid is shown
+  showGrid: true,
+
+  // Indicates whether the user has requested to select a pattern
+  isPatternDialogVisible: false,
+
+  // Name of the last selected pattern
+  lastSelectedPattern: "random",
+
+  // Name of the currently active pattern
+  activePattern: "random",
+
+  // Counter for tracking generations (used for metrics/performance display)
+  generationCounter: 0,
+
+  // Value of the refresh rate slider before scaling
+  refreshVal: 3,
+
+  // Indicates whether the settings dialog is open
+  isSettingsDialogVisible: false,
+
+  // Array containing indices of all live cells
+  liveCells: [],
+
+  // Generations per second (used for performance calculations)
+  generationsPerSecond: 0,
+
+  // Width of the canvas (set after component did mount)
+  canvasWidth: 0,
+
+  // Height of the canvas (set after component did mount)
+  canvasHeight: 0,
+
+  // Left padding of the canvas (set after component did mount)
+  canvasLeftPadding: 0,
+
+  // Indicates whether the total number of cells exceeds the allotted limit
+  hasReachedMaxElements: false,
+
+  // Timestamp used for metrics/performance display
+  metricTimestamp: Date.now(),
+
+  // Default colors for various elements
+  colors: {
+    canvasBackground: "#000000",
+    liveCellColor: "#ffff00",
+    gridColor: "#3b3b3b"
+  },
+
+  // Indicates whether the color picker is currently visible
+  isColorPickerVisible: false,
+
+  // Default color change type (e.g., canvas background color)
+  selectedColorType: "canvasBackground"
 };
 
 ReactDOM.render(

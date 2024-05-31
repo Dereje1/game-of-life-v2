@@ -36,25 +36,25 @@ export const getIndexFromClick = ({ canvas, clientX, clientY, ...args }) => {
 
 export const drawLiveCells = ({
   canvas,
-  cells,
+  liveCells,
   canvasWidth,
   canvasHeight,
   cellSize,
-  colors: { liveCell, grid },
+  colors: { liveCellColor, gridColor },
   showGrid
 }) => {
   const context = getContext(canvas);
   context.clearRect(0, 0, canvasWidth, canvasHeight);
-  cells.forEach((cell) => {
+  liveCells.forEach((cell) => {
     const [x, y] = getCoordinatesFromIndex({
       index: cell,
       width: canvasWidth,
       cellSize
     });
-    context.fillStyle = liveCell;
+    context.fillStyle = liveCellColor;
     context.fillRect(x, y, cellSize, cellSize);
   });
   if (showGrid) {
-    drawGrid({ context, canvasWidth, canvasHeight, cellSize, color: grid });
+    drawGrid({ context, canvasWidth, canvasHeight, cellSize, color: gridColor });
   }
 };

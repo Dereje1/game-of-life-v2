@@ -11,7 +11,7 @@ const controlTopProps = {
   isRefreshing: true,
   handleReset: jest.fn(),
   handleClear: jest.fn(),
-  generations: 6,
+  totalGenerations: 6,
   showGrid: true,
   handleGrid: jest.fn(),
   metrics: {

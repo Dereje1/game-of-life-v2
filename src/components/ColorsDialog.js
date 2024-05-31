@@ -12,9 +12,9 @@ import IconButton from "@mui/material/IconButton";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 
 const colorTypeMap = {
-  canvasBackGround: "canvas",
-  liveCell: "cell",
-  grid: "grid"
+  canvasBackground: "canvas",
+  liveCellColor: "cell",
+  gridColor: "grid"
 };
 
 const ColorsDialog = ({
@@ -47,7 +47,7 @@ const ColorsDialog = ({
             color={selectedColorType === type ? "primary" : "inherit"}
             id={`${colorTypeMap[type]}-color-change`}
             key={type}
-            disabled={type === "grid" && !showGrid}
+            disabled={type === "gridColor" && !showGrid}
           >
             {colorTypeMap[type]}
           </Button>

@@ -34,7 +34,7 @@ export const Action = ({ isRefreshing, disabled }) => {
 export const ControlTop = ({
   height,
   isRefreshing,
-  generations,
+  totalGenerations,
   hasLiveCells,
   handleRefresh,
   handlePause,
@@ -86,7 +86,7 @@ export const ControlTop = ({
       </div>
       <div>
         <Chip
-          label={generations}
+          label={totalGenerations}
           style={{ width: 100, justifyContent: "space-between", marginBottom: 3 }}
           color={isRefreshing ? "error" : "info"}
           variant="outlined"
@@ -209,7 +209,7 @@ Action.propTypes = {
 ControlTop.propTypes = {
   height: PropTypes.number.isRequired,
   isRefreshing: PropTypes.bool.isRequired,
-  generations: PropTypes.number.isRequired,
+  totalGenerations: PropTypes.number.isRequired,
   metrics: PropTypes.object.isRequired,
   hasLiveCells: PropTypes.bool.isRequired,
   handleRefresh: PropTypes.func.isRequired,
