@@ -1,22 +1,3 @@
-let checkedCells = [];
-const binarySearch = function ({ arr, x, start = 0, end }) {
-  // Base Condition
-  if (start > end) return false;
-
-  // Find the middle index
-  let mid = Math.floor((start + end) / 2);
-
-  // Compare mid with given key x
-  if ((arr[mid] ^ x) == 0) return true;
-
-  // If element at mid is greater than x,
-  // search in the left half of mid
-  if (arr[mid] > x) return binarySearch({ arr, x, start, end: mid - 1 });
-  // If element at mid is smaller than x,
-  // search in the right half of mid
-  else return binarySearch({ arr, x, start: mid + 1, end });
-};
-
 export const binaryInsert = (cells, cell) => {
   // add cell by keeping sort order
   let start = 0;
@@ -37,133 +18,70 @@ export const binaryInsert = (cells, cell) => {
   return cells;
 };
 
-const canResurrectCell = ({ liveCells, ...args }) => {
-  const neighbours = getNeighbours({ ...args });
-  let liveNeighbors = 0;
-  for (let n = 0; n < neighbours.length; n++) {
-    const neighbourIsLive = binarySearch({
-      arr: liveCells,
-      x: neighbours[n],
-      end: liveCells.length - 1
-    });
-    if (neighbourIsLive) {
-      liveNeighbors++;
-    }
-    if (liveNeighbors > 3) break;
-  }
-  if (liveNeighbors === 3) return true;
-  return false;
-};
+// Custom modulo function to handle negative numbers
+function mod(n, m) {
+  return ((n % m) + m) % m;
+}
 
-const getNeighbours = ({ cell, cellSize, width, height }) => {
-  const cellsPerRow = ~~(width / cellSize);
-  const edges = cellIsOnEdge({ index: cell, width, height, cellSize });
-  /* order of neigbbours - clockwise
-        0: north
-        1: north east
-        2: east
-        3: southeast
-        4: south
-        5: south west
-        6: west
-        7: northwest
-    */
-  let neighbours = [
-    cell - cellsPerRow,
-    cell - cellsPerRow + 1,
-    cell + 1,
-    cell + cellsPerRow + 1,
-    cell + cellsPerRow,
-    cell + cellsPerRow - 1,
-    cell - 1,
-    cell - cellsPerRow - 1
+// Helper function to get the neighbor indices of a cell
+const getNeighbours = ({ cell, cellsPerRow, cellsPerColumn }) => {
+  const neighbours = [
+    cell - cellsPerRow, // North
+    cell - cellsPerRow + 1, // North-East
+    cell + 1, // East
+    cell + cellsPerRow + 1, // South-East
+    cell + cellsPerRow, // South
+    cell + cellsPerRow - 1, // South-West
+    cell - 1, // West
+    cell - cellsPerRow - 1 // North-West
   ];
 
-  // to wrap cells around edges
-  if (edges) {
-    const cellsPerColumn = ~~(height / cellSize);
-    const totalElements = cellsPerRow * cellsPerColumn;
-    edges.forEach((edge) => {
-      if (edge === "left") {
-        neighbours[5] = neighbours[5] + cellsPerRow;
-        neighbours[6] = neighbours[6] + cellsPerRow;
-        neighbours[7] = neighbours[7] + cellsPerRow;
-      }
-      if (edge === "top") {
-        neighbours[0] = neighbours[0] + totalElements;
-        neighbours[1] = neighbours[1] + totalElements;
-        neighbours[7] = neighbours[7] + totalElements;
-      }
-      if (edge === "right") {
-        neighbours[1] = neighbours[1] - cellsPerRow;
-        neighbours[2] = neighbours[2] - cellsPerRow;
-        neighbours[3] = neighbours[3] - cellsPerRow;
-      }
-      if (edge === "bottom") {
-        neighbours[3] = neighbours[3] - totalElements;
-        neighbours[4] = neighbours[4] - totalElements;
-        neighbours[5] = neighbours[5] - totalElements;
-      }
-    });
-  }
+  return neighbours.map((neighbour) => {
+    let nRow = mod(Math.floor(neighbour / cellsPerRow), cellsPerColumn);
+    let nCol = mod(neighbour % cellsPerRow, cellsPerRow);
 
-  return neighbours;
+    return nCol + nRow * cellsPerRow;
+  });
 };
 
-const processCell = ({ newLiveCells, ...args }) => {
-  const { oldCells } = args;
-  const neighbours = getNeighbours({ ...args });
-  let liveNeighbors = 0;
-  let updatedLiveCells = newLiveCells;
-  for (const neighbour of neighbours) {
-    const neighbourIsLive = binarySearch({
-      arr: oldCells,
-      x: neighbour,
-      end: oldCells.length - 1
-    });
-    if (neighbourIsLive) {
-      liveNeighbors++;
+// Main function to compute the next generation of live cells
+export const getLiveCells = ({ oldCells, cellSize, width, height }) => {
+  const liveCells = new Set(oldCells);
+  const neighborCounts = new Map();
+  const cellsPerRow = Math.floor(width / cellSize);
+  const cellsPerColumn = Math.floor(height / cellSize);
+  const newLiveCells = new Set();
+
+  for (const cell of liveCells) {
+    const neighbours = getNeighbours({ cell, cellsPerRow, cellsPerColumn });
+
+    for (const neighbor of neighbours) {
+      // Increment neighbor count
+      const count = neighborCounts.get(neighbor) || 0;
+      neighborCounts.set(neighbor, count + 1);
+    }
+  }
+
+  // Determine new live cells
+  for (const [cell, count] of neighborCounts.entries()) {
+    if (liveCells.has(cell)) {
+      // Live cell survives if it has 2 or 3 live neighbors
+      if (count === 2 || count === 3) {
+        newLiveCells.add(cell);
+      }
     } else {
-      // check if dead neighbor has already been tested
-      const alreadyChecked = binarySearch({
-        arr: checkedCells,
-        x: neighbour,
-        end: checkedCells.length - 1
-      });
-      if (!alreadyChecked) {
-        // check if dead neighbor can be resurrected and update list if so
-        const isResurrectable = canResurrectCell({
-          ...args,
-          cell: neighbour,
-          liveCells: oldCells
-        });
-        if (isResurrectable) {
-          updatedLiveCells = binaryInsert(updatedLiveCells, neighbour);
-        }
-        checkedCells = binaryInsert(checkedCells, neighbour);
+      // Dead cell becomes alive if it has exactly 3 live neighbors
+      if (count === 3) {
+        newLiveCells.add(cell);
       }
     }
   }
-  // condition for keeping cell alive
-  if (liveNeighbors === 3 || liveNeighbors === 2) {
-    updatedLiveCells = binaryInsert(updatedLiveCells, args.cell);
-  }
-  return updatedLiveCells;
-};
 
-export const getLiveCells = (args) => {
-  const { oldCells } = args;
-  let newLiveCells = [];
-  // reset already checked cells list
-  checkedCells = [];
-  for (const oldCell of oldCells) {
-    newLiveCells = processCell({
-      cell: oldCell,
-      newLiveCells,
-      ...args
-    });
-  }
-  return newLiveCells;
+  // Convert the Set back to a sorted array if needed
+  const newLiveCellsArray = Array.from(newLiveCells);
+  newLiveCellsArray.sort((a, b) => a - b);
+
+  return newLiveCellsArray;
 };
 
 export const getPattern = ({ activePattern, cellSize, width, height }) => {
@@ -282,30 +200,6 @@ export const getCoordinatesFromIndex = ({ index, width, cellSize }) => {
   const x = column * cellSize;
   const y = row * cellSize;
   return [x, y];
-};
-
-const cellIsOnEdge = ({ index, width, height, cellSize }) => {
-  const cellsPerRow = width / cellSize;
-  const cellsPerColumn = height / cellSize;
-  const row = Math.floor(index / cellsPerRow);
-  const column = index % cellsPerRow;
-  let edges = [];
-  if (row === 0) {
-    edges = [...edges, "top"];
-  }
-
-  if (row === cellsPerColumn - 1) {
-    edges = [...edges, "bottom"];
-  }
-
-  if (column === 0) {
-    edges = [...edges, "left"];
-  }
-
-  if (column === cellsPerRow - 1) {
-    edges = [...edges, "right"];
-  }
-  return Boolean(edges.length) && edges;
 };
 
 export const buildInformation = ({ ...state }) => {
