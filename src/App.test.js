@@ -114,9 +114,9 @@ describe("The app component", () => {
     global.innerHeight = 3500;
     const wrapper = shallow(<App {...initialProps} />);
     expect(wrapper.state().liveCells).toStrictEqual([]);
-    expect(wrapper.state().canvasWidth).toBe(1440);
-    expect(wrapper.state().canvasHeight).toBe(655);
-    expect(wrapper.state().cellSize).toBe(5);
+    expect(wrapper.state().canvasWidth).toBe(3495);
+    expect(wrapper.state().canvasHeight).toBe(2790);
+    expect(wrapper.state().cellSize).toBe(15);
   });
   test("will draw active liveCells on canvas", () => {
     const wrapper = shallow(<App {...initialProps} />);
