@@ -8,7 +8,7 @@ import { getLiveCells, getPattern, binaryInsert, buildInformation } from "./util
 import { getIndexFromClick, setBackGroundColor, drawLiveCells } from "./utils/canvas";
 import "./App.css";
 
-const MAX_ELEMENTS = 38000;
+const MAX_ELEMENTS = 60000;
 
 class App extends Component {
   constructor(props) {
@@ -224,8 +224,8 @@ class App extends Component {
     let canvasHeight = totalCellsY * cellSize;
 
     if (totalElements > MAX_ELEMENTS) {
-      canvasWidth = 1440;
-      canvasHeight = 655;
+      canvasWidth = 1680;
+      canvasHeight = 750;
       cellSize = 5;
     }
 
