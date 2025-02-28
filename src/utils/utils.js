@@ -181,6 +181,15 @@ export const getPattern = ({ activePattern, cellSize, width, height }) => {
       centerIndex + 4 - 3 * cellsPerRow
     ];
   }
+  if (activePattern === "rPentomino") {
+    liveCells = [
+      centerIndex - 1,
+      centerIndex,
+      centerIndex + cellsPerRow,
+      centerIndex + cellsPerRow + 1,
+      centerIndex - cellsPerRow
+    ];
+  }
   liveCells.sort((a, b) => a - b);
   return { liveCells };
 };

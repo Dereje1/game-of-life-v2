@@ -80,6 +80,12 @@ exports[`will render the top control 1`] = `
       />
       <ForwardRef(FormControlLabel)
         control={<ForwardRef(Radio) />}
+        key="rPentomino"
+        label="R-pentomino"
+        value="rPentomino"
+      />
+      <ForwardRef(FormControlLabel)
+        control={<ForwardRef(Radio) />}
         key="none"
         label="None"
         value="none"
